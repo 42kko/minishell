@@ -1,19 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 17:54:05 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/15 20:28:20 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/03/15 21:05:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av, char **envp)
+char	*ft_strchr(const char *s, int c)
 {
-	
-	return (0);
+	size_t			i;
+	unsigned char	a;
+
+	a = (unsigned char)c;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == a)
+			return ((char *)(s + i));
+		i++;
+	}
+	if (!c)
+		return ((char *)(s + i));
+	return (NULL);
 }

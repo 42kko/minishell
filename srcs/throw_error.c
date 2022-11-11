@@ -1,19 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   throw_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 17:54:05 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/11/11 17:30:22 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
-int	main(int ac, char **av, char **envp)
+void	ft_putstr_fd(char *s, int fd)
 {
-	
-	return (0);
+	unsigned int	i;
+
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
+}
+
+void	error_message_exit(char *message, t_error_type type)
+{
+	ft_putstr_fd(message, 2);
+	exit(type);
+}
+
+void	throw_error(t_error_type type)
+{
+	if (type == MALLOC_ERR)
+		error_message_exit("ERROR : MALLOR_ERR", type);
 }
