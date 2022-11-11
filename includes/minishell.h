@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/09 15:38:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/11 18:11:30 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <readline/readline.h>
 # include <signal.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -25,5 +24,7 @@
 # include <termios.h>
 # include <term.h>
 # include <curses.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 #endif
