@@ -6,14 +6,13 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 18:12:05 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/11 18:34:13 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
-void	heandler(int signo)
+void	handler(int signo)
 {
 	if (signo == SIGINT)
 	{
@@ -32,9 +31,9 @@ void	heandler(int signo)
 
 void	initial(void)
 {
-	signal(SIGINT, heandler);
-	signal(SIGQUIT, heandler);
-	signal(SIGTERM, heandler);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
+	signal(SIGTERM, handler);
 }
 
 int	main(int ac, char **av)
