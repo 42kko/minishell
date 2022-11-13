@@ -6,11 +6,11 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/13 20:20:23 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/13 21:05:06 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    = main.c ft_split_for_env.c env.c throw_error.c utility.c
+SRCS    = main.c ft_split_for_env.c env.c throw_error.c utility.c free.c
 SOURCE	= srcs/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}}
 CC		= cc

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 20:21:33 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 21:02:10 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,64 @@ char *ft_getenv(t_env_list *env_list, char *key)
 	return (NULL);
 }
 
-void	printf_envs(t_env_list *env_list)
+void	print_envs(t_env_list *env_list)
 {
 	while (env_list)
 	{
 		printf("%s=%s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
+	}
+}
+
+void	ft_putenv(t_env_list *env_list, char *key, char *value)
+{
+	t_env_list	*tmp_a;
+	t_env_list	*tmp_b;
+	
+	tmp_a = env_list;
+	while (tmp_a)
+	{
+		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key)))
+		{
+			free(tmp_a->value);
+			tmp_a->value = ft_strdup(value);
+			if (!tmp_a->value)
+				throw_error(MALLOC_ERR);
+			return ;
+		}
+		tmp_b = tmp_a;
+		tmp_a = tmp_a->next;
+	}
+	tmp_b->next = malloc(sizeof(t_env_list));
+	if (!tmp_b->next)
+		throw_error(MALLOC_ERR);
+	tmp_b->next->key = ft_strdup(key);
+	tmp_b->next->value = ft_strdup(value);
+	tmp_b->next->next = NULL;
+}
+
+
+void	ft_unset(t_env_list **env_list, char *key)
+{
+	t_env_list *tmp_a;
+	t_env_list *tmp_b;
+
+	tmp_a = *env_list;
+	tmp_b = tmp_a;
+	while (tmp_a)
+	{
+		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key)))
+		{
+			if (tmp_a == *env_list)
+			{
+				*env_list = tmp_a->next;
+				free_a_node_of_env_list(tmp_a);
+				return ;
+			}
+			tmp_b->next = free_a_node_of_env_list(tmp_a);
+			return ;
+		}
+		tmp_b = tmp_a;
+		tmp_a = tmp_a->next;
 	}
 }

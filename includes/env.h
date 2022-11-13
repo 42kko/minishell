@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 20:21:43 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 21:02:25 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ struct s_info
 // env
 char 	*ft_getenv(t_env_list *env_list, char *key);
 void	init_env(t_info *info, char **envp);
-void	printf_envs(t_env_list *env_list);
+void	print_envs(t_env_list *env_list);
+void	ft_putenv(t_env_list *env_list, char *key, char *value);
+void	ft_unset(t_env_list **env_list, char *key);
 
 // get
 void	ft_split_for_env(char const *s, char **key, char **value);
@@ -46,3 +48,6 @@ void	throw_error(t_error_type type);
 // utility
 int		get_sec_arr_len(char **arr);
 void	free_sec_arr(char **arr);
+
+// free
+t_env_list	*free_a_node_of_env_list(t_env_list *env_list);
