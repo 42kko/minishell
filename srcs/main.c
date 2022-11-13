@@ -6,13 +6,16 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 18:34:13 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/14 01:45:17 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	handler(int signo)
+struct termios	old_term;
+struct termios	term;
+
+void	handler(int signo) //시그널핸들러
 {
 	if (signo == SIGINT)
 	{
@@ -29,34 +32,24 @@ void	handler(int signo)
 	return ;
 }
 
-void	initial(void)
+void	initial(void) //초기작업.
 {
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	signal(SIGTERM, handler);
+	tcgetattr(STDIN_FILENO, &term);
+	old_term = term;
+	term.c_cflag &= ~(ICANON | ECHO);
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 int	main(int ac, char **av)
 {
-	char	*line;
-
-	initial();
-	while (1)
-	{
-		line = readline("seekko> ");
-		if (line)
-		{
-			if (strcmp(line, "exit") == 0)
-				exit(0);
-			add_history(line);
-			free(line);
-			line = 0;
-		}
-		else
-		{
-			printf("exit\n");
-			return (0);
-		}
-	}
+	initial(); //초기작업. 여기서 환경변수 및 시그널을 컨트롤할듯
+	loop(); //readline 을 받아줄곳.
+	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
+	printf("done\n");
 	return (0);
 }
