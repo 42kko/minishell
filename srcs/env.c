@@ -6,78 +6,58 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:08:26 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 20:21:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	get_sec_arr_len(const char **arr)
-{
-	int	length;
-
-	length = 0;
-	while (arr[length])
-		length++;
-	return (length);
-}
-
 void	init_env(t_info *info, char **envp)
 {
-	int		i;
+	int			i;
+	int			env_len;
+	char 		**splited_env_arr;
+	t_env_list	*tmp;
 
-	info->env = malloc(sizeof(t_env));
-	if (info->env)
-		throw_error(MALLOC_ERR);
-	info->env->env_num = get_sec_arr_len(envp);
-	info->env->envs = (char **)malloc(sizeof(char *) * info->env->env_num);
-	if (info->env->envs)
-		throw_error(MALLOC_ERR);
-	i = 0;
-	while (i < info->env->env_num)
+	env_len = get_sec_arr_len(envp);
+	info->env_list = malloc(sizeof(t_env_list));
+	if (!info->env_list)
+		return (throw_error(MALLOC_ERR));
+	tmp = info->env_list;
+	ft_split_for_env(envp[0], &tmp->key, &tmp->value);
+	tmp->next = NULL;
+	i = 1;
+	while (envp[i])
 	{
-		info->env->envs[i] = (char *)malloc(sizeof(char) * ft_strlen(envp[i]));
-		if (info->env->envs[i])
-			throw_error(MALLOC_ERR);
+		tmp->next = malloc(sizeof(t_env_list));
+		if (!tmp->next)
+			return (throw_error(MALLOC_ERR));
+		tmp = tmp->next;
+		ft_split_for_env(envp[i], &tmp->key, &tmp->value);
+		tmp->next = NULL;
 		i++;
 	}
 }
 
-void	free_sec_arr(char **arr)
+char *ft_getenv(t_env_list *env_list, char *key)
 {
-	int	i;
+	t_env_list *tmp;
 
-	i = 0;
-	while (arr[i])
+	tmp = env_list;
+	while (tmp)
 	{
-		free(arr[i]);
-		i++;
+		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
+			return (tmp->value);
+		tmp = tmp->next;
 	}
-	free(arr);
+	return (NULL);
 }
 
-char *ft_getenv(t_env *env, char *key)
+void	printf_envs(t_env_list *env_list)
 {
-	int		i;
-	char	**strs;
-	char	*value;
-
-	i = 0;
-	while (i < env->env_num)
+	while (env_list)
 	{
-		strs = ft_split_for_env(env->envs[i]);
-		if (!strs)
-			throw_error(MALLOC_ERR);
-		if (get_sec_arr_len(strs) > 0)
-		{
-			if (ft_strncmp(key, strs[0], ft_strlen(strs[0])) == 0)
-			{
-				
-				break ;
-			}
-		}
-		free_sec_arr(strs);
-		i++;
+		printf("%s=%s\n", env_list->key, env_list->value);
+		env_list = env_list->next;
 	}
-	return ();
 }
