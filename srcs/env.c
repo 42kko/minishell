@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 20:28:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 03:08:26 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char *ft_getenv(t_env *env, char *key)
 	i = 0;
 	while (i < env->env_num)
 	{
-		strs = ft_split(env->envs[i], '=');
+		strs = ft_split_for_env(env->envs[i]);
 		if (!strs)
 			throw_error(MALLOC_ERR);
 		if (get_sec_arr_len(strs) > 0)

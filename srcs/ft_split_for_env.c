@@ -1,39 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env_split.c                                     :+:      :+:    :+:   */
+/*   ft_split_for_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 21:01:39 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 02:04:23 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-static char	**ft_malloc_arr(char *s, char c)
-{
-	size_t	cnt;
-	char	**arr;
-
-	cnt = 0;
-	if (!s)
-		return (NULL);
-	while (*s)
-	{
-		if (*s != c)
-		{
-			cnt++;
-			while (*s != c && *s)
-				s++;
-		}
-		else
-			s++;
-	}
-	arr = (char **)malloc(sizeof(char *) * (cnt + 1));
-	return (arr);
-}
 
 static char	*strdup_split(char const *s, size_t len)
 {
@@ -77,31 +54,29 @@ static size_t	strlen_split(char const *s, char c)
 	return (len);
 }
 
-char	**get_env_key_value(char const *s, char c)
+void	create_str_to_c(char const *s, char **arr, size_t *i, char c)
+{
+	size_t		len;
+
+	len = strlen_split(s, c);
+	arr[*i] = strdup_split(s, len);
+	s += len;
+	len = 0;
+	if (!arr[*i++])
+		return (free_all(arr, i));
+}
+
+char	**ft_split_for_env(char const *s)
 {
 	size_t		i;
-	size_t		len;
 	char		**arr;
 
 	i = 0;
-	len = 0;
-	arr = (char **)malloc(sizeof(char *) * 4);
+	arr = (char **)malloc(sizeof(char *) * 3);
 	if (!arr)
 		return (0);
-	while (*s)
-	{
-		if (*s != c)
-		{
-			len = strlen_split(s, '=');
-			arr[i] = strdup_split(s, len);
-			s += len;
-			len = 0;
-			if (!arr[i++])
-				return (free_all(arr, i));
-		}
-		else
-			s++; 
-	}
+	create_str_to_c(s, arr, &i, '=');
+	create_str_to_c(s, arr, &i, '=');
 	arr[i] = 0;
 	return (arr);
 }

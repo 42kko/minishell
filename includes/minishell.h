@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/11 18:38:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/13 14:26:24 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,23 @@ typedef struct s_env
 	int	env_num;
 };
 
+typedef struct s_env_list
+{
+	char 		*key;
+	char 		value;
+	t_env_list	*next;
+}	t_env_list;
+
 typedef struct s_info
 {
 	t_env *env;
 };
+
+// env
+char 	*ft_getenv(t_env *env, char *key);
+void	init_env(t_info *info, char **envp);
+
+// get
+char	**ft_split_for_env(char const *s);
 
 #endif
