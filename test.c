@@ -157,7 +157,7 @@ void	taping_cmd(t_token *tok)
 			tok->output = ft_strtrim(tok->output, " ");
 			free(tmp);
 			tok->line = new_line(tok->line, i, strlen_util(&(tok->line[i + 2])), 2);
-			j = strlen_util(&(tok->line[i + 2])) + 2;
+			// j = strlen_util(&(tok->line[i + 2])) + 2;
 		}
 		else if (tok->line[i] == '>' && tok->line[i + 1] != '>')
 		{
@@ -167,7 +167,7 @@ void	taping_cmd(t_token *tok)
 			tok->output = ft_strtrim(tok->output, " ");
 			free(tmp);
 			tok->line = new_line(tok->line, i, strlen_util(&(tok->line[i + 1])), 1);
-			j = strlen_util(&(tok->line[i + 1])) + 1;
+			// j = strlen_util(&(tok->line[i + 1])) + 1;
 		}
 		else if (tok->line[i] == '<' && tok->line[i + 1] == '<')
 		{
@@ -177,7 +177,7 @@ void	taping_cmd(t_token *tok)
 			tok->doc = ft_strtrim(tok->doc, " ");
 			free(tmp);
 			tok->line = new_line(tok->line, i, strlen_util(&(tok->line[i + 2])), 2);
-			j = strlen_util(&(tok->line[i + 2])) + 2;
+			// j = strlen_util(&(tok->line[i + 2])) + 2;
 		}
 		else if (tok->line[i] == '<' && tok->line[i + 1] != '<')
 		{
@@ -187,7 +187,7 @@ void	taping_cmd(t_token *tok)
 			tok->input = ft_strtrim(tok->input, " ");
 			free(tmp);
 			tok->line = new_line(tok->line, i, strlen_util(&(tok->line[i + 1])), 1);
-			j = strlen_util(&(tok->line[i + 1])) + 1;
+			// j = strlen_util(&(tok->line[i + 1])) + 1;
 		}
 		i++;
 		i = i + j;
@@ -213,12 +213,12 @@ void	taping(t_token *tok)
 	}
 	else
 		taping_cmd(tok);
-	printf("sdf:%s\n", tok->line);
+	// printf("sdf:%s\n", tok->line);
 }
 
 int main()
 {
-	char *tmp = "ls -al -al <<b <<c <<a | < Makefile  | wc -l | <b cat >   out >c && ls || ls";
+	char *tmp = "<e ls -al -al <<b <<c <<a >Q >D >V >BA >DBF| < Makefile  | wc -l | <b cat >   out >c && ls || ls";
 	char *line;
 	t_token	*token;
 
@@ -253,7 +253,10 @@ int main()
 		tok = tok->next;
 	}
 	printf("d1:%s\n", token->cmd[0]);
-	printf("d1:%s\n", token->input);
+	printf("d1:%s\n", token->cmd[1]);
+	printf("d1:%s\n", token->cmd[2]);
+	printf("d1:%s\n", token->doc);
+	printf("d1:%s\n", token->output);
 	// printf("d1:%s\n", token->next->next->line);
 	// printf("ty:%d\n", token->next->next->type);
 	// printf("ty:%d\n", token->next->next->next->next->next->next->type);
