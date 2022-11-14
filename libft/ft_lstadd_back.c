@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/23 01:50:55 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/03/24 19:21:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_info	*info;
+	t_list	*tmp;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	if (!lst || !new)
+		return ;
+	if (!*lst)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = ft_lstlast(*lst);
+	tmp->next = new;
 }

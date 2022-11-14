@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/14 17:10:10 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/03/17 17:18:25 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	t_info	*info;
+	size_t			i;
+	unsigned char	*d;
+	unsigned char	*s;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	d = (unsigned char *)dest;
+	s = (unsigned char *)src;
+	i = 0;
+	if (dest == NULL && src == NULL)
+		return (0);
+	while (i < n)
+	{
+		d[i] = s[i];
+		i++;
+	}
+	return (dest);
 }

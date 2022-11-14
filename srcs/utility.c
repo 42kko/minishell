@@ -1,26 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/11/14 15:14:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+void	free_sec_arr(char **arr)
 {
-	t_info	*info;
+	int	i;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+int	get_sec_arr_len(char **arr)
+{
+	int	length;
+
+	length = 0;
+	while (arr[length])
+		length++;
+	return (length);
 }

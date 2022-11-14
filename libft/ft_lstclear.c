@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/23 14:49:02 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/03/24 19:20:29 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+void	ft_lstclear(t_list **lst, void (*del)(void*))
 {
-	t_info	*info;
+	t_list	*tmp;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	if (!lst || !del)
+		return ;
+	if (!*lst)
+		return ;
+	while (*lst)
+	{
+		tmp = *lst;
+		*lst = (*lst)->next;
+		del(tmp->content);
+		free(tmp);
+	}
+	*lst = NULL;
 }

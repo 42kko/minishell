@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/14 16:26:28 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/04/05 12:42:39 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+size_t	ft_strlen(const char *s)
 {
-	t_info	*info;
+	size_t	i;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
 }

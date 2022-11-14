@@ -1,26 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/14 17:41:39 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/04/05 11:29:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+void	*ft_memmove(void *dest, const void *src, size_t n)
 {
-	t_info	*info;
+	size_t			i;
+	unsigned char	*s;
+	unsigned char	*d;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	i = -1;
+	s = (unsigned char *)src;
+	d = (unsigned char *)dest;
+	if (dest == NULL && src == NULL)
+		return (NULL);
+	if (dest < src)
+	{
+		while (++i < n)
+			d[i] = s[i];
+	}
+	else
+	{
+		while (n)
+		{
+			d[n - 1] = s[n - 1];
+			n--;
+		}
+	}
+	return (dest);
 }

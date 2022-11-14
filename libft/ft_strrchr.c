@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 03:09:26 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/03/17 16:41:25 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/07/08 15:57:03 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-
-#include <stdio.h>
-
-int	main(int ac, char **av, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
-	t_info	*info;
+	const char	*rs;
+	char		cc;
+	size_t		i;
 
-	info = malloc(sizeof(t_info));
-	init_env();
-	printf("%s\n ",ft_getenv(env, "a"));
-	return (0);
+	i = 0;
+	cc = (char)c;
+	rs = NULL;
+	while (s[i])
+	{
+		if (s[i] == cc)
+			rs = &s[i];
+		i++;
+	}
+	if (s[i] == cc)
+		rs = &s[i];
+	return ((char *)rs);
 }
