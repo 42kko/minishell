@@ -6,12 +6,11 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 21:02:25 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/14 14:38:20 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 typedef enum e_error_type	t_error_type;
-typedef struct s_info		t_info;
 typedef struct s_env_list	t_env_list;
 
 enum e_error_type
@@ -27,10 +26,7 @@ struct s_env_list
 	t_env_list	*next;
 };
 
-struct s_info
-{
-	t_env_list *env_list;
-};
+
 
 // env
 char 	*ft_getenv(t_env_list *env_list, char *key);

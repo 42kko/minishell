@@ -6,17 +6,17 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 21:02:10 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:13:43 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	init_env(t_info *info, char **envp)
 {
 	int			i;
 	int			env_len;
-	char 		**splited_env_arr;
+	char		**splited_env_arr;
 	t_env_list	*tmp;
 
 	env_len = get_sec_arr_len(envp);
@@ -39,9 +39,9 @@ void	init_env(t_info *info, char **envp)
 	}
 }
 
-char *ft_getenv(t_env_list *env_list, char *key)
+char	*ft_getenv(t_env_list *env_list, char *key)
 {
-	t_env_list *tmp;
+	t_env_list	*tmp;
 
 	tmp = env_list;
 	while (tmp)
@@ -66,7 +66,7 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 {
 	t_env_list	*tmp_a;
 	t_env_list	*tmp_b;
-	
+
 	tmp_a = env_list;
 	while (tmp_a)
 	{
@@ -89,11 +89,10 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 	tmp_b->next->next = NULL;
 }
 
-
 void	ft_unset(t_env_list **env_list, char *key)
 {
-	t_env_list *tmp_a;
-	t_env_list *tmp_b;
+	t_env_list	*tmp_a;
+	t_env_list	*tmp_b;
 
 	tmp_a = *env_list;
 	tmp_b = tmp_a;

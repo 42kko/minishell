@@ -6,11 +6,11 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/13 20:10:19 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/14 15:14:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 void	free_sec_arr(char **arr)
 {
