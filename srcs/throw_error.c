@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   throw_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/14 15:14:33 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:58:44 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,8 @@ void	throw_error(t_error_type type)
 {
 	if (type == MALLOC_ERR)
 		error_message_exit("ERROR : MALLOR_ERR", type);
+	if (type == PARSE_ERR)
+		error_message_exit("ERROR : PARSE_ERR", type);
+	if (type == OPER_ERR)
+		error_message_exit("syntax error near unexpected token", type);
 }

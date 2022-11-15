@@ -1,18 +1,39 @@
 #include "test.h"
 
-void	*ft_memcpy(void *dst, const void *src, size_t n)
+char	*ft_strdup(const char *s)
 {
+	size_t	i;
+	char	*str;
+
+	i = 0;
+	str = (char *)malloc(sizeof(*s) * (ft_strlen(s) + 1));
+	if (!str)
+		return (NULL);
+	while (s[i])
+	{
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+{
+	size_t	len;
 	size_t	i;
 
 	i = 0;
-	if (!dst && !src)
-		return (0);
-	while (i < n)
+	len = ft_strlen(src);
+	if (dstsize == 0)
+		return (len);
+	while (i < dstsize - 1 && src[i])
 	{
-		((unsigned char *)dst)[i] = ((unsigned char *)src)[i];
+		dst[i] = src[i];
 		i++;
 	}
-	return (dst);
+	dst[i] = '\0';
+	return (len);
 }
 
 size_t	ft_strlen(const char *s)
@@ -27,41 +48,44 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strchr(const char *s, int c)
 {
-	int	i;
+	size_t			i;
+	unsigned char	a;
 
+	a = (unsigned char)c;
 	i = 0;
-	while (*s != (char)c)
+	while (s[i])
 	{
-		if (*s == 0)
-			return (0);
-		s++;
+		if (s[i] == a)
+			return ((char *)(s + i));
+		i++;
 	}
-	return ((char *)s);
+	if (!c)
+		return ((char *)(s + i));
+	return (NULL);
 }
 
 char	*ft_strtrim(char const *s1, char const *set)
 {
-	char	*ret;
-	size_t	i;
-	size_t	j;
-	size_t	size;
+	char	*str;
+	size_t	front;
+	size_t	back;
 
-	if (!s1)
+	if (!s1 || !set)
 		return (0);
-	i = 0;
-	j = ft_strlen(s1);
-	size = j;
-	while (s1[i] && ft_strchr(set, s1[i]) && size > i)
-		i++;
-	while (s1[j - 1] && ft_strchr(set, s1[j - 1]) && j > i)
-		j--;
-	ret = (char *)malloc(sizeof(char) * (j - i + 1));
-	if (!ret)
-		return (0);
-	ft_memcpy(ret, s1 + i, j - i);
-	ret[j - i] = 0;
-	return (ret);
+	front = 0;
+	back = ft_strlen(s1);
+	while (s1[front] && ft_strchr(set, s1[front]))
+		front++;
+	while (s1[back - 1] && ft_strchr(set, s1[back - 1]) && back > front)
+		back--;
+	str = (char *)malloc(sizeof(char) * (back - front + 1));
+	if (!str)
+		return (NULL);
+	else
+		ft_strlcpy(str, &s1[front], back - front + 1);
+	return (str);
 }
+
 
 static void	ft_putchar(const char *s, size_t i, size_t j, char *ret)
 {
@@ -76,87 +100,101 @@ static void	ft_putchar(const char *s, size_t i, size_t j, char *ret)
 	ret[a] = 0;
 }
 
-static int	ft_input(const char *s, char c, char **ret, int *val)
-{
-	size_t	i;
-	size_t	j;
 
-	i = 0;
-	while (s[i])
+static char	**ft_malloc_arr(char *s, char c)
+{
+	size_t	cnt;
+	char	**arr;
+
+	cnt = 0;
+	if (!s)
+		return (NULL);
+	while (*s)
 	{
-		j = 0;
-		while (s[i] == c && s[i])
-			i++;
-		while (s[i + j] != c && s[i + j])
-			j++;
-		if (j != 0)
-			ret[*val] = (char *)malloc(sizeof(char) * j + 1);
-		if (!ret[*val] && j != 0)
+		if (*s != c)
 		{
-			(*val)--;
-			return (0);
+			cnt++;
+			while (*s != c && *s)
+				s++;
 		}
-		if (j != 0)
-			ft_putchar (s, i, j, ret[*val]);
-		(*val)++;
-		i = i + j;
+		else
+			s++;
 	}
-	return (1);
+	arr = (char **)malloc(sizeof(char *) * (cnt + 1));
+	return (arr);
 }
 
-static size_t	wordc(const char *s, char c)
+static char	*strdup_split(char const *s, size_t len)
 {
-	size_t	size;
+	char	*str;
 	size_t	i;
-	size_t	ret;
 
-	size = ft_strlen(s);
 	i = 0;
-	ret = 0;
-	while (s[i])
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	while (i < len)
 	{
-		if ((s[i] != c && i == 0) || (s[i] != c && s[i - 1] == c))
-			ret++;
+		str[i] = s[i];
 		i++;
 	}
-	if (i == 0)
-		return (0);
-	return (ret);
+	str[i] = 0;
+	return (str);
 }
 
-static void	memfree(char **ret, int val)
+static void	*free_all(char **str, size_t l)
 {
-	while (val >= 0)
+	size_t	i;
+
+	i = 0;
+	while (str[i] && i <= l)
 	{
-		free(ret[val]);
-		val--;
+		free(str[i]);
+		i++;
 	}
-	free(ret);
+	free(str);
+	return (NULL);
 }
 
-char	**ft_split(const char *s, char c)
+static size_t	strlen_split(char const *s, char c)
 {
-	char	**ret;
-	int		result;
-	int		val;
-	size_t	word;
+	size_t		len;
 
-	if (!s)
-		return (0);
-	word = wordc(s, c);
-	ret = (char **)malloc(sizeof(char *) * (word + 1));
-	if (!ret)
-		return (0);
-	ret[word] = 0;
-	val = 0;
-	result = ft_input(s, c, ret, &val);
-	if (result == 0)
-	{
-		memfree(ret, val);
-		return (0);
-	}
-	return (ret);
+	len = 0;
+	while (s[len] && s[len] != c)
+		len++;
+	return (len);
 }
+
+char	**ft_split(char const *s, char c)
+{
+	size_t		i;
+	size_t		len;
+	char		**arr;
+
+	i = 0;
+	len = 0;
+	arr = ft_malloc_arr((char *)s, c);
+	if (!arr)
+		return (0);
+	while (*s)
+	{
+		if (*s != c)
+		{
+			len = strlen_split(s, c);
+			arr[i] = strdup_split(s, len);
+			s += len;
+			len = 0;
+			if (!arr[i++])
+				return (free_all(arr, i));
+		}
+		else
+			s++;
+	}
+	arr[i] = 0;
+	return (arr);
+}
+
 
 int	ft_isprint(int c)
 {
@@ -168,8 +206,9 @@ int	ft_isprint(int c)
 t_token	*ft_lstlast(t_token *lst)
 {
 	if (!lst)
-		return (0);
-	while (lst->next != 0)
+		return (NULL);
+	while (lst->next)
 		lst = lst->next;
 	return (lst);
 }
+

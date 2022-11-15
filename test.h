@@ -16,23 +16,28 @@
 # include <readline/history.h>
 # include <string.h>
 
-#define TCMD 1
-#define TOUT 2 //>
-#define TADDOUT 4 //>>
-#define TIN 8 //<
-#define TDOC 16 //<<
-#define TPIPE 251 //|
-#define TOR 254 //||
-#define TAND 255 //&&
+typedef enum e_oper_type	t_oper_type;
+
+enum e_oper_type
+{
+	NO_TYPE,
+	TCMD,
+	TOUT, //>
+	TADDOUT, //>>
+	TIN, //<
+	TDOC, //<<
+	TPIPE, //|
+	TOR, //||
+	TAND, //&
+	TDAND, //&&
+	TSEMI, //;
+};
 
 typedef struct s_token
 {
-	unsigned char		type;
+	t_oper_type			type;
 	char				**cmd;
 	char				*line;
-	char				*input;
-	char				*output;
-	char				*doc;
 	struct s_token		*next;
 }	t_token;
 
@@ -44,6 +49,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	**ft_split(const char *s, char c);
 int	ft_isprint(int c);
 t_token	*ft_lstlast(t_token *lst);
+char	*ft_strdup(const char *s);
 
 
 

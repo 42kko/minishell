@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/14 14:38:20 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:57:49 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@ typedef struct s_env_list	t_env_list;
 
 enum e_error_type
 {
-	ATOI_ERR = -1,
 	NO_ERR,
 	MALLOC_ERR,
+	PARSE_ERR,
+	OPER_ERR,
 };
 struct s_env_list
 {
