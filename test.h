@@ -25,7 +25,16 @@
 #define TOR 254 //||
 #define TAND 255 //&&
 
-
+typedef struct s_token
+{
+	unsigned char		type;
+	char				**cmd;
+	char				*line;
+	char				*input;
+	char				*output;
+	char				*doc;
+	struct s_token		*next;
+}	t_token;
 
 //
 char	*ft_strtrim(char const *s1, char const *set);
@@ -34,8 +43,9 @@ char	*ft_strchr(const char *s, int c);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 char	**ft_split(const char *s, char c);
 int	ft_isprint(int c);
+t_token	*ft_lstlast(t_token *lst);
 
 
 
-//
+
 #endif

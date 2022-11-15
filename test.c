@@ -43,7 +43,11 @@ char	*ft_strndup(char *s, int i)
 int	ft_sep(char *line)
 {
 	if (*line == '|' || *line == '&' || *line == ';')
-		return (1);
+		return (0);
+	else if (*line == '<' || *line == '>')
+	{
+
+	}
 	return (0);
 }
 
@@ -93,6 +97,7 @@ char	*ft_puls(t_token *token, char *line)
 	}
 	new->line = ft_strndup(tmp, i);
 	tail->next = new;
+	printf("line : %s\n", line);
 	return (line);
 }
 
@@ -218,7 +223,7 @@ void	taping(t_token *tok)
 
 int main()
 {
-	char *tmp = "<e ls -al -al <<b <<c <<a >Q >D >V >BA >DBF| < Makefile  | wc -l | <b cat >   out >c && ls || ls";
+	char *tmp = "   <e ls -al -al <<b <<c <<a >Q >D >V >BA >DBF| < Makefile  | wc -l | <b cat >   out >c && ls || ls";
 	char *line;
 	t_token	*token;
 
@@ -257,6 +262,7 @@ int main()
 	printf("d1:%s\n", token->cmd[2]);
 	printf("d1:%s\n", token->doc);
 	printf("d1:%s\n", token->output);
+	printf("d1:%s\n", token->input);
 	// printf("d1:%s\n", token->next->next->line);
 	// printf("ty:%d\n", token->next->next->type);
 	// printf("ty:%d\n", token->next->next->next->next->next->next->type);

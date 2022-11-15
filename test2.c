@@ -165,3 +165,11 @@ int	ft_isprint(int c)
 	return (0);
 }
 
+t_token	*ft_lstlast(t_token *lst)
+{
+	if (!lst)
+		return (0);
+	while (lst->next != 0)
+		lst = lst->next;
+	return (lst);
+}
