@@ -76,7 +76,7 @@ void	first_token(t_token **token, char **line)
 	(*line) += i;
 }
 
-void	ft_puls(t_token **token, char **line)
+void	ft_plus(t_token **token, char **line)
 {
 	t_token	*tail;
 	t_token	*new;
@@ -116,24 +116,21 @@ void	ft_lstiter(t_token *lst, void (*f)(char *))
 
 int main()
 {
-	char *tmp = "   <e ls -al -al <<b <<c <<a >Q >D >V >BA >DBF| < Makefile  | wc -l | <b cat >   out >c && ls || ls";
+	char *tmp = "         <e ls -al -al <<b <<c <<a >Q >D >V >BA >DBF | < Makefile  | wc -l | <b cat >   out >c && ls || ls";
 	char *line;
 	t_token	*token;
 
 	token = 0;
-	line = strdup(tmp);
+	line = ft_strdup(tmp);
 	int i = 0;
 	tmp = 0;
 
 
-	tmp = 
-	line = ft_strtrim(line, " ");
-	line = ft_strtrim(line, " ");
+	// line = ft_strtrim(line, " ");
+	// line = ft_strtrim(line, " ");
 		// ft_puls(&token, &line);
 		// printf("a\n");
-		// tmp = line;
-		// line = ft_strtrim(line, " ");
-		// free(tmp);
+
 		// ft_puls(&token, &line);
 		// printf("a\n");
 		// tmp = line;
@@ -142,10 +139,13 @@ int main()
 		// ft_puls(&token, &line);
 
 
-	// while (*line)
-	// {
-	// 	ft_puls(&token, &line);
-	// }
+	while (*line)
+	{
+		// tmp = line;
+		// line = ft_strtrim(line, " ");
+		// free(tmp);
+		ft_plus(&token, &line);
+	}
 		// printf("df:%s\n", line);
 		// tmp = line;
 		// line = ft_strtrim(line, " ");
