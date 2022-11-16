@@ -2,6 +2,8 @@
   "files.associations": {
     "stat.h": "c",
     "minishell.h": "c",
-    "types.h": "c"
+    "types.h": "c",
+    "test.h": "c",
+    "__config": "c"
   }
 }

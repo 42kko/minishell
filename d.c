@@ -115,38 +115,6 @@ t_oper_type	check_operator(char c)
 	return (NO_TYPE);
 }
 
-// char	*check_type(t_token **token, char *line)
-// {
-// 	if (line[0] == '|')
-// 	{
-// 		if (line[1] == 0 || check_operator(line[1]) == 0)
-// 			(*token)->type == TPIPE;
-// 		else if (line[1] == '|' && check_operator(line[2]) == 0)
-// 			(*token)->type == TOR;
-// 	}
-// 	if (line[0] == '&')
-// 	{
-// 		if (line[1] == 0 || check_operator(line[1]) == 0)
-// 			(*token)->type == NO_TYPE;
-// 		else if (line[1] == '&' && check_operator(line[2]) == 0)
-// 			(*token)->type == TDAND;
-// 	}
-// 	if (line[0] == '<')
-// 	{
-// 		if (line[1] == 0 || check_operator(line[1]) == 0)
-// 			(*token)->type == TIN;
-// 		else if (line[1] == '<' && check_operator(line[2]) == 0)
-// 			(*token)->type == TDOC;
-// 	}
-// 	if (line[0] == '>')
-// 	{
-// 		if (line[1] == 0 || check_operator(line[1]) == 0)
-// 			(*token)->type == TOUT;
-// 		else if (line[1] == '>' && check_operator(line[2]) == 0)
-// 			(*token)->type == TADDOUT;
-// 	}
-// }
-
 void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
 {
 	char	*line;
@@ -155,22 +123,133 @@ void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
 	if ((*token)->line[0] == oper)
 	{
 		if (line[1] == 0 || check_operator(line[1]) == 0)
-			(*token)->type == one;
+			(*token)->type = one;
 		else if (line[1] == oper && check_operator(line[2]) == 0)
-			(*token)->type == two;
+			(*token)->type = two;
 	}
 }
+
 t_oper_type	check_type(t_token **token)
 {
 	set_type(token, '|', TPIPE, TOR);
 	set_type(token, '&', NO_TYPE, TDAND);
 	set_type(token, '<', TIN, TDOC);
 	set_type(token, '>', TOUT, TADDOUT);
-	if ((*token)->type == NO_TYPE)
-		throw_error(OPER_ERR);
+	// if ((*token)->type == NO_TYPE)
+	// 	throw_error(OPER_ERR);
+	return (NO_TYPE);
 }
 
-void	set_type_remove_operator(t_token **token)
+char	*remove_outside_comma(char *cmd)
+{
+	if (cmd[0] == '\'')
+		return (ft_strtrim(cmd, "\'"));
+	if (cmd[0] == '\"')
+		return (ft_strtrim(cmd, "\""));
+	return (cmd);
+}
+
+char *ft_strdup_without_char(char *s, char c, int	left, int right)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	i = 0;
+	j = 0;
+	str = (char *)malloc(sizeof(*s) * (ft_strlen(s) + 1));
+	if (!str)
+		return (NULL);
+	while (s[i])
+	{
+		if (s[i] != c && (i == left || i == right))
+		{
+			str[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+char	*remove_inside_comma(char *cmd)
+{
+	int	left;
+	int	right;
+	char	c;
+
+	c = '\0';
+	while (cmd[left])
+	{
+		
+	}
+}
+
+int	check_exist_side_comma(char *str)
+{
+	int	left;
+	int	right;
+	int	flag;
+
+	left = 0;
+	flag = 0;
+	while (str[left])
+	{
+		if (str[left] == '\'')
+		{
+			flag = 1;
+			break ;
+		}
+		if (str[left] == '\"')
+		{
+			flag = 2;
+			break ;
+		}
+	}
+	right = ft_strlen(str) - 1;
+	while (right >= 0 && right > left && flag != 0)
+	{
+		if (str[right] == '\'' && flag == 1)
+			return (1);
+		if (str[right] == '\"' && flag == 2)
+			return (2);
+	}
+	return (0);
+}
+
+void	set_cmd(t_token **token)
+{
+	int	len;
+	int	i;
+	char *tmp;
+	int	flag;
+
+	(*token)->cmd = ft_split((*token)->line, ' ');
+	while ((*token)->cmd[i])
+	{
+		flag = check_exist_side_comma((*token)->cmd[i]);
+		if (flag == 1)
+		{
+			tmp = (*token)->cmd[i];
+			(*token)->cmd[i] = remove_outside_comma((*token)->cmd[i]);
+		}
+		i++;
+	}
+	len = get_sec_arr_len((*token)->cmd);
+	(*token)->type = TCMD;
+	// if (!(*token)->cmd)
+	// 	throw_error(MALLOC_ERR);
+	while ((*token)->cmd[i])
+	{
+		tmp = (*token)->cmd[i];
+		(*token)->cmd[i] = remove_outside_comma((*token)->cmd[i]);
+		free(tmp);
+		i++;
+	}
+}
+
+void	set_type_removeoperator(t_token **token)
 {
 	if (check_operator((*token)->line[0]))
 	{
@@ -178,13 +257,14 @@ void	set_type_remove_operator(t_token **token)
 	}
 	else
 	{
-		연산자일경우 연사자 따옴표처리 및 이중배열에 넣어준다
+		set_cmd(token);
+		// 명령어일경우 연사자 따옴표처리 및 이중배열에 넣어준다
 	}
 }
 
 int main()
 {
-	char *tmp = "         <   e ls -al -al <>          b <<c <<a >Q >D >V >BA >DBF ||& < Makefile  | wc -l | <b cat >   out >c && ls || ls";
+	char *tmp = "         <   e ls -al -al <>          b <<c <<a >Q >D >V >BA >DBF ||& < Makefile  | 'wc -l' | <b cat >   out >c && ls || ls";
 	char *line;
 	t_token	*token;
 

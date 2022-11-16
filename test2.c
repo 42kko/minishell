@@ -212,3 +212,12 @@ t_token	*ft_lstlast(t_token *lst)
 	return (lst);
 }
 
+int	get_sec_arr_len(char **arr) // 지울것
+{
+	int	length;
+
+	length = 0;
+	while (arr[length])
+		length++;
+	return (length);
+}

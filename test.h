@@ -50,6 +50,7 @@ char	**ft_split(const char *s, char c);
 int	ft_isprint(int c);
 t_token	*ft_lstlast(t_token *lst);
 char	*ft_strdup(const char *s);
+int		get_sec_arr_len(char **arr);
 
 
 
