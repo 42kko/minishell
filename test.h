@@ -17,6 +17,7 @@
 # include <string.h>
 
 typedef enum e_oper_type	t_oper_type;
+typedef enum e_comma_type	t_comma_type;
 
 enum e_oper_type
 {
@@ -33,13 +34,41 @@ enum e_oper_type
 	TSEMI, //;
 };
 
+enum e_comma_type
+{
+	NO_COM,
+	ONE_COM,
+	TWO_COM,
+};
+
+
+
 typedef struct s_token
 {
 	t_oper_type			type;
 	char				**cmd;
+	t_comma_type		comma_type;
 	char				*line;
 	struct s_token		*next;
 }	t_token;
+
+typedef enum e_error_type	t_error_type;
+typedef struct s_env_list	t_env_list;
+
+enum e_error_type
+{
+	NO_ERR,
+	MALLOC_ERR,
+	PARSE_ERR,
+	SYNTAX_ERR,
+};
+struct s_env_list
+{
+	char 		*key;
+	char 		*value;
+	t_env_list	*next;
+};
+
 
 //
 char	*ft_strtrim(char const *s1, char const *set);
@@ -52,6 +81,7 @@ t_token	*ft_lstlast(t_token *lst);
 char	*ft_strdup(const char *s);
 int		get_sec_arr_len(char **arr);
 
+void	throw_error(t_error_type type);
 
 
 
