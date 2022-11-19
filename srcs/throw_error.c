@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 20:58:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/18 18:00:06 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	throw_error(t_error_type type)
 	if (type == PARSE_ERR)
 		error_message_exit("ERROR : PARSE_ERR", type);
 	if (type == SYNTAX_ERR)
-		error_message_exit("syntax error near unexpected token", type);
+		ft_putstr_fd("syntax error near unexpected token", 2);
+	// error_message_exit("syntax error near unexpected token", type);
 }

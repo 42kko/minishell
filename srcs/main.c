@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:57:54 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/18 21:27:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,15 +269,47 @@ int	*check_exist_side_comma(t_token **token, char *str)
 	return (NULL);
 }
 
+int	count_space_out_of_comma(char *str)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == ' ')
+			count++;
+		else if (str[i] == '\'')
+			while (str[i] != '\'' && str[i])
+				i++;
+		else if (str[i] == '\"')
+			while (str[i] != '\"' && str[i])
+				i++;
+		else if (str[i] && str[i] != '\'' && str[i] != '\"' && str[i] != ' ')
+			i++;
+	}
+	return (count + 1);
+}
+
 void	set_cmd(t_token **token)
 {
-	int	len;
-	int	i;
-	char *tmp;
-	int	*arr;
-
+	int				len;
+	int				i;
+	char 			*tmp;
+	int				*arr;
+	t_comma_type	flag;
+	
 	(*token)->type = TCMD;
-	(*token)->cmd = ft_split((*token)->line, '\"');
+	// 만난놈을 찾아서 지워준다.
+	// 못만나면 그대로 납둔다.
+	// 지원준 포인터는 계속 기억하고 있는다.
+
+	// "p""w""d" -> ok
+	// 
+	printf("%d\n",count_space_out_of_comma((*token)->line));
+	// ", ' 을 띵겨 넘은 ' ' 띄어쓰기를 찾아주는 함수
+	(*token)->cmd = ft_split((*token)->line, ' ');
 	while ((*token)->cmd[i])
 	{
 		arr = check_exist_side_comma(token, (*token)->cmd[i]);
@@ -300,16 +332,16 @@ void	set_type_remove_operator(t_token **token)
 	}
 	else
 	{
-		// set_cmd(token);
+		set_cmd(token);
 		// 명령어일경우 연사자 따옴표처리 및 이중배열에 넣어준다
 	}
 }
 
 void create_token(char *line)
 {
-	// char *tmp = "         <   e ls -al -al <>          b <<c <<a >Q >D >V >BA >DBF ||& < Makefile  | 'wc -'l | <b cat >   out >c && ls || ls";
+	// char *tmp = "         <   e ls -al -al <>          b <<c <<a >Q >D >V >BA >DBF ||& < Makefile  | wc -l | <b cat >   out >c && ls || ls";
 	// char *line;
-	t_token	*token;./	
+	t_token	*token;
 
 	char *tmp;
 
