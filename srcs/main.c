@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/18 21:27:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/19 22:46:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,27 +269,140 @@ int	*check_exist_side_comma(t_token **token, char *str)
 	return (NULL);
 }
 
+void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
+{
+	char c;
+
+	c = 0;
+	if (flag == ONE_COM)
+		c = '\'';
+	if (flag == TWO_COM)
+		c = '\"';
+	if (str[*i] == c)
+	{
+		(*i)++;
+		while (str[*i] != c && str[*i])
+			(*i)++;
+		if (str[*i] == c)
+			(*i)++;
+	}
+}
+
+void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
+{
+	char c;
+
+	c = 0;
+	if (flag == ONE_COM)
+		c = '\'';
+	if (flag == TWO_COM)
+		c = '\"';
+	if (str[*i] == c)
+	{
+		(*i)++;
+		while (str[*i] != c && str[*i])
+			(*i)++;
+		if (str[*i] == c)
+			(*i)++;
+	}
+}
+
+t_comma_type	ft_is_comma(char c)
+{
+	if (c == '\'')
+		return (ONE_COM);
+	if (c == '\"')
+		return (TWO_COM);
+	return (NO_COM);
+}
+
 int	count_space_out_of_comma(char *str)
 {
 	int	i;
 	int	count;
 
 	i = 0;
-	count = 0;
+	count = 1;
 	while (str[i])
 	{
+		while (ft_is_comma(str[i]) != NO_COM)
+			pull_until_same_comma(str, &i, ft_is_comma(str[i]));
 		if (str[i] == ' ')
+		{
 			count++;
-		else if (str[i] == '\'')
-			while (str[i] != '\'' && str[i])
+			while (str[i] == ' ')
 				i++;
-		else if (str[i] == '\"')
-			while (str[i] != '\"' && str[i])
-				i++;
-		else if (str[i] && str[i] != '\'' && str[i] != '\"' && str[i] != ' ')
+		}
+		else if (str[i])
 			i++;
 	}
-	return (count + 1);
+	return (count);
+}
+
+char	*ft_strdup_without_check_comma(char *s, int start, int len)
+{
+	char			*str;
+	int				i;
+	int				j;
+	t_comma_type	type;
+
+	j = 0;
+	j = 0;
+	str = malloc(sizeof(char) * len + 1);
+	if (!str)
+		throw_error(MALLOC_ERR);
+	while (s[i])
+	{
+		type = ft_is_comma(str[i]);
+		if (type)
+		{
+			i++;
+			while (s[i] && ft_is_comma(s[i]) == type)
+			{
+				str[j] = s[i];
+				i++;
+			}
+		}
+		i++;
+	}
+	str[j] = '\0';
+	return (str);
+}
+
+char	**ft_split_cmd(char *line)
+{
+	int		arr_len;
+	char	**arr;
+	char	*part_len;
+	int		left;
+	int		right;
+	int		i; 
+
+	i = 0;
+	arr_len = count_space_out_of_comma(line);
+	arr = malloc(sizeof(char *) * arr_len + 1);
+	if (!arr)
+		throw_error(MALLOC_ERR);
+	left = 0;
+	right = 0;
+	while (line[right])
+	{
+		left = right;
+		while (ft_is_comma(line[right]) != NO_COM)
+			pull_until_same_comma(line, &right, ft_is_comma(line[right]));
+		if (line[right] == ' ')
+		{
+			arr[i] = ft_strdup_without_comma(line, left, right - left);
+			right++;
+			i++;
+			while (line[right] == ' ')
+				right++;
+		}
+		else if (line[i])
+			i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
 
 void	set_cmd(t_token **token)
@@ -301,6 +414,7 @@ void	set_cmd(t_token **token)
 	t_comma_type	flag;
 	
 	(*token)->type = TCMD;
+	// 총 몇개로 나뉠 수 있는지 확인
 	// 만난놈을 찾아서 지워준다.
 	// 못만나면 그대로 납둔다.
 	// 지원준 포인터는 계속 기억하고 있는다.
@@ -309,7 +423,7 @@ void	set_cmd(t_token **token)
 	// 
 	printf("%d\n",count_space_out_of_comma((*token)->line));
 	// ", ' 을 띵겨 넘은 ' ' 띄어쓰기를 찾아주는 함수
-	(*token)->cmd = ft_split((*token)->line, ' ');
+	(*token)->cmd = ft_split((*token)->line, '"');
 	while ((*token)->cmd[i])
 	{
 		arr = check_exist_side_comma(token, (*token)->cmd[i]);

@@ -4,6 +4,12 @@
     "minishell.h": "c",
     "types.h": "c",
     "test.h": "c",
-    "__config": "c"
+    "__config": "c",
+    "sstream": "c",
+    "__bit_reference": "c",
+    "algorithm": "c",
+    "bitset": "c",
+    "chrono": "c",
+    "unordered_map": "c"
   }
 }
