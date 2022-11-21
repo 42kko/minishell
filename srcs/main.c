@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/19 22:46:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/21 21:20:58 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,46 @@
 
 struct termios	old_term;
 struct termios	term;
+
+t_comma_type	ft_is_comma(char c)
+{
+	if (c == '\'')
+		return (ONE_COM);
+	if (c == '\"')
+		return (TWO_COM);
+	return (NO_COM);
+}
+
+void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
+{
+	char c;
+
+	c = 0;
+	if (flag == ONE_COM)
+		c = '\'';
+	if (flag == TWO_COM)
+		c = '\"';
+	if (str[*i] == c)
+	{
+		(*i)++;
+		while (str[*i] != c && str[*i])
+			(*i)++;
+		if (str[*i] == c)
+			(*i)++;
+	}
+}
+
+void	push_index_until_space(char *line, int *index)
+{
+	while (line[*index] != ' ' && line[*index] != '\0')
+	{
+		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0')
+			(*index)++;
+		while (ft_is_comma(line[*index]) != NO_COM)
+			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
+	}
+}
+
 
 void	handler(int signo) //시그널핸들러
 {
@@ -68,26 +108,7 @@ t_token	*new_token(void)
 	return (new);
 }
 
-int	sep_len(char *line)
-{
-	int	i;
-	int	len;
-	int	plag;
 
-	plag = 0;
-	len = ft_strlen(line);
-	i = 0;
-	while (*line)
-	{
-		if (*line != '<' && *line != '>' && *line != ' ')
-			plag = 1;
-		if (*line == ' ' && plag == 1)
-			return (i);
-		i++;
-		line++;
-	}
-	return (i);
-}
 
 int	ft_sep(char *line)
 {
@@ -96,6 +117,11 @@ int	ft_sep(char *line)
 	int	plag;
 
 	i = 0;
+	if (ft_is_comma(*line) != NO_COM)
+	{
+		push_index_until_space(line, &i);
+		return (i);
+	}
 	if (*line == '|' || *line == '&' || *line == ';')
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
@@ -104,11 +130,9 @@ int	ft_sep(char *line)
 	}
 	while (*line)
 	{
-		if ((*line == '<' || *line == '>') && i != 0)
-			return (i);
-		else if ((*line == '<' || *line == '>') && i == 0)
-			return (sep_len(line));
-		else if (*line == '|' || *line == '&')
+		if (ft_is_comma(*line) != NO_COM)
+			push_index_until_space(line, &i);
+		if (*line == '|' || *line == '&')
 			return (i);
 		i++;
 		line++;
@@ -269,54 +293,8 @@ int	*check_exist_side_comma(t_token **token, char *str)
 	return (NULL);
 }
 
-void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
-{
-	char c;
 
-	c = 0;
-	if (flag == ONE_COM)
-		c = '\'';
-	if (flag == TWO_COM)
-		c = '\"';
-	if (str[*i] == c)
-	{
-		(*i)++;
-		while (str[*i] != c && str[*i])
-			(*i)++;
-		if (str[*i] == c)
-			(*i)++;
-	}
-}
-
-void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
-{
-	char c;
-
-	c = 0;
-	if (flag == ONE_COM)
-		c = '\'';
-	if (flag == TWO_COM)
-		c = '\"';
-	if (str[*i] == c)
-	{
-		(*i)++;
-		while (str[*i] != c && str[*i])
-			(*i)++;
-		if (str[*i] == c)
-			(*i)++;
-	}
-}
-
-t_comma_type	ft_is_comma(char c)
-{
-	if (c == '\'')
-		return (ONE_COM);
-	if (c == '\"')
-		return (TWO_COM);
-	return (NO_COM);
-}
-
-int	count_space_out_of_comma(char *str)
+int	count_space_out_of_comma(char *str) // \", \' 을 스킵하고 ' ' 띄어쓰기를 찾아주는 함수
 {
 	int	i;
 	int	count;
@@ -346,60 +324,85 @@ char	*ft_strdup_without_check_comma(char *s, int start, int len)
 	int				j;
 	t_comma_type	type;
 
-	j = 0;
+	i = start;
 	j = 0;
 	str = malloc(sizeof(char) * len + 1);
 	if (!str)
 		throw_error(MALLOC_ERR);
-	while (s[i])
+	while (s[i] &&  j < len && i < start + len)
 	{
-		type = ft_is_comma(str[i]);
+		type = ft_is_comma(s[i]);
 		if (type)
 		{
 			i++;
-			while (s[i] && ft_is_comma(s[i]) == type)
-			{
-				str[j] = s[i];
+			while (s[i] && ft_is_comma(s[i]) != type && j < len)
+				str[j++] = s[i++];
+			if (s[i])
 				i++;
-			}
 		}
-		i++;
+		else
+			str[j++] = s[i++];
 	}
 	str[j] = '\0';
 	return (str);
 }
 
+void	push_index_len_redirection(char *line, int *index)
+{
+	int	flag;
+
+	flag = 0;
+	while (*line)
+	{
+		if (ft_is_comma(*line) != NO_COM)
+		{
+			printf("index = %d\n", *index);
+			push_index_until_space(line, &(*index));
+			printf("index = %d\n", *index);
+			flag = 1;
+		}
+		if (*line != '<' && *line != '>' && *line != ' ')
+			flag = 1;
+		if (*line == ' ' && flag == 1)
+			return ;
+		(*index)++;
+		line++;
+	}
+}
+
 char	**ft_split_cmd(char *line)
 {
-	int		arr_len;
 	char	**arr;
-	char	*part_len;
 	int		left;
 	int		right;
 	int		i; 
 
 	i = 0;
-	arr_len = count_space_out_of_comma(line);
-	arr = malloc(sizeof(char *) * arr_len + 1);
+	arr = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1));
 	if (!arr)
 		throw_error(MALLOC_ERR);
-	left = 0;
 	right = 0;
 	while (line[right])
 	{
 		left = right;
-		while (ft_is_comma(line[right]) != NO_COM)
-			pull_until_same_comma(line, &right, ft_is_comma(line[right]));
-		if (line[right] == ' ')
+		push_index_until_space(line, &right);
+		// printf("left = %d, right = %d\n", left, right);
+		if (line[right] == ' ' || line[right] == '\0')
 		{
-			arr[i] = ft_strdup_without_comma(line, left, right - left);
-			right++;
-			i++;
+			arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
 			while (line[right] == ' ')
 				right++;
 		}
-		else if (line[i])
-			i++;
+		else if (line[right] == '<' || line[right] == '>')
+		{
+			printf("asdfasdfasdf\n");
+			push_index_len_redirection(line, &right);
+			arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
+			while (line[right] == ' ')
+				right++;
+		}
+		else if (line[right])
+			right++;
 	}
 	arr[i] = NULL;
 	return (arr);
@@ -407,47 +410,31 @@ char	**ft_split_cmd(char *line)
 
 void	set_cmd(t_token **token)
 {
-	int				len;
-	int				i;
-	char 			*tmp;
-	int				*arr;
-	t_comma_type	flag;
-	
 	(*token)->type = TCMD;
-	// 총 몇개로 나뉠 수 있는지 확인
-	// 만난놈을 찾아서 지워준다.
-	// 못만나면 그대로 납둔다.
-	// 지원준 포인터는 계속 기억하고 있는다.
-
-	// "p""w""d" -> ok
-	// 
-	printf("%d\n",count_space_out_of_comma((*token)->line));
-	// ", ' 을 띵겨 넘은 ' ' 띄어쓰기를 찾아주는 함수
-	(*token)->cmd = ft_split((*token)->line, '"');
-	while ((*token)->cmd[i])
-	{
-		arr = check_exist_side_comma(token, (*token)->cmd[i]);
-		if (arr != NULL)
-		{
-			tmp = (*token)->cmd[i];
-			(*token)->cmd[i] = ft_strdup_without_char((*token)->cmd[i], arr[0], arr[1]);
-			free(arr);
-			free(tmp);
-		}
-		i++;
-	}
+	(*token)->cmd = ft_split_cmd((*token)->line);
 }
+
+// void	devide_redir_cmd()
+// {
+
+// }
 
 void	set_type_remove_operator(t_token **token)
 {
-	if (check_operator((*token)->line[0]))
+	if (check_operator((*token)->line[0]) == TPIPE || check_operator((*token)->line[0]) == TAND)
 	{
 		check_type(token);
 	}
 	else
 	{
 		set_cmd(token);
-		// 명령어일경우 연사자 따옴표처리 및 이중배열에 넣어준다
+		// devide_redir_cmd(token);
+		int i = 0;
+		while ((*token)->cmd[i])
+		{
+			printf("%d : \'%s\'\n", i, (*token)->cmd[i]);
+			i++;
+		}
 	}
 }
 
@@ -460,7 +447,6 @@ void create_token(char *line)
 	char *tmp;
 
 	token = 0;
-	// line = ft_strdup(tmp);
 	int i = 0;
 
 	tmp = line;
