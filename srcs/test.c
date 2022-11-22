@@ -1,14 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split_for_cmd.c                                 :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 21:17:54 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:18:15 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/11/22 20:46:02 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test.h"
+#include "minishell.h"
 
+void	func(char *s)
+{
+	printf("list : '%s'\n", s);
+}
+
+void	ft_tokeniter(t_token *lst, void (*f)(char *))
+{
+	if (!lst || !f)
+		return ;
+	while (lst)
+	{
+		f(lst->line);
+		lst = lst->next;
+	}	
+}

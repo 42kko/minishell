@@ -6,13 +6,13 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/19 15:59:58 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/22 21:12:22 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    = main.c throw_error.c utility.c loop.c token_list.c
+SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
-SRCS_PAR= 
+SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c redirection.c
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/

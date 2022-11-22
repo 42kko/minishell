@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:55:52 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/22 20:57:20 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@
 # include "parse.h"
 
 void	loop(void);
-void	create_token(char *line);
 
 #endif

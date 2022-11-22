@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 17:17:16 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:25:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 typedef enum e_oper_type	t_oper_type;
 typedef enum e_comma_type	t_comma_type;
+typedef enum e_brachek_type	t_brachek_type;
 
 enum e_oper_type
 {
@@ -29,6 +30,8 @@ enum e_oper_type
 	TAND, //&
 	TDAND, //&&
 	TSEMI, //;
+	TOBRACH, // (
+	TCBRACH, // )
 };
 
 enum e_comma_type
@@ -37,6 +40,15 @@ enum e_comma_type
 	ONE_COM,
 	TWO_COM,
 };
+
+enum e_brachek_type
+{
+	NO_BRACHEK,
+	O_BRACHEK = 3,
+	C_BRACHEK,
+};
+
+
 
 typedef struct s_token
 {
@@ -50,6 +62,43 @@ typedef struct s_token
 	t_comma_type		comma_type;
 }	t_token;
 
-t_token	*ft_tokenlast(t_token *lst);
+t_token			*ft_tokenlast(t_token *lst);
+
+// is_type
+t_brachek_type	ft_is_brachek(char c);
+t_comma_type	ft_is_comma(char c);
+t_comma_type    ft_is_comma_brachek(char c);
+
+// oper_type
+void			check_type(t_token **token);
+void			set_type(t_token **token, char oper, t_oper_type one, t_oper_type two);
+t_oper_type		check_operator(char c);
+
+// cmd
+void			push_index_len_redirection(char *line, int *index);
+char			**ft_split_cmd(char *line);
+void			set_cmd(t_token **token);
+
+
+// init_token
+void			init_token(char *line);
+void			create_a_token(t_token **token, char **line);
+int				seperate_token(char *line);
+t_token			*new_token(void);
+int				start_is_seperator(char *line, int *i);
+void			new_push_index_until_space(char *line, int *index, t_comma_type type);
+
+// test -- 지울것
+void			func(char *s);
+void			ft_tokeniter(t_token *lst, void (*f)(char *));
+
+// parse_utility
+void			push_index_until_space(char *line, int *index);
+int				count_space_out_of_comma(char *str);
+char			*ft_strdup_without_check_comma(char *s, int start, int len);
+void			pull_until_same_comma(char *str, int *i, t_comma_type flag);
+
+// redirection
+void			set_type_remove_operator(t_token **token);
 
 #endif
