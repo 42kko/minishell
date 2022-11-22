@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/21 21:20:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:48:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	push_index_until_space(char *line, int *index)
 	}
 }
 
-
 void	handler(int signo) //시그널핸들러
 {
 	if (signo == SIGINT)
@@ -100,6 +99,8 @@ t_token	*new_token(void)
 	t_token	*new;
 
 	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		throw_error(MALLOC_ERR);
 	new->type = 0;
 	new->cmd = 0;
 	new->line = 0;
@@ -349,25 +350,19 @@ char	*ft_strdup_without_check_comma(char *s, int start, int len)
 
 void	push_index_len_redirection(char *line, int *index)
 {
-	int	flag;
+	int			flag;
+	t_oper_type	type;
 
 	flag = 0;
-	while (*line)
-	{
-		if (ft_is_comma(*line) != NO_COM)
-		{
-			printf("index = %d\n", *index);
-			push_index_until_space(line, &(*index));
-			printf("index = %d\n", *index);
-			flag = 1;
-		}
-		if (*line != '<' && *line != '>' && *line != ' ')
-			flag = 1;
-		if (*line == ' ' && flag == 1)
-			return ;
+	type = check_operator(line[*index]);
 		(*index)++;
-		line++;
-	}
+	if (check_operator(line[*index]) == type)
+		(*index)++;
+	else if (check_operator(line[*index]) != NO_TYPE)
+		throw_error(SYNTAX_ERR);
+	while (line[*index] == ' ')
+		(*index)++;
+	push_index_until_space(line, &(*index));
 }
 
 char	**ft_split_cmd(char *line)
@@ -385,24 +380,26 @@ char	**ft_split_cmd(char *line)
 	while (line[right])
 	{
 		left = right;
-		push_index_until_space(line, &right);
-		// printf("left = %d, right = %d\n", left, right);
-		if (line[right] == ' ' || line[right] == '\0')
+		if (line[right] == '<' || line[right] == '>')
 		{
-			arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
-			while (line[right] == ' ')
-				right++;
-		}
-		else if (line[right] == '<' || line[right] == '>')
-		{
-			printf("asdfasdfasdf\n");
 			push_index_len_redirection(line, &right);
 			arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
 			while (line[right] == ' ')
 				right++;
 		}
-		else if (line[right])
-			right++;
+		else
+		{
+			push_index_until_space(line, &right);
+			if (line[right] == ' ' || line[right] == '\0')
+			{
+				arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
+				while (line[right] == ' ')
+					right++;
+			}
+			else if (line[right])
+				right++;
+		}
+		
 	}
 	arr[i] = NULL;
 	return (arr);
@@ -414,10 +411,59 @@ void	set_cmd(t_token **token)
 	(*token)->cmd = ft_split_cmd((*token)->line);
 }
 
-// void	devide_redir_cmd()
-// {
+void	attach_redir_token(t_token	**redir_token, t_token **token, int index)
+{
+	t_token *new;
+	
+	new = new_token();
+	new->line = (*token)->cmd[index];
+	if (!redir_token)
+		(*redir_token) = new;
+	while ((*redir_token)->next)
+		(*redir_token) = (*redir_token)->next;
+	(*redir_token)->next = new;
+}
 
-// }
+void	devide_redir_cmd(t_token **token)
+{
+	t_token	*tmp_next_token;
+	t_token	*redir_token;
+	char	*tmp;
+	int		left;
+	int		right;
+	
+	printf("asdfasdfasdfasdfsdf\n");
+	tmp_next_token = (*token)->next;
+	left = 0;
+	right = 0;
+	redir_token = NULL;
+	while ((*token)->cmd[left])
+	{
+		printf("홀리몰리\n");
+		if (ft_is_comma((*token)->cmd[left][0]) != NO_TYPE)
+			attach_redir_token(&redir_token, token, left);
+		left++;
+	}
+	ft_tokeniter(redir_token, func);
+	// while ((*token)->cmd[right])
+	// 	right++;
+	// right--;
+	// while (left < right) // 
+	// {
+	// 	while (left < right) // redir을 찾는다.
+	// 	{
+	// 		if (ft_is_comma((*token)->cmd[left][0]) != NO_TYPE)
+	// 			break;
+	// 		left++;
+	// 	}
+	// 	while (left < right) // 앞에 redir이 있는 cmd을 찾는다.
+	// 	{
+	// 		if (ft_is_comma((*token)->cmd[left][0]) == NO_TYPE)
+	// 			break;
+	// 		right--;
+	// 	}
+	// }
+}
 
 void	set_type_remove_operator(t_token **token)
 {
@@ -428,7 +474,7 @@ void	set_type_remove_operator(t_token **token)
 	else
 	{
 		set_cmd(token);
-		// devide_redir_cmd(token);
+		devide_redir_cmd(token);
 		int i = 0;
 		while ((*token)->cmd[i])
 		{

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:26:38 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:17:16 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ typedef struct s_token
 {
 	t_oper_type			type;
 	char				**cmd;
-	t_comma_type		comma_type;
 	char				*line;
 	struct s_token		*next;
+	struct s_token		*prev;
+	struct s_token		*right;
+	struct s_token		*left;
+	t_comma_type		comma_type;
 }	t_token;
 
 t_token	*ft_tokenlast(t_token *lst);
