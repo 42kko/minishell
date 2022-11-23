@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 21:25:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 21:23:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 typedef enum e_oper_type	t_oper_type;
 typedef enum e_comma_type	t_comma_type;
 typedef enum e_brachek_type	t_brachek_type;
+typedef enum e_redir_type	t_redir_type;
 
 enum e_oper_type
 {
@@ -48,7 +49,12 @@ enum e_brachek_type
 	C_BRACHEK,
 };
 
-
+enum e_redir_type
+{
+	NO_DIREC,
+	O_DIREC = 5,
+	C_DIREC,
+};
 
 typedef struct s_token
 {
@@ -68,6 +74,7 @@ t_token			*ft_tokenlast(t_token *lst);
 t_brachek_type	ft_is_brachek(char c);
 t_comma_type	ft_is_comma(char c);
 t_comma_type    ft_is_comma_brachek(char c);
+t_redir_type	ft_is_redir(char c);
 
 // oper_type
 void			check_type(t_token **token);
@@ -87,6 +94,7 @@ int				seperate_token(char *line);
 t_token			*new_token(void);
 int				start_is_seperator(char *line, int *i);
 void			new_push_index_until_space(char *line, int *index, t_comma_type type);
+t_token 		*ft_tokenstart(t_token *lst);
 
 // test -- 지울것
 void			func(char *s);

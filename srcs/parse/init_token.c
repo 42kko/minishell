@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 21:10:53 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 21:22:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,16 @@ void	new_push_index_until_space(char *line, int *index, t_comma_type type)
 // 	}
 // }
 
+t_token *ft_tokenstart(t_token *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->prev)
+		lst = lst->prev;
+	return (lst);
+}
+
+
 int	start_is_seperator(char *line, int *i)
 {
 	t_comma_type	type;
@@ -71,10 +81,11 @@ t_token	*new_token(void)
 	new = (t_token *)malloc(sizeof(t_token));
 	if (!new)
 		throw_error(MALLOC_ERR);
-	new->type = 0;
-	new->cmd = 0;
-	new->line = 0;
-	new->next = 0;
+	new->type = NO_TYPE;
+	new->cmd = NULL;
+	new->line = NULL;
+	new->next = NULL;
+	new->prev = NULL;
 	new->comma_type = NO_COM;
 	return (new);
 }
@@ -120,6 +131,7 @@ void	create_a_token(t_token **token, char **line)
 	else
 	{
 		tail = ft_tokenlast(*token);
+		new->prev = tail;
 		tail->next = new;
 	}
 }

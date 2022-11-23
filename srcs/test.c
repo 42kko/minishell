@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 20:46:02 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 19:16:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@ void	func(char *s)
 	printf("list : '%s'\n", s);
 }
 
+void	fc(int s)
+{
+	printf("type : '%d'\n", s);
+}
+
+
 void	ft_tokeniter(t_token *lst, void (*f)(char *))
 {
 	if (!lst || !f)
@@ -24,6 +30,7 @@ void	ft_tokeniter(t_token *lst, void (*f)(char *))
 	while (lst)
 	{
 		f(lst->line);
+		fc(lst->type);
 		lst = lst->next;
 	}	
 }

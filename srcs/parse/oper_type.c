@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 21:25:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:53:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
 	char	*line;
 
 	line = (*token)->line;
-	if ((*token)->line[0] == oper)
+	if (line[0] == oper)
 	{
 		if (line[1] == 0 || check_operator(line[1]) == 0)
 			(*token)->type = one;
