@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 21:06:31 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 21:22:28 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,4 +93,17 @@ char	*ft_strdup_without_check_comma(char *s, int start, int len)
 	}
 	str[j] = '\0';
 	return (str);
+}
+
+int	token_list_len(t_token *token)
+{
+	int	len;
+
+	len = 0;
+	while (token)
+	{
+		len++;
+		token = token->next;
+	}
+	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 21:22:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 21:15:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,13 +149,19 @@ void init_token(char *line)
 	while (*line)
 		create_a_token(&token, &line);
 	free(tmp);
+	printf("첫 토큰\n");
+	ft_tokeniter(token);
+	printf("-----------\n");
 
 	t_token *temp;
 	temp = token;
 	while (temp)
 	{
-		set_type_remove_operator(&temp);
+		set_type_remove_operator(&temp, &token);
 		temp = temp->next;
 	}
-	ft_tokeniter(token, func);
+
+	printf("---완성 토큰\n");
+	ft_tokeniter(token);
+	printf("-----------\n");
 }

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 21:09:40 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:25:16 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	initial(void) //초기작업.
 
 int	main(int ac, char **av, char **envp)
 {
-	
 	initial(); //초기작업. 여기서 환경변수 및 시그널을 컨트롤할듯
 	loop(); //readline 을 받아줄곳.
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);

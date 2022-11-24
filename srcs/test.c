@@ -6,31 +6,114 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 19:16:31 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:12:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	printf_line(t_token *lst)
+{
+	int i;
+	t_oper_type s;
+
+	i = 0;
+	s = lst->type;
+	if (s == TPIPE)
+		printf("line : %s | ", lst->line); // |
+	else if (s == TOR)
+		printf("line : %s | ", lst->line); // ||
+	else if (s == TAND)
+		printf("line : %s | ", lst->line); // &
+	else if (s == TDAND)
+		printf("line : %s | ", lst->line); // &&
+	else if (s == TIN)
+		printf("line : %s | ", lst->line); // <
+	else if (s == TOUT)
+		printf("line : %s | ", lst->line); // > 
+	else if (s == TSEMI)
+		printf("line : %s | ", lst->line); // ;
+	else if (s == TOBRACH)
+		printf("line : %s | ", lst->line); // (
+	else if (s == TCBRACH)
+		printf("line : %s | ", lst->line); // )
+	else if (s == TADDOUT)
+		printf("line : %s | ", lst->line); // <<
+	else if (s == TDOC)
+		printf("line : %s | ", lst->line); // >>
+	else if (s == TCMD)
+	{
+		printf("cmd : ");
+		while (lst->cmd[i])
+		{
+			printf("%s ", lst->cmd[i]); // cmd
+			i++;
+		}
+		printf("| ");
+	}
+	printf("line : NO_TYPE | ");
+}
+
+void	printf_type(t_oper_type s)
+{
+	if (s == TPIPE)
+		printf("type : TPIPE | "); // |
+	else if (s == TOR)
+		printf("type : TOR | "); // ||
+	else if (s == TAND)
+		printf("type : TAND | "); // &
+	else if (s == TDAND)
+		printf("type : TDAND | "); // &&
+	else if (s == TIN)
+		printf("type : TIN | "); // <
+	else if (s == TOUT)
+		printf("type : TOUT | "); // > 
+	else if (s == TSEMI)
+		printf("type : TSEMI | "); // ;
+	else if (s == TOBRACH)
+		printf("type : TOBRACH | "); // (
+	else if (s == TCBRACH)
+		printf("type : TCBRACH | "); // )
+	else if (s == TADDOUT)
+		printf("type : TADDOUT | "); // <<
+	else if (s == TDOC)
+		printf("type : TDOC | "); // >>
+	else if (s == TCMD)
+		printf("type : TCMD | "); // cmd
+	else if (s == NO_TYPE)
+		printf("type : NO_TYPE | "); // no type
+}
 
 void	func(char *s)
 {
 	printf("list : '%s'\n", s);
 }
 
-void	fc(int s)
+void	show_list_type_data(t_token *lst)
 {
-	printf("type : '%d'\n", s);
-}
+	int	i;
 
-
-void	ft_tokeniter(t_token *lst, void (*f)(char *))
-{
-	if (!lst || !f)
+	i = 0;
+	if (!lst)
 		return ;
 	while (lst)
 	{
-		f(lst->line);
-		fc(lst->type);
+		printf("%d | ", i);
+		printf_type(lst->type);
+		printf_line(lst);
 		lst = lst->next;
-	}	
+		printf("\n");
+		i++;
+	}
+}
+
+void	ft_tokeniter(t_token *lst)
+{
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		func(lst->line);
+		lst = lst->next;
+	}
 }
