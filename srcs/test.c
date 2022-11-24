@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 18:13:35 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/15 15:41:30 by kko              ###   ########.fr       */
+/*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/11/24 13:38:25 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
+void	func(char *s)
 {
-	size_t	len;
-	size_t	i;
+	printf("list : '%s'\n", s);
+}
 
-	i = 0;
-	len = ft_strlen(src);
-	if (dstsize == 0)
-		return (len);
-	while (i < dstsize - 1 && src[i])
+void	fc(int s)
+{
+	printf("type : '%d'\n", s);
+}
+
+
+void	ft_tokeniter(t_token *lst, void (*f)(char *))
+{
+	if (!lst || !f)
+		return ;
+	while (lst)
 	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (len);
+		f(lst->line);
+		// fc(lst->type);
+		lst = lst->next;
+	}	
 }

@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility.c                                          :+:      :+:    :+:   */
+/*   token_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:40:50 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/16 21:28:28 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/11/16 21:29:04 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_sec_arr(char **arr)
+t_token	*ft_tokenlast(t_token *lst)
 {
-	int	i;
-
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
 }
-
-int	get_sec_arr_len(char **arr)
-{
-	int	length;
-
-	length = 0;
-	while (arr[length])
-		length++;
-	return (length);
-}
-

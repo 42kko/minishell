@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/14 14:38:27 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/22 20:57:20 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,8 @@
 # include <readline/history.h>
 # include "libft.h"
 # include "env.h"
+# include "parse.h"
 
-typedef struct s_info		t_info;
-
-struct s_info
-{
-	t_env_list *env_list;
-};
+void	loop(void);
 
 #endif

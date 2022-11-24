@@ -6,27 +6,35 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/14 14:38:20 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/16 21:47:20 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
+
 typedef enum e_error_type	t_error_type;
 typedef struct s_env_list	t_env_list;
+typedef struct s_info		t_info;
+
+struct s_info
+{
+	t_env_list *env_list;
+};
 
 enum e_error_type
 {
-	ATOI_ERR = -1,
 	NO_ERR,
 	MALLOC_ERR,
+	PARSE_ERR,
+	SYNTAX_ERR,
 };
+
 struct s_env_list
 {
 	char 		*key;
 	char 		*value;
 	t_env_list	*next;
 };
-
-
 
 // env
 char 	*ft_getenv(t_env_list *env_list, char *key);

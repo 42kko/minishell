@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility.c                                          :+:      :+:    :+:   */
+/*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/16 21:40:50 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
+/*   Updated: 2022/11/22 20:57:48 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
+#include <string.h>
 
-void	free_sec_arr(char **arr)
+
+void	loop(void)
 {
-	int	i;
+	char	*line;
 
-	i = 0;
-	while (arr[i])
+	while (1)
 	{
-		free(arr[i]);
-		i++;
+		line = readline("seekko> ");
+		if (line)
+		{
+			if (strcmp(line, "exit") == 0)
+				return ;
+			add_history(line);
+			init_token(line);
+			// free(line);
+			line = 0;
+		}
+		else
+		{
+			printf("exit\n");
+			return ;
+		}
 	}
-	free(arr);
 }
-
-int	get_sec_arr_len(char **arr)
-{
-	int	length;
-
-	length = 0;
-	while (arr[length])
-		length++;
-	return (length);
-}
-
