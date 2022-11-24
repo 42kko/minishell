@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 14:26:51 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/24 20:04:45 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ enum e_oper_type
 	TAND, //&
 	TDAND, //&&
 	TSEMI, //;
-	TOBRACH, // (
-	TCBRACH, // )
+	TBRACH, // ( )
 };
 
 enum e_comma_type
@@ -82,6 +81,8 @@ t_redir_type	ft_is_redir(char c);
 void			check_type(t_token **token);
 void			set_type(t_token **token, char oper, t_oper_type one, t_oper_type two);
 t_oper_type		check_operator(char c);
+void			check_subshells(t_token **token);
+int				have_brachek(char *line);
 
 // cmd
 void			push_index_len_redirection(char *line, int *index);

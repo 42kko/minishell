@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 14:34:51 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/24 20:14:33 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,19 @@
 
 void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
 {
+	(*index)++;
 	if (type == O_BRACHEK)
 		type = C_BRACHEK;
 	while (line[*index] != '\0')
 	{
 		if (ft_is_comma_brachek(line[*index]) == type)
-		{
 			return ;
-		}
 		(*index)++;
 	}
-	exit(0); //아래 사항대로 수정할것
-	// err_msg //해당 콤마를 못찾으면 그대로 syntax에러
+	throw_error(SYNTAX_ERR);
 }
 
-// void	push_index_until_space(char *line, int *index)
-// {
-// 	while (line[*index] != ' ' && line[*index] != '\0')
-// 	{
-// 		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0')
-// 			(*index)++;
-// 		while (ft_is_comma(line[*index]) != NO_COM)
-// 			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
-// 	}
-// }
-
-t_token *ft_tokenstart(t_token *lst)
+t_token	*ft_tokenstart(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -47,7 +34,6 @@ t_token *ft_tokenstart(t_token *lst)
 		lst = lst->prev;
 	return (lst);
 }
-
 
 int	start_is_seperator(char *line)
 {
@@ -124,18 +110,14 @@ void	create_a_token(t_token **token, char **line)
 void init_token(char *line)
 {
 	t_token	*token;
-
-	char *tmp;
+	char	*tmp;
+	t_token	*temp;
 
 	token = 0;
-	int i = 0;
-
 	tmp = line;
 	while (*line)
 		create_a_token(&token, &line);
 	free(tmp);
-
-	t_token *temp;
 	temp = token;
 	while (temp)
 	{

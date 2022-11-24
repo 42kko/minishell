@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   throw_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/18 18:00:06 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 19:21:24 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ void	throw_error(t_error_type type)
 	if (type == PARSE_ERR)
 		error_message_exit("ERROR : PARSE_ERR", type);
 	if (type == SYNTAX_ERR)
+	{
 		ft_putstr_fd("syntax error near unexpected token", 2);
+		exit(1);
+	}
 	// error_message_exit("syntax error near unexpected token", type);
 }

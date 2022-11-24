@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 18:19:52 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/24 20:04:52 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,12 @@ void	devide_redir_cmd(t_token **token)
 
 void	set_type_remove_operator(t_token **token)
 {
-	// if (check_operator((*token)->line[0]) != NO_TYPE)
-	// {
+	if (check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
-	// }
+	else if (have_brachek((*token)->line))
+		check_subshells(token);
+	else
+		printf("all\n");
 	// else
 	// {
 		// set_cmd(token);
