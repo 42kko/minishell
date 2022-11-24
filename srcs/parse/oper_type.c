@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 20:18:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/25 01:21:39 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,21 @@ int	have_brachek(char *line)
 	return (0);
 }
 
+// void	check_type(t_token **token)
+// {
+// 	set_type(token, '|', TPIPE, TOR);
+// 	set_type(token, '&', NO_TYPE, TDAND);
+// 	set_type(token, ';', TSEMI, NO_TYPE);
+// 	if ((*token)->type == NO_TYPE)
+// 		throw_error(SYNTAX_ERR);
+// }
+
 void	check_type(t_token **token)
 {
 	set_type(token, '|', TPIPE, TOR);
 	set_type(token, '&', NO_TYPE, TDAND);
-	set_type(token, ';', TSEMI, NO_TYPE);
+	set_type(token, '<', TIN, TDOC);
+	set_type(token, '>', TOUT, TADDOUT);
 	if ((*token)->type == NO_TYPE)
 		throw_error(SYNTAX_ERR);
 }
@@ -68,9 +78,9 @@ void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
 	line = (*token)->line;
 	if (line[0] == oper)
 	{
-		if (line[1] == 0)
+		if (line[1] == 0 || check_operator(line[1]) == 0)
 			(*token)->type = one;
-		else if (line[1] == oper && line[2] == 0)
+		else if (line[1] == oper && check_operator(line[2]) == 0)
 			(*token)->type = two;
 	}
 }

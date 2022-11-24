@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 20:04:45 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/25 02:21:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,16 +100,19 @@ void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
 t_token 		*ft_tokenstart(t_token *lst);
 
 // test -- 지울것
-void			func(char *s);
-void			ft_tokeniter(t_token *lst, void (*f)(char *));
+void			ft_tokeniter(t_token *lst);
 
 // parse_utility
 void			push_index_until_space(char *line, int *index);
 int				count_space_out_of_comma(char *str);
 char			*ft_strdup_without_check_comma(char *s, int start, int len);
 void			pull_until_same_comma(char *str, int *i, t_comma_type flag);
+int				token_list_len(t_token *token);
 
 // redirection
-void			set_type_remove_operator(t_token **token);
+void			set_type_remove_operator(t_token **token, t_token **first);
+
+// ft_strjoin_space
+char			*ft_strjoin_space(char const *s1, char const *s2);
 
 #endif

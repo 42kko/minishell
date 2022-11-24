@@ -6,19 +6,21 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/24 13:34:07 by kko              ###   ########.fr        #
+#    Updated: 2022/11/25 02:57:01 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
-SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c redirection.c
+SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
+			redirection.c ft_strjoin_space.c
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} ${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}}
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
