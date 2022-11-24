@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 13:41:17 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/24 14:26:51 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ t_token			*ft_tokenlast(t_token *lst);
 // is_type
 t_brachek_type	ft_is_brachek(char c);
 t_comma_type	ft_is_comma(char c);
-t_brachek_type    ft_is_comma_brachek(char c);
+t_brachek_type	ft_is_comma_brachek(char c);
 t_redir_type	ft_is_redir(char c);
 
 // oper_type
@@ -94,7 +94,7 @@ void			init_token(char *line);
 void			create_a_token(t_token **token, char **line);
 int				seperate_token(char *line);
 t_token			*new_token(void);
-int				start_is_seperator(char *line, int *i);
+int				start_is_seperator(char *line);
 void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
 t_token 		*ft_tokenstart(t_token *lst);
 

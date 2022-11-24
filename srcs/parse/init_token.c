@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 13:41:58 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/24 14:34:51 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
 {
 	if (type == O_BRACHEK)
 		type = C_BRACHEK;
-	while (line[*index] != ' ' && line[*index] != '\0')
+	while (line[*index] != '\0')
 	{
 		if (ft_is_comma_brachek(line[*index]) == type)
 		{
-			(*index)++;
 			return ;
 		}
 		(*index)++;
@@ -50,25 +49,14 @@ t_token *ft_tokenstart(t_token *lst)
 }
 
 
-int	start_is_seperator(char *line, int *i)
+int	start_is_seperator(char *line)
 {
 	t_brachek_type	type;
 
-	type = ft_is_comma_brachek(*line);
-	if (type != NO_BRACHEK)
-	{
-		(*i)++;
-		new_push_index_until_space(line, i, type);
-		return (1);
-	}
 	if (*line == '|' || *line == '&' || *line == ';')
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
-		{
-			*i = 2;
-			return (1);
-		}
-		*i = 1;
+			return (2);
 		return (1);
 	}
 	return (0);
@@ -93,20 +81,17 @@ t_token	*new_token(void)
 int	seperate_token(char *line)
 {
 	int	i;
-	int	len;
-	int plag;
 
 	i = 0;
-	if (start_is_seperator(line, &i))
-		return (i);
-	while (*line)
+	if (start_is_seperator(line))
+		return (start_is_seperator(line));
+	while (line[i])
 	{
-		if (ft_is_comma(*line) != NO_COM)
-			push_index_until_space(line, &i);
-		if (*line == '|' || *line == '&')
+		if (ft_is_comma_brachek(line[i]) != NO_BRACHEK)
+			new_push_index_until_space(line, &i, ft_is_comma_brachek(line[i]));
+		else if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 			return (i);
 		i++;
-		line++;
 	}
 	return (i);
 }
@@ -152,10 +137,10 @@ void init_token(char *line)
 
 	t_token *temp;
 	temp = token;
-	// while (temp)
-	// {
-	// 	set_type_remove_operator(&temp);
-	// 	temp = temp->next;
-	// }
+	while (temp)
+	{
+		set_type_remove_operator(&temp);
+		temp = temp->next;
+	}
 	ft_tokeniter(token, func);
 }

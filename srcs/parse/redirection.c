@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 21:44:55 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:19:52 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,19 @@ void	devide_redir_cmd(t_token **token)
 
 void	set_type_remove_operator(t_token **token)
 {
-	if (check_operator((*token)->line[0]) == TPIPE || check_operator((*token)->line[0]) == TAND)
-	{
+	// if (check_operator((*token)->line[0]) != NO_TYPE)
+	// {
 		check_type(token);
-	}
-	else
-	{
-		set_cmd(token);
-		devide_redir_cmd(token);
+	// }
+	// else
+	// {
+		// set_cmd(token);
+		// devide_redir_cmd(token);
 		// int i = 0;
 		// while ((*token)->cmd[i])
 		// {
 		// 	printf("%d : \'%s\'\n", i, (*token)->cmd[i]);
 		// 	i++;
 		// }
-	}
+	// }
 }
