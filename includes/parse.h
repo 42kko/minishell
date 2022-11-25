@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 02:21:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/25 08:26:29 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ enum e_oper_type
 	TDAND, //&&
 	TSEMI, //;
 	TBRACH, // ( )
+	TRDYCMD,
 };
 
 enum e_comma_type
@@ -101,6 +102,7 @@ t_token 		*ft_tokenstart(t_token *lst);
 
 // test -- 지울것
 void			ft_tokeniter(t_token *lst);
+void			viewtree(t_token *tok);
 
 // parse_utility
 void			push_index_until_space(char *line, int *index);
@@ -115,4 +117,12 @@ void			set_type_remove_operator(t_token **token, t_token **first);
 // ft_strjoin_space
 char			*ft_strjoin_space(char const *s1, char const *s2);
 
+// tree
+t_token			*cmd_tree(t_token *tok);
+t_token			*get_tree(t_token *token);
+void			extra_work_tree(t_token *tok);
+t_token			*next_token(t_token *token);
+t_token			*tail_token(t_token *token);
+void			select_oper(t_token *tok, t_oper_type *oper1, \
+t_oper_type *oper2, t_oper_type *oper3);
 #endif
