@@ -6,26 +6,34 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/13 21:05:06 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/25 12:34:58 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    = main.c ft_split_for_env.c env.c throw_error.c utility.c free.c
+SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c
+SRCS_ENV= ft_split_for_env.c env.c free.c
+SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
+			redirection.c ft_strjoin_space.c tree.c
 SOURCE	= srcs/
-OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}}
+SRC_ENV = srcs/env/
+SRC_PAR = srcs/parse/
+OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} ${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}}
 CC		= cc
+# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
 CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
+
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o}
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
+
 
 clean:
 			make clean -C ${LIBFT}/
