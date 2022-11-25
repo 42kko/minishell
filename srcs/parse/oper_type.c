@@ -6,11 +6,51 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 17:53:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:27:37 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	check_subshells(t_token **token)
+{
+	int	i;
+	int	flag;
+
+	i = 0;
+	flag = 0;
+	while ((*token)->line[i])
+	{
+		if ((*token)->line[i] == '(')
+		{
+			(*token)->type = TBRACH;
+			flag = 1;
+			break ;
+		}
+		i++;
+	}
+	i = 0;
+	while ((*token)->line[i] && flag == 1)
+	{
+		if ((*token)->line[i] != '(' && \
+		((*token)->line[i] != ' ' && (*token)->line[i] != 0))
+			throw_error(SYNTAX_ERR);
+		else if ((*token)->line[i] == '(')
+			new_push_index_until_space((*token)->line + i, &i, O_BRACHEK);
+		i++;
+	}
+}
+
+int	have_brachek(char *line)
+{
+	while (*line)
+	{
+		if (*line == '(')
+			return (1);
+		line++;
+	}
+	return (0);
+}
 
 void	check_type(t_token **token)
 {
@@ -52,5 +92,16 @@ t_oper_type	check_operator(char c)
 		return (TOBRACH);
 	else if (c == ')')
 		return(TCBRACH);
+	return (NO_TYPE);
+}
+
+t_oper_type	first_check__operator(char c)
+{
+	if (c == '|')
+		return (TPIPE);
+	else if (c == '&')
+		return (TAND);
+	else if (c == ';')
+		return (TSEMI);
 	return (NO_TYPE);
 }

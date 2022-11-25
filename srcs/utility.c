@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 16:51:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:58:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,4 @@ int	get_sec_arr_len(char **arr)
 		length++;
 	return (length);
 }
+

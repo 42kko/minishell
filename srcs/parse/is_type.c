@@ -3,26 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   is_type.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:32:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/23 16:34:22 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:42:27 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_comma_type    ft_is_comma_brachek(char c) // 괄호도 찾을 수 있게 수정했습니다.
+t_brachek_type    ft_is_comma_brachek(char c) // 괄호도 찾을 수 있게 수정했습니다.
 {
     if (c == '\'')
-        return (ONE_COM);
+        return (ONE_COMM);
     if (c == '\"')
-        return (TWO_COM);
+        return (TWO_COMM);
     if (c == '(')
         return (O_BRACHEK);
     if (c == ')')
         return (C_BRACHEK);
-    return (NO_COM);
+    return (NO_BRACHEK);
 }
 
 t_comma_type	ft_is_comma(char c)
@@ -49,5 +50,5 @@ t_brachek_type	ft_is_brachek(char c)
 		return (O_BRACHEK);
 	if (c == '\"')
 		return (C_BRACHEK);
-	return (NO_COM);
+	return (NO_BRACHEK);
 }

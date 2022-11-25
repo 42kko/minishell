@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 16:12:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:20:13 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,18 @@ void	show_list_type_data(t_token *lst)
 
 void	ft_tokeniter(t_token *lst)
 {
-	if (!lst)
-		return ;
 	while (lst)
 	{
-		func(lst->line);
+		printf("list : %s - %d\n", lst->line, lst->type);
 		lst = lst->next;
 	}
+}
+
+void	viewtree(t_token *tok)
+{
+	if (tok == 0)
+		return ;
+	printf("tree : %s\n", tok->line);
+	viewtree(tok->left);
+	viewtree(tok->right);
 }

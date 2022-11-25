@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 21:27:34 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:26:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,10 +136,10 @@ void	devide_redir_cmd(t_token **token, t_token **first)
 
 void	set_type_remove_operator(t_token **token, t_token **first)
 {
-	if (check_operator((*token)->line[0]) == TPIPE || check_operator((*token)->line[0]) == TAND)
-	{
+	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
-	}
+	else if (have_brachek((*token)->line))
+		check_subshells(token);
 	else if(*token)
 	{
 		set_cmd(token);

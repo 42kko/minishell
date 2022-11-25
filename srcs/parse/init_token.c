@@ -6,39 +6,11 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/24 21:15:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:08:09 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	new_push_index_until_space(char *line, int *index, t_comma_type type)
-{
-	if (type == O_BRACHEK)
-		type = C_BRACHEK;
-	while (line[*index] != ' ' && line[*index] != '\0')
-	{
-		if (ft_is_comma_brachek(line[*index]) == type)
-		{
-			(*index)++;
-			return ;
-		}
-		(*index)++;
-	}
-	exit(0); //아래 사항대로 수정할것
-	// err_msg //해당 콤마를 못찾으면 그대로 syntax에러
-}
-
-// void	push_index_until_space(char *line, int *index)
-// {
-// 	while (line[*index] != ' ' && line[*index] != '\0')
-// 	{
-// 		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0')
-// 			(*index)++;
-// 		while (ft_is_comma(line[*index]) != NO_COM)
-// 			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
-// 	}
-// }
 
 t_token *ft_tokenstart(t_token *lst)
 {
@@ -49,26 +21,28 @@ t_token *ft_tokenstart(t_token *lst)
 	return (lst);
 }
 
-
-int	start_is_seperator(char *line, int *i)
+void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
 {
-	t_comma_type	type;
-
-	type = ft_is_comma(*line);
-	if (type != NO_COM)
+	(*index)++;
+	if (type == O_BRACHEK)
+		type = C_BRACHEK;
+	while (line[*index] != '\0')
 	{
-		(*i)++;
-		new_push_index_until_space(line, i, type);
-		return (1);
+		if (ft_is_comma_brachek(line[*index]) == type)
+			return ;
+		(*index)++;
 	}
+	throw_error(SYNTAX_ERR);
+}
+
+int	start_is_seperator(char *line)
+{
+	t_brachek_type	type;
+
 	if (*line == '|' || *line == '&' || *line == ';')
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
-		{
-			*i = 2;
-			return (1);
-		}
-		*i = 1;
+			return (2);
 		return (1);
 	}
 	return (0);
@@ -86,6 +60,8 @@ t_token	*new_token(void)
 	new->line = NULL;
 	new->next = NULL;
 	new->prev = NULL;
+	new->left = NULL;
+	new->right = NULL;
 	new->comma_type = NO_COM;
 	return (new);
 }
@@ -93,20 +69,17 @@ t_token	*new_token(void)
 int	seperate_token(char *line)
 {
 	int	i;
-	int	len;
-	int plag;
 
 	i = 0;
-	if (start_is_seperator(line, &i))
-		return (i);
-	while (*line)
+	if (start_is_seperator(line))
+		return (start_is_seperator(line));
+	while (line[i])
 	{
-		if (ft_is_comma(*line) != NO_COM)
-			push_index_until_space(line, &i);
-		if (*line == '|' || *line == '&')
+		if (ft_is_comma_brachek(line[i]) != NO_BRACHEK)
+			new_push_index_until_space(line, &i, ft_is_comma_brachek(line[i]));
+		else if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 			return (i);
 		i++;
-		line++;
 	}
 	return (i);
 }
@@ -140,20 +113,15 @@ void init_token(char *line)
 {
 	t_token	*token;
 
-	char *tmp;
+	char	*tmp;
+	t_token	*temp;
 
 	token = 0;
-	int i = 0;
-
 	tmp = line;
 	while (*line)
 		create_a_token(&token, &line);
 	free(tmp);
-	printf("첫 토큰\n");
-	ft_tokeniter(token);
-	printf("-----------\n");
 
-	t_token *temp;
 	temp = token;
 	while (temp)
 	{
@@ -161,7 +129,8 @@ void init_token(char *line)
 		temp = temp->next;
 	}
 
-	printf("---완성 토큰\n");
-	ft_tokeniter(token);
-	printf("-----------\n");
+	// ft_tokeniter(token);
+	token = get_tree(token);
+	// extra_work_tree(token); //괄호처리용, 아직작업중.
+	viewtree(token);
 }
