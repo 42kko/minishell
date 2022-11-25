@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:23:37 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:45:19 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void			set_type(t_token **token, char oper, t_oper_type one, t_oper_type two);
 t_oper_type		check_operator(char c);
 void			check_subshells(t_token **token);
 int				have_brachek(char *line);
-t_oper_type		first_check__operator(char c);
+t_oper_type		first_check_operator(char c);
 
 // cmd
 void			push_index_len_redirection(char *line, int *index);
@@ -124,7 +124,7 @@ t_token			*cmd_tree(t_token *tok);
 t_token			*get_tree(t_token *token);
 void			extra_work_tree(t_token *tok);
 t_token			*next_token(t_token *token);
-t_token			*tail_token(t_token *token);
+t_token			*head_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
 t_oper_type *oper2, t_oper_type *oper3);
 #endif

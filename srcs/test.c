@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:20:13 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:32:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,6 @@ void	printf_line(t_token *lst)
 		printf("line : %s | ", lst->line); // > 
 	else if (s == TSEMI)
 		printf("line : %s | ", lst->line); // ;
-	else if (s == TOBRACH)
-		printf("line : %s | ", lst->line); // (
-	else if (s == TCBRACH)
-		printf("line : %s | ", lst->line); // )
 	else if (s == TADDOUT)
 		printf("line : %s | ", lst->line); // <<
 	else if (s == TDOC)
@@ -70,10 +66,6 @@ void	printf_type(t_oper_type s)
 		printf("type : TOUT | "); // > 
 	else if (s == TSEMI)
 		printf("type : TSEMI | "); // ;
-	else if (s == TOBRACH)
-		printf("type : TOBRACH | "); // (
-	else if (s == TCBRACH)
-		printf("type : TCBRACH | "); // )
 	else if (s == TADDOUT)
 		printf("type : TADDOUT | "); // <<
 	else if (s == TDOC)

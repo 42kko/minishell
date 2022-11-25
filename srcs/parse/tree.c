@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/11/25 08:27:11 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/25 12:50:16 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*cmd_tree(t_token *tok)
 			flag = 1; //flag 1이면 리다이렉션이존재
 		if (tmp->type == TCMD)
 			break ;
-		tmp = tok->next;
+		tmp = tmp->next;
 	}
 	cmd->left = 0;
 	if (flag == 1)
@@ -61,7 +61,7 @@ t_token	*get_tree(t_token *token)
 	{
 		if (tmp->type == oper1 || tmp->type == oper2 || tmp->type == oper3)
 		{
-			tmp->left = get_tree(tail_token(tmp));
+			tmp->left = get_tree(head_token(tmp));
 			tmp->right = get_tree(next_token(tmp));
 			return (tmp);
 		}
@@ -95,7 +95,7 @@ t_token	*next_token(t_token *token)
 	return (token);
 }
 
-t_token	*tail_token(t_token *token)
+t_token	*head_token(t_token *token)
 {
 	token = token->prev;
 	token->next->prev = 0;

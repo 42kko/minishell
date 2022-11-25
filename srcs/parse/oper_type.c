@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:27:37 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:34:39 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,10 @@ t_oper_type	check_operator(char c)
 		return (TOUT);
 	else if (c == ';')
 		return(TSEMI);
-	else if (c == '(')
-		return (TOBRACH);
-	else if (c == ')')
-		return(TCBRACH);
 	return (NO_TYPE);
 }
 
-t_oper_type	first_check__operator(char c)
+t_oper_type	first_check_operator(char c)
 {
 	if (c == '|')
 		return (TPIPE);
