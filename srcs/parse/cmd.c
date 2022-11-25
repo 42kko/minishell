@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 18:35:22 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:58:02 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	push_index_len_redirection(char *line, int *index)
 	t_oper_type	type;
 
 	flag = 0;
-	type = check_operator(line[*index]);
+	type = check_operator(line[*index]); // 어떤 리다이렉션인지 확인
+	(*index)++;
+	if (check_operator(line[*index]) == type) // 더블인지 체크
 		(*index)++;
-	if (check_operator(line[*index]) == type)
-		(*index)++;
-	else if (check_operator(line[*index]) != NO_TYPE)
+	else if (check_operator(line[*index]) != NO_TYPE) // 더블이 아니고 그 이외의 연산자가 오면 에러
 		throw_error(SYNTAX_ERR);
-	while (line[*index] == ' ')
+	while (line[*index] == ' ') // space 스킵 
 		(*index)++;
-	push_index_until_space_or_redir(line, &(*index));
+	push_index_until_space_or_oper(line, &(*index)); // 리다이렉션 파일이름의 끝까지 인덱스를 이동
 }
 
 char	**ft_split_cmd(char *line)
@@ -53,7 +53,7 @@ char	**ft_split_cmd(char *line)
 		}
 		else
 		{
-			push_index_until_space_or_redir(line, &right); 
+			push_index_until_space_or_oper(line, &right); 
 			if (line[right] == ' ' || line[right] == '\0' || ft_is_redir(line[right]) != NO_DIREC)
 			{
 				arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
