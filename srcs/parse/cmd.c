@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:04:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:35:22 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	push_index_len_redirection(char *line, int *index)
 		throw_error(SYNTAX_ERR);
 	while (line[*index] == ' ')
 		(*index)++;
-	push_index_until_space(line, &(*index));
+	push_index_until_space_or_redir(line, &(*index));
 }
 
 char	**ft_split_cmd(char *line)
@@ -53,8 +53,8 @@ char	**ft_split_cmd(char *line)
 		}
 		else
 		{
-			push_index_until_space(line, &right);
-			if (line[right] == ' ' || line[right] == '\0')
+			push_index_until_space_or_redir(line, &right); 
+			if (line[right] == ' ' || line[right] == '\0' || ft_is_redir(line[right]) != NO_DIREC)
 			{
 				arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
 				while (line[right] == ' ')
@@ -63,7 +63,6 @@ char	**ft_split_cmd(char *line)
 			else if (line[right])
 				right++;
 		}
-		
 	}
 	arr[i] = NULL;
 	return (arr);

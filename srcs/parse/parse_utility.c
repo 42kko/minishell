@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:26:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:30:51 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
 	}
 }
 
-void	push_index_until_space(char *line, int *index)
+void	push_index_until_space_or_redir(char *line, int *index)
 {
-	while (line[*index] != ' ' && line[*index] != '\0')
+	while (line[*index] != ' ' && line[*index] != '\0' && ft_is_redir(line[*index]) == NO_DIREC)
 	{
-		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0')
+		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0' && ft_is_redir(line[*index]) == NO_DIREC)
 			(*index)++;
-		while (ft_is_comma(line[*index]) != NO_COM)
+		while (ft_is_comma(line[*index]) != NO_COM && ft_is_redir(line[*index]) == NO_DIREC)
 			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
 	}
 }
