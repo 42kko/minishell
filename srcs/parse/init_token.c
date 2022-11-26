@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:08:09 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:19:28 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	start_is_seperator(char *line)
 	return (0);
 }
 
-t_token	*new_token(void)
+t_token	*new_token(t_info *info)
 {
 	t_token	*new;
 
@@ -63,6 +63,7 @@ t_token	*new_token(void)
 	new->left = NULL;
 	new->right = NULL;
 	new->comma_type = NO_COM;
+	new->info = info;
 	return (new);
 }
 
@@ -84,7 +85,7 @@ int	seperate_token(char *line)
 	return (i);
 }
 
-void	create_a_token(t_token **token, char **line)
+void	create_a_token(t_token **token, char **line, t_info *info)
 {
 	t_token	*tail;
 	t_token	*new;
@@ -95,7 +96,7 @@ void	create_a_token(t_token **token, char **line)
 	tmp = *line;
 	while (**line == ' ' && **line != 0)
 		(*line)++;
-	new = new_token();
+	new = new_token(info);
 	i = seperate_token(*line);
 	new->line = ft_substr(*line, 0,i);
 	(*line) += i;
@@ -109,7 +110,7 @@ void	create_a_token(t_token **token, char **line)
 	}
 }
 
-void init_token(char *line)
+void init_token(char *line, t_info *info)
 {
 	t_token	*token;
 
@@ -119,7 +120,7 @@ void init_token(char *line)
 	token = 0;
 	tmp = line;
 	while (*line)
-		create_a_token(&token, &line);
+		create_a_token(&token, &line, info);
 	free(tmp);
 
 	temp = token;

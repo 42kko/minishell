@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 19:57:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 20:40:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ enum e_oper_type
 	TDAND, //&&
 	TSEMI, //;
 	TBRACH, // ( )
+	O_COM, // '
+	T_COM, // "
 	TRDYCMD,
 };
 
@@ -58,6 +60,14 @@ enum e_redir_type
 	C_DIREC,
 };
 
+typedef struct s_keys
+{
+	char			*key;
+	int				start_idx;
+	struct s_keys	*next;
+}	t_keys;
+
+
 typedef struct s_token
 {
 	t_oper_type			type;
@@ -67,6 +77,7 @@ typedef struct s_token
 	struct s_token		*prev;
 	struct s_token		*right;
 	struct s_token		*left;
+	t_info				*info;
 	t_comma_type		comma_type;
 }	t_token;
 
@@ -88,15 +99,15 @@ t_oper_type		first_check_operator(char c);
 
 // cmd
 void			push_index_len_redirection(char *line, int *index);
-char			**ft_split_cmd(char *line);
+char			**ft_split_cmd(t_token **token, char *line);
 void			set_cmd(t_token **token);
 
 
 // init_token
-void			init_token(char *line);
-void			create_a_token(t_token **token, char **line);
+void			init_token(char *line, t_info *info);
+void			create_a_token(t_token **token, char **line, t_info *info);
 int				seperate_token(char *line);
-t_token			*new_token(void);
+t_token			*new_token(t_info *info);
 int				start_is_seperator(char *line);
 void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
 t_token 		*ft_tokenstart(t_token *lst);
@@ -109,8 +120,7 @@ void			show_list_type_data(t_token *lst);
 // parse_utility
 void			push_index_until_space_or_oper(char *line, int *index);
 int				count_space_out_of_comma(char *str);
-char			*ft_strdup_without_check_comma(char *s, int start, int len);
-void			pull_until_same_comma(char *str, int *i, t_comma_type flag);
+char			*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len);
 int				token_list_len(t_token *token);
 
 // redirection
@@ -126,5 +136,6 @@ void			extra_work_tree(t_token *tok);
 t_token			*next_token(t_token *token);
 t_token			*head_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
-t_oper_type *oper2, t_oper_type *oper3);
+				t_oper_type *oper2, t_oper_type *oper3);
+
 #endif

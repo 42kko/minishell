@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/22 20:57:20 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 15:56:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@
 # include "env.h"
 # include "parse.h"
 
-void	loop(void);
+void	loop(char **envp);
 
 #endif

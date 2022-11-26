@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 20:00:35 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:23:11 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	push_index_len_redirection(char *line, int *index)
 	push_index_until_space_or_oper(line, &(*index)); // 리다이렉션 파일이름의 끝까지 인덱스를 이동
 }
 
-char	**ft_split_cmd(char *line)
+char	**ft_split_cmd(t_token **token, char *line)
 {
 	char	**arr;
 	int		left;
@@ -46,19 +46,19 @@ char	**ft_split_cmd(char *line)
 	while (line[right])
 	{
 		left = right;
-		if (line[right] == '<' || line[right] == '>')
+		if (line[right] == '<' || line[right] == '>') // $가 온 경우를 생각해줘야한다.
 		{
 			push_index_len_redirection(line, &right);
-			arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
+			arr[i++] = ft_strdup_without_check_comma(token, line, left, right - left);
 			while (line[right] == ' ')
 				right++;
 		}
 		else
 		{
-			push_index_until_space_or_oper(line, &right); 
+			push_index_until_space_or_oper(line, &right); // $가 온경우 key를 value로 바꿔줄 수 있어야한다.
 			if (line[right] == ' ' || line[right] == '\0' || ft_is_redir(line[right]) != NO_DIREC)
 			{
-				arr[i++] = ft_strdup_without_check_comma(line, left, right - left);
+				arr[i++] = ft_strdup_without_check_comma(token, line, left, right - left);
 				while (line[right] == ' ')
 					right++;
 			}
@@ -73,5 +73,5 @@ char	**ft_split_cmd(char *line)
 void	set_cmd(t_token **token)
 {
 	(*token)->type = TCMD;
-	(*token)->cmd = ft_split_cmd((*token)->line);
+	(*token)->cmd = ft_split_cmd(token, (*token)->line);
 }
