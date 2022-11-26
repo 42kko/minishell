@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 18:30:51 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/26 01:43:47 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
 	}
 }
 
-void	push_index_until_space_or_redir(char *line, int *index)
+void	push_index_until_space_or_oper(char *line, int *index) // " ' 을 제외 시킨 문자열 인덱스를 이동시켜준다. 
 {
-	while (line[*index] != ' ' && line[*index] != '\0' && ft_is_redir(line[*index]) == NO_DIREC)
+	while (line[*index] != ' ' && line[*index] != '\0' && check_operator(line[*index]) == NO_TYPE)
 	{
-		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0' && ft_is_redir(line[*index]) == NO_DIREC)
+		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0' && ft_icheck_operators_redir(line[*index]) == NO_TYPE)
 			(*index)++;
-		while (ft_is_comma(line[*index]) != NO_COM && ft_is_redir(line[*index]) == NO_DIREC)
+		while (ft_is_comma(line[*index]) != NO_COM)
 			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
 	}
 }
@@ -65,6 +65,36 @@ int	count_space_out_of_comma(char *str) // \", \' 을 스킵하고 ' ' 띄어쓰
 	return (count);
 }
 
+char	*change_s1_to_s2_in_str(char *s1, char*s2, char *str) // s1은 $을 포함한 것이다.
+{
+	char	*changed;
+	int		s1_len;
+	int		s2_len;
+	int		i;
+	int		k;
+	int		j;
+
+	i = 0;
+	k = 0;
+	j = 0;
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	changed = malloc(sizeof(char) * (ft_strlen(str) - s1_len + s2_len + 1));
+	while (str[i] && str[i] != '$')
+		changed[k++] = str[i++];
+	while ()
+	{
+		
+	}
+	i += s1_len;
+	return (changed);
+}
+
+char	*get_env_key(char *line)
+{
+	
+}
+
 char	*ft_strdup_without_check_comma(char *s, int start, int len)
 {
 	char			*str;
@@ -84,12 +114,21 @@ char	*ft_strdup_without_check_comma(char *s, int start, int len)
 		{
 			i++;
 			while (s[i] && ft_is_comma(s[i]) != type && j < len)
+			{
+				if (type == TWO_COM && s[i] == '$')
+				{
+					push_index_until_space_or_oper();
+				}
 				str[j++] = s[i++];
+			}
 			if (s[i])
 				i++;
 		}
 		else
+		{
+			// $가 들어올 경우
 			str[j++] = s[i++];
+		}
 	}
 	str[j] = '\0';
 	return (str);

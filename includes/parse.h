@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 18:00:46 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:57:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void			viewtree(t_token *tok);
 void			show_list_type_data(t_token *lst);
 
 // parse_utility
-void			push_index_until_space_or_redir(char *line, int *index);
+void			push_index_until_space_or_oper(char *line, int *index);
 int				count_space_out_of_comma(char *str);
 char			*ft_strdup_without_check_comma(char *s, int start, int len);
 void			pull_until_same_comma(char *str, int *i, t_comma_type flag);

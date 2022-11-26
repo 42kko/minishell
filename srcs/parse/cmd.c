@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 19:58:02 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/25 20:00:35 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ char	**ft_split_cmd(char *line)
 	int		left;
 	int		right;
 	int		i; 
+	int		check_env;
 
+	check_env = 0;
 	i = 0;
 	arr = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1));
 	if (!arr)
