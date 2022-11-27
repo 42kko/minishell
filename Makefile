@@ -6,7 +6,7 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/26 21:25:51 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/27 19:14:33 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ all:		${NAME}
 			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
-#			make -C ${LIBFT}/ 
+			make -C ${LIBFT}/ 
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
 			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
@@ -42,7 +42,7 @@ clean:
 			rm -f ${OBJS}
 
 fclean:		clean
-#			make fclean -C ${LIBFT}/
+			make fclean -C ${LIBFT}/
 			rm -f ${NAME}
 
 re:			fclean all

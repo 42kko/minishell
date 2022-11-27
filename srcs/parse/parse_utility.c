@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/27 18:23:38 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/27 23:19:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,12 @@ char	*get_env_key(t_token **token, char *line, int start) // " 나올 때까지 
 	finish = start;
 	if (line[finish] == '$')
 	{
-		finish++;
-		while (line[finish] && line[finish] != ' ' && check_operator(line[finish]) != NO_TYPE) // " 안에있는 환경변수인 경우
+		while (line[finish] && line[finish] != ' ' && check_operator(line[finish]) == NO_TYPE) // " 안에있는 환경변수인 경우
 			finish++;
 		key = malloc(sizeof(char) * (finish - start + 1));
 		if (!key)
 			throw_error(MALLOC_ERR);
-		ft_keycpy(key , &line[start], finish - start); // $ 포함된 key가 들어온다.
-		key[finish - start] = '\0';
+		ft_keycpy(key , &line[start], finish - start + 1); // $ 포함된 key가 들어온다.
 		value = ft_getenv((*token)->info->env_list, key + 1);
 		return (value);
 	}
@@ -142,10 +140,10 @@ t_keys *ft_keyslast(t_keys *keys)
 	return (keys);
 }
 
-void	check_env_record(t_token **token, t_keys **keys, int i, int j)
+int	check_env_record(t_token **token, t_keys **keys, int i, int j)
 {
 	t_keys	*keys_last;
-
+	int		key_len;
 	if (*keys == NULL) // " 안에있는 환경변수의 경우에는 oper도 포함시킨다.
 	{
 		(*keys) = ft_calloc(sizeof(t_keys), 1);
@@ -161,6 +159,8 @@ void	check_env_record(t_token **token, t_keys **keys, int i, int j)
 		keys_last->next->key = get_env_key(token, (*token)->line, i);;
 		keys_last->next->start_idx = j;
 	}
+	
+	return (key_len);.
 }
 
 char	*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len) // " 안에 있는 환경변수를 바꿔줄 수  있있어야한다.
@@ -187,7 +187,7 @@ char	*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len
 			while (s[i] && ft_is_comma(s[i]) != type && j < len)
 			{
 				if (type == TWO_COM && s[i] == '$') // comma 타입중에서 " 일때만 환경변수 처리
-					check_env_record(token, &keys, i, j);
+					check_env_record(token, &keys, &i, &j);
 				str[j++] = s[i++];
 			}
 			// if (ft_is_comma(s[i]) != type) // 꼬님이 토큰 쪽에서 이미 처리했다고 함.
