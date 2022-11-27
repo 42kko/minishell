@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 21:36:34 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/27 18:23:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,26 @@ char	*change_s1_to_s2_in_str(char *s1, char*s2, char *str) // s1은 $을 포함�
 	return (changed);
 }
 
+
+int	ft_keycpy(char *dst, char *src, int dstsize)
+{
+	size_t	len;
+	size_t	i;
+
+	i = 0;
+	len = ft_strlen(src);
+	if (dstsize == 0)
+		return (len);
+	while (i < dstsize - 1 && src[i])
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (len);
+}
+
+
 char	*get_env_key(t_token **token, char *line, int start) // " 나올 때까지 or oper나올때까지
 {
 	int		finish;
@@ -105,8 +125,8 @@ char	*get_env_key(t_token **token, char *line, int start) // " 나올 때까지 
 		key = malloc(sizeof(char) * (finish - start + 1));
 		if (!key)
 			throw_error(MALLOC_ERR);
-		key = ft_strlcpy(key , &line[start], (size_t)(finish - start)); // $ 포함된 key가 들어온다.
-		key[finish - start + 1] = '\0';
+		ft_keycpy(key , &line[start], finish - start); // $ 포함된 key가 들어온다.
+		key[finish - start] = '\0';
 		value = ft_getenv((*token)->info->env_list, key + 1);
 		return (value);
 	}
@@ -179,13 +199,16 @@ char	*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len
 		{
 			// $가 들어올 경우
 			if (s[i] == '$') // " 안에있지 않은 환경변수의 경우에는 oper도 포함시킨다.
+			{
+				printf("여기가 돌았겠네\n");
 				check_env_record(token, &keys, i, j);
+			}
 			str[j++] = s[i++];
 		}
 	}
 	str[j] = '\0';
 	t_keys			*keys_tmp;
-
+ 
 	keys_tmp = keys; 
 	while (keys_tmp) // key 확인
 	{
