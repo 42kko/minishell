@@ -3,53 +3,65 @@
 /*                                                        :::      ::::::::   */
 /*   oper_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:34:39 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:24:53 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_subshells(t_token **token)
+int	check_redir(char c)
 {
-	int	i;
-	int	flag;
+	if (c == '<' || c == '>')
+		return (1);
+	return (0);
+}
 
+void	check_subshells(t_token **token, int i)
+{
 	i = 0;
-	flag = 0;
+	(*token)->type = TBRACH;
+	if ((*token)->line[0] != '(')
+		throw_error(SYNTAX_ERR);
+	else if ((*token)->line[0] == '(')
+		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK);
+	i++;
 	while ((*token)->line[i])
 	{
-		if ((*token)->line[i] == '(')
+		if (check_redir((*token)->line[i]))
 		{
-			(*token)->type = TBRACH;
-			flag = 1;
-			break ;
+			while ((*token)->line[i])
+			{
+				if ((*token)->line[i] == '\0')
+					return ;
+				else if ((*token)->line[i] == ' ')
+					break ;
+				i++;
+			}
 		}
-		i++;
-	}
-	i = 0;
-	while ((*token)->line[i] && flag == 1)
-	{
-		if ((*token)->line[i] != '(' && \
-		((*token)->line[i] != ' ' && (*token)->line[i] != 0))
+		if (check_redir((*token)->line[i]) == 0 && \
+		((*token)->line[i] != '\0' && (*token)->line[i] != ' '))
 			throw_error(SYNTAX_ERR);
-		else if ((*token)->line[i] == '(')
-			new_push_index_until_space((*token)->line + i, &i, O_BRACHEK);
 		i++;
 	}
 }
 
 int	have_brachek(char *line)
 {
+	int	cnt;
+
+	cnt = 0;
 	while (*line)
 	{
 		if (*line == '(')
-			return (1);
+			cnt++;
 		line++;
 	}
-	return (0);
+	if (cnt > 1)
+		throw_error(SYNTAX_ERR);
+	return (cnt);
 }
 
 void	check_type(t_token **token)

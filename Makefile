@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/25 12:34:58 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/28 09:34:11 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRC_PAR = srcs/parse/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} ${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}}
 CC		= cc
 # CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -lreadline
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
@@ -28,11 +28,11 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include
 
 
 clean:
