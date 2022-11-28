@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 09:35:27 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/28 18:47:44 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,10 @@ void	viewtree(t_token *tok)
 	if (tok == 0)
 		return ;
 	viewtree(tok->left);
-	printf("tree : %s\n", tok->line);
+	if (tok->left)
+		tok->left->parent = tok;
+	if (tok->right)
+		tok->right->parent = tok;
+	// printf("tree : %s\n", tok->line);
 	viewtree(tok->right);
 }

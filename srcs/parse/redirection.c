@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 11:26:15 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/28 18:45:40 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 {
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
-	else if (have_brachek((*token)->line))
+	else if (have_brachek((*token)->line) != 0)
 		check_subshells(token, 0);
 	else if (*token)
 	{

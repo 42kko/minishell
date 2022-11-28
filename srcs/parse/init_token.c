@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 11:55:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/28 18:46:30 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ t_token	*new_token(void)
 	new->left = NULL;
 	new->right = NULL;
 	new->comma_type = NO_COM;
+	new->parent = NULL;
 	return (new);
 }
 
@@ -122,19 +123,7 @@ void	create_a_token(t_token **token, char **line)
 	}
 }
 
-void	free_token(t_token *tok)
-{
-	if (tok == 0)
-		return ;
-	free_token(tok->left);
-	free_token(tok->right);
-	free(tok->line);
-	tok->line = NULL;
-	free(tok);
-	tok = NULL;
-}
-
-void init_token(char *line)
+t_token	*init_token(char *line)
 {
 	t_token	*token;
 	t_token	*temp;
@@ -151,7 +140,7 @@ void init_token(char *line)
 
 	// ft_tokeniter(token);
 	token = get_tree(ft_tokenlast(token));
-	viewtree(token);
-	// free_token(token); //프리해줄함수.
+	viewtree(token); //parent 연결 및 트리출력.
+	return (token);
 	// extra_work_tree(token); //괄호처리용, 아직작업중.
 }

@@ -6,11 +6,12 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/28 09:34:11 by kko              ###   ########.fr        #
+#    Updated: 2022/11/28 16:11:21 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c
+SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
+			run.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c
