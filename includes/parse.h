@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 16:26:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:57:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,8 @@ typedef struct s_keys
 	char			*value;
 	int				key_len;
 	int				value_len;
-	int				start_idx;
 	struct s_keys	*next;
 }	t_keys;
-
 
 typedef struct s_token
 {
@@ -83,6 +81,16 @@ typedef struct s_token
 	t_info				*info;
 	t_comma_type		comma_type;
 }	t_token;
+
+typedef struct s_parse_tmp
+{
+	t_comma_type	type;
+	int				*i;
+	int				*j;
+	int				len;
+	char			*s;
+	char			*str;
+}	t_parse_tmp;
 
 t_token			*ft_tokenlast(t_token *lst);
 
@@ -116,10 +124,12 @@ void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
 t_token 		*ft_tokenstart(t_token *lst);
 
 // parse_utility
-void			push_index_until_space_or_oper(char *line, int *index);
-int				count_space_out_of_comma(char *str);
 char			*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len);
 int				token_list_len(t_token *token);
+
+// push_inde_about_comma
+int				count_space_out_of_comma(char *str);
+void			push_index_until_space_or_oper(char *line, int *index);
 
 // redirection
 void			set_type_remove_operator(t_token **token, t_token **first);
@@ -136,8 +146,10 @@ t_token			*head_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
 				t_oper_type *oper2, t_oper_type *oper3);
 
-
-
+// check_env
+int				check_env_record(t_token **token, t_keys **keys, int i);
+char			*change_key_to_value(char *cmd, t_keys *keys);
+void			free_keys(t_keys *keys);
 
 
 // test -- 지울것

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/14 15:13:43 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:17:10 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,15 +42,25 @@ void	init_env(t_info *info, char **envp)
 char	*ft_getenv(t_env_list *env_list, char *key)
 {
 	t_env_list	*tmp;
+	char		*fail;
+	char		*value;
 
 	tmp = env_list;
 	while (tmp)
 	{
 		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
-			return (tmp->value);
+		{
+			value = ft_strdup(tmp->value);
+			if (!value)
+				throw_error(MALLOC_ERR);
+			return (value);
+		}
 		tmp = tmp->next;
 	}
-	return (NULL);
+	fail = ft_strdup("");
+	if (!fail)
+		throw_error(MALLOC_ERR);
+	return (fail);
 }
 
 void	print_envs(t_env_list *env_list)

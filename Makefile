@@ -6,14 +6,15 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/27 19:14:33 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/28 17:09:28 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
-			redirection.c ft_strjoin_space.c tree.c
+			redirection.c ft_strjoin_space.c tree.c check_env.c \
+			push_index_about_comma.c  
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
@@ -32,7 +33,7 @@ all:		${NAME}
 			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
-			make -C ${LIBFT}/ 
+#			make -C ${LIBFT}/ 
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
 			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
@@ -42,7 +43,7 @@ clean:
 			rm -f ${OBJS}
 
 fclean:		clean
-			make fclean -C ${LIBFT}/
+#			make fclean -C ${LIBFT}/
 			rm -f ${NAME}
 
 re:			fclean all

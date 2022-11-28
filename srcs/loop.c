@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/26 16:17:26 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:14:16 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	loop(char **envp)
 	while (1)
 	{
 		line = readline("seekko> ");
-		if (line)
+		if (line && line[0] != '\0')
 		{
 			if (strcmp(line, "exit") == 0)
 				return ;
@@ -34,11 +34,6 @@ void	loop(char **envp)
 			init_token(line, info);
 			// free(line);
 			line = 0;
-		}
-		else
-		{
-			printf("exit\n");
-			return ;
 		}
 	}
 }
