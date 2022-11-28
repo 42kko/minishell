@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 20:40:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:26:58 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,9 @@ enum e_redir_type
 typedef struct s_keys
 {
 	char			*key;
+	char			*value;
+	int				key_len;
+	int				value_len;
 	int				start_idx;
 	struct s_keys	*next;
 }	t_keys;
@@ -112,11 +115,6 @@ int				start_is_seperator(char *line);
 void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
 t_token 		*ft_tokenstart(t_token *lst);
 
-// test -- 지울것
-void			ft_tokeniter(t_token *lst);
-void			viewtree(t_token *tok);
-void			show_list_type_data(t_token *lst);
-
 // parse_utility
 void			push_index_until_space_or_oper(char *line, int *index);
 int				count_space_out_of_comma(char *str);
@@ -137,5 +135,16 @@ t_token			*next_token(t_token *token);
 t_token			*head_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
 				t_oper_type *oper2, t_oper_type *oper3);
+
+
+
+
+
+// test -- 지울것
+void			ft_tokeniter(t_token *lst);
+void			viewtree(t_token *tok);
+void			show_list_type_data(t_token *lst);
+void			printf_key(t_keys *keys);
+
 
 #endif

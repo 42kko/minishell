@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:32:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:26:25 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,16 @@ void	viewtree(t_token *tok)
 	printf("tree : %s\n", tok->line);
 	viewtree(tok->left);
 	viewtree(tok->right);
+}
+
+void	printf_key(t_keys *keys)
+{
+	t_keys			*keys_tmp;
+ 
+	keys_tmp = keys; 
+	while (keys_tmp) // key 확인
+	{
+		printf("key = %s , value = %s\n", keys_tmp->key, keys_tmp->value);
+		keys_tmp = keys_tmp->next;
+	}
 }
