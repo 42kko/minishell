@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 10:29:15 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/26 15:56:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,6 @@
 # include "env.h"
 # include "parse.h"
 
-void	loop(void);
+void	loop(char **envp);
 
 #endif

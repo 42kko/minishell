@@ -12,13 +12,14 @@
 
 #include "minishell.h"
 
-void	attach_redir_token(t_token	**redir_token, char *line)
+static void	attach_redir_token(t_token **token, \
+t_token	**redir_token, char *line)
 {
-	t_token *new;
-	t_token *tmp;
+	t_token	*new;
+	t_token	*tmp;
 
 	tmp = *redir_token;
-	new = new_token();
+	new = new_token((*token)->info);
 	new->line = ft_strdup(line);
 	check_type(&new);
 	if (!new->line)
@@ -34,7 +35,7 @@ void	attach_redir_token(t_token	**redir_token, char *line)
 	new->prev = tmp;
 }
 
-t_token	*pick_create_redir_tokens(char **arr)
+static t_token	*pick_create_redir_tokens(t_token **token, char **arr)
 {
 	int		i;
 	t_token	*redir_token;
@@ -44,13 +45,13 @@ t_token	*pick_create_redir_tokens(char **arr)
 	while (arr[i])
 	{
 		if (ft_is_redir(arr[i][0]) != NO_DIREC)
-			attach_redir_token(&redir_token, arr[i]);
+			attach_redir_token(token, &redir_token, arr[i]);
 		i++;
 	}
 	return (redir_token);
 }
 
-char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
+static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 {
 	char	**new_cmd_arr;
 	int		i;
@@ -77,7 +78,7 @@ char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 	return (new_cmd_arr);
 }
 
-char	*update_token_line(t_token **token)
+static char	*update_token_line(t_token **token)
 {
 	int	i;
 	char *new_line;
@@ -97,7 +98,7 @@ char	*update_token_line(t_token **token)
 	return (new_line);
 }
 
-void	sort_token_order(t_token **token, t_token **first, t_token *redir_token)
+static void	sort_token_order(t_token **token, t_token **first, t_token *redir_token)
 {
 	t_token	*redir_last;
 	t_token	*tmp_prev_token;
@@ -120,7 +121,7 @@ void	sort_token_order(t_token **token, t_token **first, t_token *redir_token)
 	}
 }
 
-void	devide_redir_cmd(t_token **token, t_token **first)
+static void	devide_redir_cmd(t_token **token, t_token **first)
 {
 	t_token	*tmp_token;
 	t_token	*redir_token;

@@ -48,7 +48,7 @@ void	initial(void) //초기작업.
 int	main(int ac, char **av, char **envp)
 {
 	initial(); //초기작업. 여기서 환경변수 및 시그널을 컨트롤할듯
-	loop(); //readline 을 받아줄곳.
+	loop(envp); //readline 을 받아줄곳.
 	tcsetattr(STDIN_FILENO, TCSANOW, &old_term);
 	printf("done\n");
 	return (0);

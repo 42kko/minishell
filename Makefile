@@ -14,7 +14,9 @@ SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
 			run.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
-			redirection.c ft_strjoin_space.c tree.c
+			redirection.c ft_strjoin_space.c tree.c check_env.c \
+			push_index_about_comma.c delete_comma_check_env.c \
+			token_list_len.c malloc_utils.c
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
@@ -29,12 +31,13 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
+#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include
-
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
+#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
 
 clean:
 			make clean -C ${LIBFT}/

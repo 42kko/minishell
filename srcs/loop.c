@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 10:14:11 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:05:28 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 #include <string.h>
 
 
-void	loop(void)
+void	loop(char **envp)
 {
 	char	*line;
-	t_token	*tok;
+	t_info	*info;
 
+	info = malloc(sizeof(t_info));
+	if (!info)
+		throw_error(MALLOC_ERR);
+	init_env(info, envp);
 	while (1)
 	{
 		line = readline("seekko> ");
@@ -30,7 +34,7 @@ void	loop(void)
 				return ;
 			}
 			add_history(line);
-			tok = init_token(line);
+			init_token(line, info);
 			free(line);
 			line = 0;
 			// run(tok);

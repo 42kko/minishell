@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 10:15:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:02:52 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *ft_tokenstart(t_token *lst)
+t_token	*ft_tokenstart(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -61,7 +61,7 @@ int	start_is_seperator(char *line)
 	return (0);
 }
 
-t_token	*new_token(void)
+t_token	*new_token(t_info *info)
 {
 	t_token	*new;
 
@@ -77,6 +77,7 @@ t_token	*new_token(void)
 	new->right = NULL;
 	new->comma_type = NO_COM;
 	new->parent = NULL;
+	new->info = info;
 	return (new);
 }
 
@@ -98,7 +99,7 @@ int	seperate_token(char *line)
 	return (i);
 }
 
-void	create_a_token(t_token **token, char **line)
+void	create_a_token(t_token **token, char **line, t_info *info)
 {
 	t_token	*tail;
 	t_token	*new;
@@ -109,7 +110,7 @@ void	create_a_token(t_token **token, char **line)
 	tmp = *line;
 	while (**line == ' ' && **line != 0)
 		(*line)++;
-	new = new_token();
+	new = new_token(info);
 	i = seperate_token(*line);
 	new->line = ft_substr(*line, 0,i);
 	(*line) += i;
@@ -123,14 +124,14 @@ void	create_a_token(t_token **token, char **line)
 	}
 }
 
-t_token	*init_token(char *line)
+void init_token(char *line, t_info *info)
 {
 	t_token	*token;
 	t_token	*temp;
 
 	token = 0;
 	while (*line)
-		create_a_token(&token, &line);
+		create_a_token(&token, &line, info);
 	temp = token;
 	while (temp)
 	{

@@ -27,7 +27,7 @@ t_token	*cmd_tree(t_token *tok)
 	t_token	*tmp;
 	int		flag;
 
-	cmd = new_token();
+	cmd = new_token(tok->info);
 	cmd->type = TRDYCMD;
 	cmd->line = "cmd용 빈파일"; //줄용량때문에 삭제예정
 	tmp = tok;
