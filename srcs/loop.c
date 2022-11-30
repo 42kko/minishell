@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/28 19:53:24 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 10:14:11 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	loop(void)
 			tok = init_token(line);
 			free(line);
 			line = 0;
-			run(tok);
+			// run(tok);
 			// free_tree(tok);
 		}
 		else if(line == 0)

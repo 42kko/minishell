@@ -6,11 +6,21 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/11/28 21:25:01 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 11:53:55 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+typedef struct s_pipe
+{
+	int	cnt;
+	int	*p;
+	int	in;
+	int	out;
+	int	fd_out;
+	int	fd_in;
+}	t_pipe;
 
 void	run_exec(t_token *tok)
 {
@@ -53,63 +63,135 @@ t_token *run_start(t_token *tok)
 부모는 다음꺼를 미리열어줘야함.
 */
 
-void	ft_child(t_token *tok, int i, int *p, int cnt)
+int	open_util(t_oper_type type, char *line)
 {
-	close(p[(i * 2)]);
-	if (tok->left->type != NO_REDIR)
-		ft_redir(tok->left);
-	else if (i != cnt) //마지막이 아닐때만 파이프에쓰고, 마지막은 fd 값 신경안쓰고(위작업에서 작업했음) 그냥 실행
+	int	fd;
+
+	fd = 0;
+	while (*line != ' ')
+		line++;
+	if (type == TOUT)
+		fd = open(line, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	else if (type == TADDOUT)
+		fd = open(line, O_WRONLY | O_APPEND | O_CREAT, 0644);
+	else if (type == TIN) 
+		fd = open(line, O_RDONLY);
+	else if (type == TDOC) //히어독모드 추가예정
+		fd = 0;
+	return (fd);
+}
+
+void	ft_redir(t_token *lst, t_pipe *pip)
+{
+	while (lst)
 	{
-		dup2(p[(i * 2) + 1], 1);
-		close(p[(i * 2) + 1]);
+		if (lst->type == TOUT)
+			pip->fd_out = open_util(TOUT, lst->line + 1);
+		else if (lst->type == TADDOUT)
+			pip->fd_out = open_util(TADDOUT, lst->line + 2);
+		else if (lst->type == TIN)
+			pip->fd_in = open_util(TIN, lst->line + 1);
+		else if (lst->type == TDOC)
+			pip->fd_in = open_util(TDOC, lst->line + 2);
+		lst = lst->next;
 	}
+}
+
+void	io_ctl(t_pipe *pip, int i)
+{
+	close(pip->p[(i * 2)]);
+	if (pip->in != 0)
+		dup2(pip->in, 0);
+	else
+	{
+		if (i > 0)
+			dup2(pip->p[(i - 1) * 2], 0);
+	}
+	if (pip->out != 0)
+		dup2(pip->out, 1);
+	else
+	{
+		if (i < pip->cnt)
+			dup2(pip->p[(i * 2) + 1], 1);
+	}
+}
+
+void	ft_child(t_token *tok, int i, t_pipe *pip)
+{
+	int	tmp;
+
+	tmp = 0;
+	while (i > tmp)
+	{
+		tok = tok->parent;
+		if (i == tmp + 1)
+			tok = tok->left;
+		tmp++;
+	}
+	if (tok->left->type != NO_REDIR)
+		ft_redir(tok->left, pip);
+	io_ctl(pip, i);
 	execve(tok->right->cmd[0], tok->right->cmd, 0);
 	exit(1);
 }
 
+void	ft_parent(int i, t_pipe *pip)
+{
+	if (pip->cnt > i)
+		close(pip->p[(i * 2) + 1]);
+	if (pip->cnt > i + 1)
+		pipe(pip->p + (i * 2));
+	if (i > 1 && pip->cnt + 1 > i)
+		close(pip->p[((i - 2) * 2)]);
+}
+
+void	new_pipe(t_pipe *pip)
+{
+	pip->cnt = 0;
+	pip->in = 0;
+	pip->out = 0;
+	pip->p = 0;
+	pip->fd_in = 0;
+	pip->fd_out = 0;
+}
+
 void	run_pipe(t_token *tok)
 {
-	int cnt = 0;
+	struct s_pipe	pip;
+	int i = 0;
+
+	new_pipe(&pip);
 	while (tok->left)
 	{
 		if (tok->type == TPIPE)
-			cnt++;
+			pip.cnt++;
 		tok = tok->left;
 	}
 	tok = tok->parent;
-	int i = 0;
-	int p[cnt * 2]; // 총 파이프수만큼 정적할당
-	pipe(p); // 처음파이프를 열어줌
-	while (i < cnt + 1)
+	pip.p = (int *)malloc(sizeof(int) * pip.cnt * 2);
+	pipe(pip.p); // 처음파이프를 열어줌
+	while (i < pip.cnt + 1)
 	{
 		pid_t pid = fork();
 		if (pid == 0)
-			ft_child(tok, i, p, cnt);
+			ft_child(tok, i, &pip);
 		else if (pid > 0)
-		{
-			close(p[i * 2 + 1]); //안쓸꺼닫아줌
-			pipe(p + (i * 2)); //cnt 와 i*2 를비교해서 더 열어야한다면 열어줌
-		}
+			ft_parent(i, &pip);
 		i++;
 	}
-
+	close(pip.p[((i - 1) * 2)]);
+	while (i > 0)
+	{
+		waitpid(-1, 0, 0);
+		i--;
+	}
 }
 
 void	run(t_token *tok)
 {
 	if (tok == 0)
 		return ;
-	if (tok->type == TPIPE) // 전위 (위에서부터)
-	{
-		printf("tree : %s\n", tok->line);
-		run_pipe(tok);
-		// run(tok->left);
-		// run(tok->right);
-	}
-	else // 중위 (맨 왼쪽부터)
-	{
-		run(tok->left);
-		printf("tree : %s\n", tok->line);
-		run(tok->right);
-	}
+	run(tok->left);
+	printf("tree : %s\n", tok->line);
+	run(tok->right);
 }
