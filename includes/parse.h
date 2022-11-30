@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 18:57:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/29 21:38:29 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,17 +102,16 @@ t_redir_type	ft_is_redir(char c);
 
 // oper_type
 void			check_type(t_token **token);
-void			set_type(t_token **token, char oper, t_oper_type one, t_oper_type two);
+void			set_type(t_token **token, \
+char oper, t_oper_type one, t_oper_type two);
 t_oper_type		check_operator(char c);
 void			check_subshells(t_token **token);
 int				have_brachek(char *line);
 t_oper_type		first_check_operator(char c);
 
 // cmd
-void			push_index_len_redirection(char *line, int *index);
 char			**ft_split_cmd(t_token **token, char *line);
 void			set_cmd(t_token **token);
-
 
 // init_token
 void			init_token(char *line, t_info *info);
@@ -120,11 +119,13 @@ void			create_a_token(t_token **token, char **line, t_info *info);
 int				seperate_token(char *line);
 t_token			*new_token(t_info *info);
 int				start_is_seperator(char *line);
-void			new_push_index_until_space(char *line, int *index, t_brachek_type type);
-t_token 		*ft_tokenstart(t_token *lst);
+void			new_push_index_until_space(char *line,\
+int *index, t_brachek_type type);
+t_token			*ft_tokenstart(t_token *lst);
 
 // parse_utility
-char			*ft_strdup_without_check_comma(t_token **token, char *s, int start, int len);
+char			*cpy_wout_com(t_token **token, char *s, \
+int start, int len);
 int				token_list_len(t_token *token);
 
 // push_inde_about_comma
@@ -147,16 +148,24 @@ void			select_oper(t_token *tok, t_oper_type *oper1, \
 				t_oper_type *oper2, t_oper_type *oper3);
 
 // check_env
-int				check_env_record(t_token **token, t_keys **keys, int i);
 char			*change_key_to_value(char *cmd, t_keys *keys);
 void			free_keys(t_keys *keys);
 
+// delete_comma_check_env
+void			delete_comma_check_env(t_token **token, \
+t_keys **keys, t_parse_tmp *tmp);
+
+// token_list_len
+int				token_list_len(t_token *token);
+
+// malloc_utils
+char			*malloc_str(int len);
+char			*malloc_changed_str(char *cmd, t_keys *keys);
 
 // test -- 지울것
 void			ft_tokeniter(t_token *lst);
 void			viewtree(t_token *tok);
 void			show_list_type_data(t_token *lst);
 void			printf_key(t_keys *keys);
-
 
 #endif

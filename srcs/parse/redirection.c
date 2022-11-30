@@ -6,16 +6,17 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 16:32:00 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:01:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	attach_redir_token(t_token **token, t_token	**redir_token, char *line)
+static void	attach_redir_token(t_token **token, \
+t_token	**redir_token, char *line)
 {
-	t_token *new;
-	t_token *tmp;
+	t_token	*new;
+	t_token	*tmp;
 
 	tmp = *redir_token;
 	new = new_token((*token)->info);

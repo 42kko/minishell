@@ -6,13 +6,13 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/26 16:19:28 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:00:46 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token *ft_tokenstart(t_token *lst)
+t_token	*ft_tokenstart(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
