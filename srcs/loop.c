@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/28 11:54:42 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:05:28 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	loop(char **envp)
 {
 	char	*line;
 	t_info	*info;
+	// pid_t	execute_pid;
 
 	info = malloc(sizeof(t_info));
 	if (!info)
@@ -34,16 +35,11 @@ void	loop(char **envp)
 				return ;
 			}
 			add_history(line);
-			init_token(line);
+			init_token(line, info);
 			free(line);
 			line = 0;
 		}
-		else
-		{
-			free(line);
-			line = 0;
-			printf("exit\n");
-			return ;
-		}
+		free(line);
+		line = 0;
 	}
 }

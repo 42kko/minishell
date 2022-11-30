@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 13:00:19 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:04:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,7 @@ void	delete_comma_check_env(t_token **token, t_keys **keys,t_parse_tmp *tmp)
 	{
 		(*i)++;
 		while (s[(*i)] && ft_is_comma(s[(*i)]) != tmp->type && (*j) < tmp->len)
-		{
-			if (tmp->type == TWO_COM && s[(*i)] == '$')
 			tmp->str[(*j)++] = s[(*i)++];
-		}
 		if (s[(*i)])
 			(*i)++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 11:55:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:02:52 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,14 @@ void	free_token(t_token *tok)
 	tok = NULL;
 }
 
-void init_token(char *line)
+void init_token(char *line, t_info *info)
 {
 	t_token	*token;
 	t_token	*temp;
 
 	token = 0;
 	while (*line)
-		create_a_token(&token, &line);
+		create_a_token(&token, &line, info);
 	temp = token;
 	while (temp)
 	{
