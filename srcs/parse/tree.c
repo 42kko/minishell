@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/11/26 16:30:22 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:55:28 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,16 @@ t_token	*get_tree(t_token *token)
 	select_oper(token, &oper1, &oper2, &oper3);
 	if (oper1 == 0 && (token->type == TIN || token->type == TOUT || \
 	token->type == TDOC || token->type == TADDOUT || token->type == TCMD))
-		return (cmd_tree(token));
+		return (cmd_tree(ft_tokenstart(token)));
 	while (tmp)
 	{
 		if (tmp->type == oper1 || tmp->type == oper2 || tmp->type == oper3)
 		{
-			tmp->left = get_tree(head_token(tmp));
+			tmp->left = get_tree(prev_token(tmp));
 			tmp->right = get_tree(next_token(tmp));
 			return (tmp);
 		}
-		tmp = tmp->next;
+		tmp = tmp->prev;
 	}
 	return (token);
 }
@@ -74,8 +74,8 @@ void	extra_work_tree(t_token *tok) //괄호처리 작업예정.
 {
 	t_token	*tmp;
 
-	if (tok == 0)
 		return ;
+	if (tok == 0)
 	tmp = tok;
 	while (tmp)
 	{
@@ -95,13 +95,11 @@ t_token	*next_token(t_token *token)
 	return (token);
 }
 
-t_token	*head_token(t_token *token)
+t_token	*prev_token(t_token *token)
 {
 	token = token->prev;
 	token->next->prev = 0;
 	token->next = 0;
-	while (token->prev)
-		token = token->prev;
 	return (token);
 }
 
@@ -120,7 +118,7 @@ void	select_oper(t_token *tok, t_oper_type *oper1, \
 			*oper3 = TSEMI;
 			return ;
 		}
-		tmp = tmp->next;
+		tmp = tmp->prev;
 	}
 	tmp = tok;
 	while (tmp)
@@ -130,15 +128,8 @@ void	select_oper(t_token *tok, t_oper_type *oper1, \
 			*oper1 = TPIPE;
 			return ;
 		}
-		tmp = tmp->next;
+		tmp = tmp->prev;
 	}
 }
 
-// t_token	*ft_tokenstart(t_token *lst) //삭제예정
-// {
-// 	if (!lst)
-// 		return (NULL);
-// 	while (lst->prev)
-// 		lst = lst->prev;
-// 	return (lst);
-// }
+

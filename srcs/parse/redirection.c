@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 13:01:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:26:15 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	t_token	*tmp_token;
 	t_token	*redir_token;
 	char	**new_cmd_arr;
-	
-	redir_token = pick_create_redir_tokens(token, (*token)->cmd);
+
+	redir_token = pick_create_redir_tokens((*token)->cmd);
 	new_cmd_arr = pick_create_only_cmd_arr((*token)->cmd, get_sec_arr_len((*token)->cmd) - token_list_len(redir_token));
 	free_sec_arr((*token)->cmd);
 	(*token)->cmd = new_cmd_arr;
@@ -140,8 +140,8 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
 	else if (have_brachek((*token)->line))
-		check_subshells(token);
-	else if(*token)
+		check_subshells(token, 0);
+	else if (*token)
 	{
 		set_cmd(token);
 		devide_redir_cmd(token, first);

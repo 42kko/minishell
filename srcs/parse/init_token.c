@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 13:00:46 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/28 11:55:32 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,19 @@ t_token	*ft_tokenstart(t_token *lst)
 	while (lst->prev)
 		lst = lst->prev;
 	return (lst);
+}
+
+int	read_redir(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '|' || line[i] == '&' || line[i] == ';')
+		i++;
+	}
+	return (i);
 }
 
 void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
@@ -110,19 +123,26 @@ void	create_a_token(t_token **token, char **line, t_info *info)
 	}
 }
 
-void init_token(char *line, t_info *info)
+void	free_token(t_token *tok)
+{
+	if (tok == 0)
+		return ;
+	free_token(tok->left);
+	free_token(tok->right);
+	free(tok->line);
+	tok->line = NULL;
+	free(tok);
+	tok = NULL;
+}
+
+void init_token(char *line)
 {
 	t_token	*token;
-
-	char	*tmp;
 	t_token	*temp;
 
 	token = 0;
-	tmp = line;
 	while (*line)
-		create_a_token(&token, &line, info);
-	free(tmp);
-
+		create_a_token(&token, &line);
 	temp = token;
 	while (temp)
 	{
@@ -131,7 +151,8 @@ void init_token(char *line, t_info *info)
 	}
 
 	// ft_tokeniter(token);
-	token = get_tree(token);
-	// extra_work_tree(token); //괄호처리용, 아직작업중.
+	token = get_tree(ft_tokenlast(token));
 	viewtree(token);
+	// free_token(token); //프리해줄함수.
+	// extra_work_tree(token); //괄호처리용, 아직작업중.
 }

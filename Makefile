@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/11/29 20:48:18 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/11/28 09:34:11 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} ${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}}
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
-# CFLAGS	= -Wall -Werror -Wextra
+# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -lreadline
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
