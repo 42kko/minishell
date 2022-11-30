@@ -6,19 +6,11 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 17:33:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 21:50:21 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-typedef struct s_pipe
-{
-	int	cnt;
-	int	*p;
-	int	fd_out;
-	int	fd_in;
-}	t_pipe;
 
 void	run_exec(t_token *tok)
 {
@@ -55,11 +47,11 @@ t_token *run_start(t_token *tok)
 // 	}
 // }
 
-/*
-자식은 오직 실행만하고 부모에서 dup2를 할 예정인데 자식과 부모가 동시에 실행되기때문에 안댐.
-+ 부모에서 dup2를 해버리면 나중에 표준입력을 찾아올수잇나? -> 못찾음
-부모는 다음꺼를 미리열어줘야함.
-*/
+// /*
+// 자식은 오직 실행만하고 부모에서 dup2를 할 예정인데 자식과 부모가 동시에 실행되기때문에 안댐.
+// + 부모에서 dup2를 해버리면 나중에 표준입력을 찾아올수잇나? -> 못찾음
+// 부모는 다음꺼를 미리열어줘야함.
+// */
 
 int	open_util(t_oper_type type, char *line)
 {
@@ -123,12 +115,13 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 	{
 		tok = tok->parent;
 		if (i == tmp + 1)
-			tok = tok->left;
+			tok = tok->right;
 		tmp++;
 	}
 	if (tok->left->type != NO_REDIR)
 		ft_redir(tok->left, pip);
 	io_ctl(pip, i);
+	
 	execve(tok->right->cmd[0], tok->right->cmd, 0);
 	exit(1);
 }
@@ -168,6 +161,8 @@ void	run_pipe(t_token *tok)
 	pipe(pip.p); // 처음파이프를 열어줌
 	while (i < pip.cnt + 1)
 	{
+		pip.fd_out = 0;
+		pip.fd_in = 0;
 		pid_t pid = fork();
 		if (pid == 0)
 			ft_child(tok, i, &pip);
@@ -183,11 +178,54 @@ void	run_pipe(t_token *tok)
 	}
 }
 
+// | 
+// pipe() -> fd0 fd1
+//   | | | | |  -> 5개
+  
+// p[cnt_pipe * 2]; //포크전
+// pipe(p); 포크직전
+// p[0]
+// p[1]
+
+// pipe(p + (i*2))
+// p
+// pid = fork();
+// if (왼쪽)
+// {
+// 	fork()
+// }
+// fork()
+// if ()
+// if (pid = 0)
+// 	fork();
+
+// fork();
+// fork();
+
+// void	execute_test()
+// {
+	
+// }
+
 void	run(t_token *tok)
 {
 	if (tok == 0)
 		return ;
-	run(tok->left);
-	printf("tree : %s\n", tok->line);
-	run(tok->right);
+	if (tok->type == TPIPE)
+	{
+		run_pipe(tok);
+		run(tok->left);
+		run(tok->right);
+	}
+	// else if (tok->type == TRDYCMD)
+	// {
+	// 	execve(tok->right->cmd[0], tok->right->cmd, 0);
+	// }
+	else
+	{
+		run(tok->left);
+		run(tok->right);
+	}
 }
+
+// /bin/ls | /bin/ls | /usr/bin/wc

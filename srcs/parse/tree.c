@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/11/28 18:46:10 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 20:53:49 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*redir_null(void)
+t_token	*redir_null(t_info *info)
 {
 	t_token	*tmp;
 
-	tmp = new_token();
+	tmp = new_token(info);
 	tmp->type = NO_REDIR;
 	return (tmp);
 }
@@ -40,7 +40,7 @@ t_token	*cmd_tree(t_token *tok)
 			break ;
 		tmp = tmp->next;
 	}
-	cmd->left = redir_null();
+	cmd->left = redir_null(tok->info);
 	if (flag == 1)
 	{
 		tmp->prev->next = 0;
@@ -99,14 +99,20 @@ void	extra_work_tree(t_token *tok) //괄호처리 작업예정.
 t_token	*next_token(t_token *token)
 {
 	token = token->next;
+	if (!token)
+		throw_error(SYNTAX_ERR);
 	token->prev->next = 0;
 	token->prev = 0;
+	while (token->next)
+		token = token->next;
 	return (token);
 }
 
 t_token	*prev_token(t_token *token)
 {
 	token = token->prev;
+	if (!token)
+		throw_error(SYNTAX_ERR);
 	token->next->prev = 0;
 	token->next = 0;
 	return (token);

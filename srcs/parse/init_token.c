@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 17:02:52 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 21:08:53 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	start_is_seperator(char *line)
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
 			return (2);
+		if (*line == '&')
+			throw_error(SYNTAX_ERR);
 		return (1);
 	}
 	return (0);
@@ -124,7 +126,14 @@ void	create_a_token(t_token **token, char **line, t_info *info)
 	}
 }
 
-void init_token(char *line, t_info *info)
+void	check_syntax()
+{
+	// | || && ; (리다이렉션인데 파일 이름이 없는 애들) 처음에 오면 안되는 애들  
+	// 연산자가 연속으로 오는 애들
+	// & 하나만 들어온경우
+}
+
+t_token	*init_token(char *line, t_info *info)
 {
 	t_token	*token;
 	t_token	*temp;
@@ -139,7 +148,8 @@ void init_token(char *line, t_info *info)
 		temp = temp->next;
 	}
 
-	// ft_tokeniter(token);
+	ft_tokeniter(token);
+	check_syntax(token);
 	token = get_tree(ft_tokenlast(token));
 	viewtree(token); //parent 연결 및 트리출력.
 	return (token);

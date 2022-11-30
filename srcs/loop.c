@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 17:46:17 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 21:10:46 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	loop(char **envp)
 	char	*line;
 	t_info	*info;
 	pid_t	execute_pid;
+	t_token	*tok;
 
 	info = malloc(sizeof(t_info));
 	if (!info)
@@ -40,9 +41,13 @@ void	loop(char **envp)
 				throw_error(FORK_ERR);
 			if (execute_pid == 0)
 			{
-				init_token(line, info);
+				tok = init_token(line, info);
+				run(tok);
+				exit(0);
+				// 잘끝나면 token 동적할당 됐을 거고
+				// 아니면 exit로 에러를 내보냄
 			}
-			waitpid(execute_pid, );
+			waitpid(execute_pid, NULL, 0);
 			free(line);
 			line = 0;
 			// run(tok);

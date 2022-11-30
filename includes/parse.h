@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 17:31:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 20:28:24 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ enum e_redir_type
 	C_DIREC,
 };
 
+typedef struct s_pipe
+{
+	int	cnt;
+	int	*p;
+	int	fd_out;
+	int	fd_in;
+}	t_pipe;
+
 typedef struct s_keys
 {
 	char			*key;
@@ -72,7 +80,6 @@ typedef struct s_keys
 
 typedef struct s_token
 {
-	t_oper_type			type;
 	char				**cmd;
 	char				*line;
 	struct s_token		*next;
@@ -80,7 +87,8 @@ typedef struct s_token
 	struct s_token		*right;
 	struct s_token		*left;
 	struct s_token		*parent;
-	t_info				    *info;
+	t_info				*info;
+	t_oper_type		type;
 	t_comma_type		comma_type;
 }	t_token;
 
@@ -116,7 +124,7 @@ char			**ft_split_cmd(t_token **token, char *line);
 void			set_cmd(t_token **token);
 
 // init_token
-void			init_token(char *line, t_info *info);
+t_token			*init_token(char *line, t_info *info);
 void			create_a_token(t_token **token, char **line, t_info *info);
 int				seperate_token(char *line);
 t_token			*new_token(t_info *info);
@@ -151,7 +159,6 @@ t_oper_type *oper2, t_oper_type *oper3);
 
 // run
 void			run(t_token *tok);
-				t_oper_type *oper2, t_oper_type *oper3);
 
 // check_env
 char			*change_key_to_value(char *cmd, t_keys *keys);
