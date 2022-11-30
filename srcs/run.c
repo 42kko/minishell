@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 11:53:55 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:33:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ typedef struct s_pipe
 {
 	int	cnt;
 	int	*p;
-	int	in;
-	int	out;
 	int	fd_out;
 	int	fd_in;
 }	t_pipe;
@@ -100,15 +98,15 @@ void	ft_redir(t_token *lst, t_pipe *pip)
 void	io_ctl(t_pipe *pip, int i)
 {
 	close(pip->p[(i * 2)]);
-	if (pip->in != 0)
-		dup2(pip->in, 0);
+	if (pip->fd_in != 0)
+		dup2(pip->fd_in, 0);
 	else
 	{
 		if (i > 0)
 			dup2(pip->p[(i - 1) * 2], 0);
 	}
-	if (pip->out != 0)
-		dup2(pip->out, 1);
+	if (pip->fd_out != 0)
+		dup2(pip->fd_out, 1);
 	else
 	{
 		if (i < pip->cnt)
@@ -148,8 +146,6 @@ void	ft_parent(int i, t_pipe *pip)
 void	new_pipe(t_pipe *pip)
 {
 	pip->cnt = 0;
-	pip->in = 0;
-	pip->out = 0;
 	pip->p = 0;
 	pip->fd_in = 0;
 	pip->fd_out = 0;

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 17:05:28 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 17:46:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	loop(char **envp)
 {
 	char	*line;
 	t_info	*info;
+	pid_t	execute_pid;
 
 	info = malloc(sizeof(t_info));
 	if (!info)
@@ -28,13 +29,20 @@ void	loop(char **envp)
 		line = readline("seekko> ");
 		if (line && line[0] != '\0')
 		{
-			if (strcmp(line, "exit") == 0)
+			if (strcmp(line, "exit") == 0) // 고치기
 			{
 				free(line);
 				return ;
 			}
 			add_history(line);
-			init_token(line, info);
+			execute_pid = fork();
+			if (execute_pid == -1)
+				throw_error(FORK_ERR);
+			if (execute_pid == 0)
+			{
+				init_token(line, info);
+			}
+			waitpid(execute_pid, );
 			free(line);
 			line = 0;
 			// run(tok);

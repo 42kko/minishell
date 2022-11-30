@@ -11,6 +11,7 @@
     "bitset": "c",
     "chrono": "c",
     "unordered_map": "c",
-    "ios": "c"
+    "ios": "c",
+    "__locale": "c"
   }
 }

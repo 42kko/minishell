@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   throw_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 10:38:06 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/30 17:39:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	throw_error(t_error_type type)
 {
 	if (type == MALLOC_ERR)
 		error_message_exit("ERROR : MALLOR_ERR", type);
-	if (type == PARSE_ERR)
-		error_message_exit("ERROR : PARSE_ERR", type);
 	if (type == SYNTAX_ERR) //만들었던 토큰화를 전부 할당해제해준다.
-		ft_putstr_fd("syntax error near unexpected token ko\n", 2);
+		error_message_exit("syntax error near unexpected token ko\n", type);
+	if (type == FORK_ERR)
+		error_message_exit("ERROR : FORK_ERR", type);
 	// error_message_exit("syntax error near unexpected token", type);
 }
