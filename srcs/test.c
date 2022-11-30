@@ -116,3 +116,15 @@ void	viewtree(t_token *tok)
 	printf("tree : %s\n", tok->line);
 	viewtree(tok->right);
 }
+
+void	printf_key(t_keys *keys)
+{
+	t_keys			*keys_tmp;
+
+	keys_tmp = keys; 
+	while (keys_tmp) // key 확인
+	{
+		printf("key = %s , value = '%s'\n", keys_tmp->key, keys_tmp->value);
+		keys_tmp = keys_tmp->next;
+	}
+}

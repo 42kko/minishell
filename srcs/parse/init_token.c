@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-t_token *ft_tokenstart(t_token *lst)
+t_token	*ft_tokenstart(t_token *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -61,7 +61,7 @@ int	start_is_seperator(char *line)
 	return (0);
 }
 
-t_token	*new_token(void)
+t_token	*new_token(t_info *info)
 {
 	t_token	*new;
 
@@ -76,6 +76,7 @@ t_token	*new_token(void)
 	new->left = NULL;
 	new->right = NULL;
 	new->comma_type = NO_COM;
+	new->info = info;
 	return (new);
 }
 
@@ -97,7 +98,7 @@ int	seperate_token(char *line)
 	return (i);
 }
 
-void	create_a_token(t_token **token, char **line)
+void	create_a_token(t_token **token, char **line, t_info *info)
 {
 	t_token	*tail;
 	t_token	*new;
@@ -108,7 +109,7 @@ void	create_a_token(t_token **token, char **line)
 	tmp = *line;
 	while (**line == ' ' && **line != 0)
 		(*line)++;
-	new = new_token();
+	new = new_token(info);
 	i = seperate_token(*line);
 	new->line = ft_substr(*line, 0,i);
 	(*line) += i;

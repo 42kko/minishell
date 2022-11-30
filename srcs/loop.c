@@ -14,14 +14,19 @@
 #include <string.h>
 
 
-void	loop(void)
+void	loop(char **envp)
 {
 	char	*line;
+	t_info	*info;
 
+	info = malloc(sizeof(t_info));
+	if (!info)
+		throw_error(MALLOC_ERR);
+	init_env(info, envp);
 	while (1)
 	{
 		line = readline("seekko> ");
-		if (line)
+		if (line && line[0] != '\0')
 		{
 			if (strcmp(line, "exit") == 0)
 			{

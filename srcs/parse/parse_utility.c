@@ -6,104 +6,49 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 12:26:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/11/30 13:01:09 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pull_until_same_comma(char *str, int *i, t_comma_type flag)
+static t_parse_tmp	*init_parse_tmp(int *i, int *j, char *s, char *str)
 {
-	char c;
+	t_parse_tmp		*tmp;
 
-	c = 0;
-	if (flag == ONE_COM)
-		c = '\'';
-	if (flag == TWO_COM)
-		c = '\"';
-	if (str[*i] == c)
-	{
-		(*i)++;
-		while (str[*i] != c && str[*i])
-			(*i)++;
-		if (str[*i] == c)
-			(*i)++;
-	}
+	tmp = calloc(sizeof(t_parse_tmp), 1);
+	if (!tmp)
+		throw_error(MALLOC_ERR);
+	tmp->i = i;
+	tmp->j = j;
+	tmp->str = str;
+	tmp->s = s;
+	return (tmp);
 }
 
-void	push_index_until_space(char *line, int *index)
-{
-	while (line[*index] != ' ' && line[*index] != '\0')
-	{
-		while (ft_is_comma(line[*index]) == NO_COM && line[*index] != ' ' && line[*index] != '\0')
-			(*index)++;
-		while (ft_is_comma(line[*index]) != NO_COM)
-			pull_until_same_comma(line, index, ft_is_comma(line[*index]));
-	}
-}
-
-int	count_space_out_of_comma(char *str) // \", \' 을 스킵하고 ' ' 띄어쓰기를 찾아주는 함수
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 1;
-	while (str[i])
-	{
-		while (ft_is_comma(str[i]) != NO_COM)
-			pull_until_same_comma(str, &i, ft_is_comma(str[i]));
-		if (str[i] == ' ')
-		{
-			count++;
-			while (str[i] == ' ')
-				i++;
-		}
-		else if (str[i])
-			i++;
-	}
-	return (count);
-}
-
-char	*ft_strdup_without_check_comma(char *s, int start, int len)
+char	*cpy_wout_com(t_token **token, char *s, int start, int len) // " 안에 있는 환경변수를 바꿔줄 수  있있어야한다.
 {
 	char			*str;
 	int				i;
 	int				j;
-	t_comma_type	type;
+	t_keys			*keys;
+	t_parse_tmp		*tmp;
 
 	i = start;
 	j = 0;
-	str = malloc(sizeof(char) * len + 1);
-	if (!str)
-		throw_error(MALLOC_ERR);
-	while (s[i] &&  j < len && i < start + len)
+	keys = NULL;
+	str = malloc_str(len);
+	tmp = init_parse_tmp(&i, &j, s, str);
+	tmp->len = len;
+	while (s[i] &&  j < len && i < start + len) // 만약 key를 value로 바꾼다면 str 동적할당을 value에 맞게 해야한다.
 	{
-		type = ft_is_comma(s[i]);
-		if (type)
-		{
-			i++;
-			while (s[i] && ft_is_comma(s[i]) != type && j < len)
-				str[j++] = s[i++];
-			if (s[i])
-				i++;
-		}
-		else
-			str[j++] = s[i++];
+		tmp->type = ft_is_comma(s[i]);
+		delete_comma_check_env(token, &keys, tmp);
 	}
 	str[j] = '\0';
+	str = change_key_to_value(str, keys);
+	free(tmp);
+	if (keys)
+		free_keys(keys);
 	return (str);
-}
-
-int	token_list_len(t_token *token)
-{
-	int	len;
-
-	len = 0;
-	while (token)
-	{
-		len++;
-		token = token->next;
-	}
-	return (len);
 }
