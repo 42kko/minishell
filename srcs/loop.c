@@ -18,7 +18,6 @@ void	loop(char **envp)
 {
 	char	*line;
 	t_info	*info;
-	// pid_t	execute_pid;
 
 	info = malloc(sizeof(t_info));
 	if (!info)
@@ -38,8 +37,19 @@ void	loop(char **envp)
 			init_token(line, info);
 			free(line);
 			line = 0;
+			// run(tok);
+			// free_tree(tok);
 		}
-		free(line);
-		line = 0;
+		else if(line == 0)
+		{
+			free(line);
+			line = 0;
+			return ;
+		}
+		else
+		{
+			free(line);
+			line = 0;
+		}
 	}
 }

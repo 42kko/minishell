@@ -6,11 +6,20 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/11/28 11:55:28 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/28 18:46:10 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_token	*redir_null(void)
+{
+	t_token	*tmp;
+
+	tmp = new_token();
+	tmp->type = NO_REDIR;
+	return (tmp);
+}
 
 t_token	*cmd_tree(t_token *tok)
 {
@@ -31,7 +40,7 @@ t_token	*cmd_tree(t_token *tok)
 			break ;
 		tmp = tmp->next;
 	}
-	cmd->left = 0;
+	cmd->left = redir_null();
 	if (flag == 1)
 	{
 		tmp->prev->next = 0;

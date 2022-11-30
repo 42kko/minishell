@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 11:25:40 by kko              ###   ########.fr       */
+/*   Updated: 2022/11/28 20:38:10 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ enum e_oper_type
 	TADDOUT, //>>
 	TIN, //<
 	TDOC, //<<
+	NO_REDIR, //리다이렉션없음
 	TPIPE, //|
 	TOR, //||
 	TAND, //&
@@ -78,7 +79,8 @@ typedef struct s_token
 	struct s_token		*prev;
 	struct s_token		*right;
 	struct s_token		*left;
-	t_info				*info;
+	struct s_token		*parent;
+	t_info				    *info;
 	t_comma_type		comma_type;
 }	t_token;
 
@@ -145,6 +147,10 @@ void			extra_work_tree(t_token *tok);
 t_token			*next_token(t_token *token);
 t_token			*prev_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
+t_oper_type *oper2, t_oper_type *oper3);
+
+// run
+void			run(t_token *tok);
 				t_oper_type *oper2, t_oper_type *oper3);
 
 // check_env
