@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 18:46:08 by marvin           ###   ########.fr       */
+/*   Updated: 2022/12/01 22:52:25 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,20 +136,100 @@ void	check_syntax()
 
 int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
 {
-	if (ft_strncmp(tok->cmd[0], "echo", 4) == 0)
-		printf("hi\n");
-	return (0);
+	if (tok->type != TCMD)
+		return (-1);
+	if (ft_strncmp(tok->cmd[0], "echo", 5) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "cd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "pwd", 3) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "export", 3) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "unset", 3) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "env", 3) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "exit", 3) == 0)
+		return (1);
+	else
+		return (0);
 }
 
-void	add_path(t_token *tok)
+int	ft_access(const char *pathname, int mode)
+{
+	struct stat buf;
+	int	r;
+	int	w;
+	int	x;
+
+	r = 0;
+	w = 0;
+	x = 0;
+	if(stat(pathname, &buf) < 0)
+		return (-1);
+	if ((buf.st_mode & S_IRUSR) != 0)
+		r = 4;
+	if ((buf.st_mode & S_IWUSR) != 0)
+		w = 2;
+	if ((buf.st_mode & S_IXUSR) != 0)
+		x = 1;
+	if (r == mode || w == mode || x == mode || r + w == mode || r + x == mode \
+	|| w + x == mode || r + w + x == mode || mode == 0)
+		return (0);
+	return (-1);
+}
+
+char	**info_get_path(t_info *info)
+{
+	char	**ret;
+
+	while (info->env_list)
+	{
+		if (ft_strncmp(info->env_list->key, "PATH", 5) == 0)
+			break ;
+		info->env_list = info->env_list->next;
+	}
+	ret = ft_split(info->env_list->value, ':');
+	return (ret);
+}
+
+char	*write_path(char *cmd, t_info *info)
+{
+	int		i;
+	char	**path;
+	char	*tmp;
+	char	*tmp1;
+
+	if (ft_access(cmd, 1) == 0 && ft_strchr(cmd, '/') != 0)
+		return (cmd);
+	path = info_get_path(info);
+	i = 0;
+	tmp1 = ft_strjoin("/", cmd);
+	while (path[i])
+	{
+		tmp = ft_strjoin(path[i], tmp1);
+		if (ft_access(tmp, 1) == 0)
+		{
+			free(cmd);
+			free(tmp1);
+			return (tmp);
+		}
+		free(tmp);
+		tmp = 0;
+		i++;
+	}
+	free(tmp1);
+	return (cmd);
+}
+
+void	add_path(t_token *tok, t_info *info)
 {
 	if (tok == 0)
 		return ;
-	if (identify_built_exec(tok) != 0 && tok->type == TCMD)
-	{
-		return ;
-	}
-	add_path(tok->next);
+	if (identify_built_exec(tok) == 0 && tok->type == TCMD) //패치경로를 적어줘야하는경우
+		tok->cmd[0] = write_path(tok->cmd[0], info);
+	add_path(tok->next, info);
 }
 
 t_token	*init_token(char *line, t_info *info)
@@ -167,12 +247,8 @@ t_token	*init_token(char *line, t_info *info)
 		temp = temp->next;
 	}
 
+	add_path(token, info);
 	ft_tokeniter(token);
-	// add_path(token);
-
-	// identify_built_exec(token);
-	printf("cmd[0]:%s\n", token->cmd[0]);
-	printf("cmd[1]:%s\n", token->cmd[1]);
 	// check_syntax(token);
 	// token = get_tree(ft_tokenlast(token));
 	// viewtree(token); //parent 연결 및 트리출력.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 20:28:57 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 19:25:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*update_token_line(t_token **token)
 	char *tmp;
 
 	i = 1;
-	new_line = (*token)->cmd[0];
+	new_line = ft_strdup((*token)->cmd[0]);
 	if (!new_line)
 		return (NULL);
 	while ((*token)->cmd[i])
