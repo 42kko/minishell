@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 16:04:35 by marvin           ###   ########.fr       */
+/*   Updated: 2022/12/01 18:46:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,25 @@ void	check_syntax()
 	// | || && ; (리다이렉션인데 파일 이름이 없는 애들) 처음에 오면 안되는 애들  
 	// 연산자가 연속으로 오는 애들
 	// & 하나만 들어온경우
+	//토큰생성시 미리 처리해서 없어도 될듯함.
+}
+
+int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
+{
+	if (ft_strncmp(tok->cmd[0], "echo", 4) == 0)
+		printf("hi\n");
+	return (0);
+}
+
+void	add_path(t_token *tok)
+{
+	if (tok == 0)
+		return ;
+	if (identify_built_exec(tok) != 0 && tok->type == TCMD)
+	{
+		return ;
+	}
+	add_path(tok->next);
 }
 
 t_token	*init_token(char *line, t_info *info)
@@ -149,9 +168,14 @@ t_token	*init_token(char *line, t_info *info)
 	}
 
 	ft_tokeniter(token);
+	// add_path(token);
+
+	// identify_built_exec(token);
+	printf("cmd[0]:%s\n", token->cmd[0]);
+	printf("cmd[1]:%s\n", token->cmd[1]);
 	// check_syntax(token);
-	token = get_tree(ft_tokenlast(token));
-	viewtree(token); //parent 연결 및 트리출력.
+	// token = get_tree(ft_tokenlast(token));
+	// viewtree(token); //parent 연결 및 트리출력.
 	return (token);
 	// extra_work_tree(token); //괄호처리용, 아직작업중.
 }
