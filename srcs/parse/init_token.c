@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 21:08:53 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 16:04:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ t_token	*init_token(char *line, t_info *info)
 	}
 
 	ft_tokeniter(token);
-	check_syntax(token);
+	// check_syntax(token);
 	token = get_tree(ft_tokenlast(token));
 	viewtree(token); //parent 연결 및 트리출력.
 	return (token);
