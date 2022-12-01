@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 17:10:10 by marvin           ###   ########.fr       */
+/*   Updated: 2022/12/01 22:55:45 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,15 @@ void	ft_tokeniter(t_token *lst)
 	while (lst)
 	{
 		printf("list : %s - %d\n", lst->line, lst->type);
+		if (lst->type == TCMD)
+		{
+			int i = 0;
+			while(lst->cmd[i])
+			{
+				printf("cmd:%s\n", lst->cmd[i]);
+				i++;
+			}
+		}
 		lst = lst->next;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 22:52:25 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/01 22:54:14 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,7 +227,7 @@ void	add_path(t_token *tok, t_info *info)
 {
 	if (tok == 0)
 		return ;
-	if (identify_built_exec(tok) == 0 && tok->type == TCMD) //패치경로를 적어줘야하는경우
+	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
 		tok->cmd[0] = write_path(tok->cmd[0], info);
 	add_path(tok->next, info);
 }
