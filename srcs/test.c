@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 22:55:45 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 21:21:02 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,17 @@ void	ft_tokeniter(t_token *lst)
 
 void	viewtree(t_token *tok)
 {
+	int	i;
+
+	i = 0;
 	if (tok == 0)
 		return ;
 	viewtree(tok->left);
+	// printf("tree : %s\n", tok->line);
 	if (tok->left)
 		tok->left->parent = tok;
 	if (tok->right)
 		tok->right->parent = tok;
-	// printf("tree : %s\n", tok->line);
 	viewtree(tok->right);
 }
 

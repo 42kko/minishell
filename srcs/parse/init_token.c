@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 22:54:14 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 18:48:01 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ int	read_redir(char *line)
 	return (i);
 }
 
-void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
+void	new_push_index_until_space(char *line, int *index, \
+t_brachek_type type, t_token *tok)
 {
 	(*index)++;
 	if (type == O_BRACHEK)
@@ -45,10 +46,10 @@ void	new_push_index_until_space(char *line, int *index, t_brachek_type type)
 			return ;
 		(*index)++;
 	}
-	throw_error(SYNTAX_ERR);
+	throw_error_syntax(SYNTAX_ERR, tok);
 }
 
-int	start_is_seperator(char *line)
+int	start_is_seperator(char *line, t_token *tok)
 {
 	t_brachek_type	type;
 
@@ -57,7 +58,7 @@ int	start_is_seperator(char *line)
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
 			return (2);
 		if (*line == '&')
-			throw_error(SYNTAX_ERR);
+			throw_error_syntax(SYNTAX_ERR, tok);
 		return (1);
 	}
 	return (0);
@@ -80,20 +81,25 @@ t_token	*new_token(t_info *info)
 	new->comma_type = NO_COM;
 	new->parent = NULL;
 	new->info = info;
+
+	new->err_flag_syn = 0;
+	new->err_flag_notfound = 0;
+	new->token_type = 0;
+
 	return (new);
 }
 
-int	seperate_token(char *line)
+int	seperate_token(char *line, t_token *tok)
 {
 	int	i;
 
 	i = 0;
-	if (start_is_seperator(line))
-		return (start_is_seperator(line));
+	if (start_is_seperator(line, tok)) //에러 판단부
+		return (start_is_seperator(line, tok));
 	while (line[i])
 	{
 		if (ft_is_comma_brachek(line[i]) != NO_BRACHEK)
-			new_push_index_until_space(line, &i, ft_is_comma_brachek(line[i]));
+			new_push_index_until_space(line, &i, ft_is_comma_brachek(line[i]), tok); //에러판단부
 		else if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 			return (i);
 		i++;
@@ -113,7 +119,7 @@ void	create_a_token(t_token **token, char **line, t_info *info)
 	while (**line == ' ' && **line != 0)
 		(*line)++;
 	new = new_token(info);
-	i = seperate_token(*line);
+	i = seperate_token(*line, new);
 	new->line = ft_substr(*line, 0,i);
 	(*line) += i;
 	if (*token == 0)
@@ -124,14 +130,6 @@ void	create_a_token(t_token **token, char **line, t_info *info)
 		new->prev = tail;
 		tail->next = new;
 	}
-}
-
-void	check_syntax()
-{
-	// | || && ; (리다이렉션인데 파일 이름이 없는 애들) 처음에 오면 안되는 애들  
-	// 연산자가 연속으로 오는 애들
-	// & 하나만 들어온경우
-	//토큰생성시 미리 처리해서 없어도 될듯함.
 }
 
 int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
@@ -240,18 +238,15 @@ t_token	*init_token(char *line, t_info *info)
 	token = 0;
 	while (*line)
 		create_a_token(&token, &line, info);
+	if (token->err_flag_syn == 1)
+		return (token);
 	temp = token;
 	while (temp)
 	{
 		set_type_remove_operator(&temp, &token);
 		temp = temp->next;
 	}
-
 	add_path(token, info);
 	ft_tokeniter(token);
-	// check_syntax(token);
-	// token = get_tree(ft_tokenlast(token));
-	// viewtree(token); //parent 연결 및 트리출력.
 	return (token);
-	// extra_work_tree(token); //괄호처리용, 아직작업중.
 }

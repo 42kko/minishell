@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 19:28:09 by marvin           ###   ########.fr       */
+/*   Updated: 2022/12/02 20:41:05 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	push_index_len_redirection(char *line, int *index)
+static void	push_index_len_redirection(char *line, int *index, t_token *tok)
 {
 	int			flag;
 	t_oper_type	type;
@@ -44,7 +44,7 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 	line = (*token)->line;
 	if (line[(*right)] == '<' || line[(*right)] == '>')
 	{
-		push_index_len_redirection(line, &(*right));
+		push_index_len_redirection(line, &(*right), *token);
 		*arr = cpy_wout_com(token, line, (*left), (*right) - (*left));
 		while (line[(*right)] == ' ')
 			(*right)++;

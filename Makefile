@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
+#    By: ko <ko@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/01 15:54:57 by marvin           ###   ########.fr        #
+#    Updated: 2022/12/02 20:59:01 by ko               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
-		run.c
+		run.c run_pipe.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c check_env.c \
@@ -22,7 +22,7 @@ SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} ${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}}
 CC		= clang-12
-# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS	= -Wall -Werror -Wextra -lreadline -fsanitize=address
 CFLAGS	= -Wall -Werror -Wextra -lreadline
 NAME    = minishell
 HEAD	= includes

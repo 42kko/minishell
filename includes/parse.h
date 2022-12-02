@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 20:28:24 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 21:26:29 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,9 @@ typedef struct s_keys
 
 typedef struct s_token
 {
+	int					err_flag_syn;
+	int					err_flag_notfound;
+	int					token_type;
 	char				**cmd;
 	char				*line;
 	struct s_token		*next;
@@ -88,7 +91,7 @@ typedef struct s_token
 	struct s_token		*left;
 	struct s_token		*parent;
 	t_info				*info;
-	t_oper_type		type;
+	t_oper_type			type;
 	t_comma_type		comma_type;
 }	t_token;
 
@@ -116,7 +119,7 @@ void			set_type(t_token **token, \
 char oper, t_oper_type one, t_oper_type two);
 t_oper_type		check_operator(char c);
 void			check_subshells(t_token **token, int i);
-int				have_brachek(char *line);
+int				have_brachek(char *line, t_token *tok);
 t_oper_type		first_check_operator(char c);
 
 // cmd
@@ -126,11 +129,11 @@ void			set_cmd(t_token **token);
 // init_token
 t_token			*init_token(char *line, t_info *info);
 void			create_a_token(t_token **token, char **line, t_info *info);
-int				seperate_token(char *line);
+int				seperate_token(char *line, t_token *tok);
 t_token			*new_token(t_info *info);
-int				start_is_seperator(char *line);
+int				start_is_seperator(char *line, t_token *tok);
 void			new_push_index_until_space(char *line,\
-int *index, t_brachek_type type);
+int *index, t_brachek_type type, t_token *tok);
 t_token			*ft_tokenstart(t_token *lst);
 
 // parse_utility
@@ -158,7 +161,19 @@ void			select_oper(t_token *tok, t_oper_type *oper1, \
 t_oper_type *oper2, t_oper_type *oper3);
 
 // run
-void			run(t_token *tok);
+void	throw_error_syntax(t_error_type type, t_token *tok);
+void			run_shell(t_token *tok);
+int				run(char *line, t_info *info);
+
+// run_pipe
+int	open_util(t_oper_type type, char *line);
+void	ft_redir(t_token *lst, t_pipe *pip);
+void	io_ctl(t_pipe *pip, int i);
+void	ft_child(t_token *tok, int i, t_pipe *pip);
+void	ft_parent(int i, t_pipe *pip);
+void	new_pipe(t_pipe *pip);
+void	run_pipe(t_token *tok);
+
 
 // check_env
 char			*change_key_to_value(char *cmd, t_keys *keys);
