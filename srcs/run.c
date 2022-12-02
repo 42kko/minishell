@@ -3,227 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/01 18:07:45 by marvin           ###   ########.fr       */
+/*   Updated: 2022/12/02 21:24:17 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_exec(t_token *tok)
+void	throw_error_syntax(t_error_type type, t_token *tok)
 {
-	pid_t	pid;
+	t_token	*tmp;
 
-	pid = fork();
-	if (pid == 0)
+	tmp = tok;
+	if (tmp == 0)
+		return ;
+	if (type == SYNTAX_ERR)
 	{
-		execve(tok->right->cmd[0], tok->right->cmd, 0);
-		perror("err: ");
-		exit(1);
-	}
-	else if (pid > 0)
-		wait(0);
-}
-
-t_token *run_start(t_token *tok)
-{
-	while (tok->left)
-		tok = tok->left;
-	return (tok);
-}
-
-// void	run(t_token *tok)
-// {
-// 	tok = run_start(tok);
-// 	while (tok->parent)
-// 	{
-// 		if (tok->parent->type == TRDYCMD)
-// 			run_exec(tok->parent);
-// 		// if (tok->parent->type == TPIPE)
-// 		// 	run_pipe(tok->parent);
-// 		tok = tok->parent;
-// 	}
-// }
-
-// /*
-// 자식은 오직 실행만하고 부모에서 dup2를 할 예정인데 자식과 부모가 동시에 실행되기때문에 안댐.
-// + 부모에서 dup2를 해버리면 나중에 표준입력을 찾아올수잇나? -> 못찾음
-// 부모는 다음꺼를 미리열어줘야함.
-// */
-
-int	open_util(t_oper_type type, char *line)
-{
-	int	fd;
-
-	fd = 0;
-	while (*line != ' ')
-		line++;
-	if (type == TOUT)
-		fd = open(line, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else if (type == TADDOUT)
-		fd = open(line, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (type == TIN) 
-		fd = open(line, O_RDONLY);
-	else if (type == TDOC) //히어독모드 추가예정
-		fd = 0;
-	return (fd);
-}
-
-void	ft_redir(t_token *lst, t_pipe *pip)
-{
-	while (lst)
-	{
-		if (lst->type == TOUT)
-			pip->fd_out = open_util(TOUT, lst->line + 1);
-		else if (lst->type == TADDOUT)
-			pip->fd_out = open_util(TADDOUT, lst->line + 2);
-		else if (lst->type == TIN)
-			pip->fd_in = open_util(TIN, lst->line + 1);
-		else if (lst->type == TDOC)
-			pip->fd_in = open_util(TDOC, lst->line + 2);
-		lst = lst->next;
-	}
-}
-
-void	io_ctl(t_pipe *pip, int i)
-{
-	if (pip->cnt > i)
-	{
-		close(pip->p[(i * 2)]);
-	}
-	if (pip->fd_in != 0)
-	{
-		dup2(pip->fd_in, 0);
-		close(pip->fd_in);
+		while (tmp->prev)
+			tmp = tmp->prev;
+		tmp->err_flag_syn = 1;
 	}
 	else
-	{
-		if (i > 0) 
-		{
-			dup2(pip->p[(i - 1) * 2], 0);
-			close(pip->p[(i - 1) * 2]);
-		}
-	}
-	if (pip->fd_out != 0)
-	{
-		dup2(pip->fd_out, 1);
-		close(pip->fd_out);
-	}
-	else
-	{
-		if (i < pip->cnt)
-		{
-			dup2(pip->p[(i * 2) + 1], 1);
-			close(pip->p[(i * 2) + 1]);
-		}
-	}
+		tmp->err_flag_syn = 1;
 }
 
-void	ft_child(t_token *tok, int i, t_pipe *pip)
-{
-	int	tmp;
-
-	tmp = 0;
-	while (i > tmp)
-	{
-		tok = tok->parent;
-		if (i == tmp + 1)
-			tok = tok->right;
-		tmp++;
-	}
-	if (tok->left->type != NO_REDIR)
-		ft_redir(tok->left, pip);
-	io_ctl(pip, i);
-	
-	execve(tok->right->cmd[0], tok->right->cmd, 0);
-	exit(1);
-}
-
-void	ft_parent(int i, t_pipe *pip)
-{
-	if (pip->cnt > i)
-		close(pip->p[(i * 2) + 1]);
-	if (pip->cnt > i + 1)
-		pipe(pip->p + ((i + 1) * 2));
-	if (i > 1 && pip->cnt + 1 > i)
-		close(pip->p[((i - 2) * 2)]);
-}
-
-void	new_pipe(t_pipe *pip)
-{
-	pip->cnt = 0;
-	pip->p = 0;
-	pip->fd_in = 0;
-	pip->fd_out = 0;
-}
-
-void	run_pipe(t_token *tok)
-{
-	struct s_pipe	pip;
-	int i = 0;
-
-	new_pipe(&pip);
-	while (tok->left)
-	{
-		if (tok->type == TPIPE)
-			pip.cnt++;
-		tok = tok->left;
-	}
-	tok = tok->parent;
-	pip.p = (int *)malloc(sizeof(int) * pip.cnt * 2);
-	pipe(pip.p); // 처음파이프를 열어줌
-	while (i < pip.cnt + 1)
-	{
-		pip.fd_out = 0;
-		pip.fd_in = 0;
-		pid_t pid = fork();
-		if (pid == 0)
-			ft_child(tok, i, &pip);
-		else if (pid > 0)
-			ft_parent(i, &pip);
-		i++;
-	}
-	close(pip.p[((i - 1) * 2)]);
-	while (i > 0)
-	{
-		waitpid(-1, 0, 0);
-		i--;
-	}
-}
-
-// | 
-// pipe() -> fd0 fd1
-//   | | | | |  -> 5개
-  
-// p[cnt_pipe * 2]; //포크전
-// pipe(p); 포크직전
-// p[0]
-// p[1]
-
-// pipe(p + (i*2))
-// p
-// pid = fork();
-// if (왼쪽)
-// {
-// 	fork()
-// }
-// fork()
-// if ()
-// if (pid = 0)
-// 	fork();
-
-// fork();
-// fork();
-
-// void	execute_test()
-// {
-	
-// }
 
 
-void	run(t_token *tok)
+void	run_shell(t_token *tok)
 {
 	if (tok == 0)
 		return ;
@@ -239,8 +47,8 @@ void	run(t_token *tok)
 	// }
 	else
 	{
-		run(tok->left);
-		run(tok->right);
+		run_shell(tok->left);
+		run_shell(tok->right);
 	}
 }
 

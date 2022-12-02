@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
 /*   Updated: 2022/12/01 19:20:01 by seokchoi         ###   ########.fr       */
@@ -139,7 +139,7 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 {
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
-	else if (have_brachek((*token)->line) != 0)
+	else if (have_brachek((*token)->line, *token) != 0)
 		check_subshells(token, 0);
 	else if (*token)
 	{

@@ -24,9 +24,9 @@ void	check_subshells(t_token **token, int i)
 	i = 0;
 	(*token)->type = TBRACH;
 	if ((*token)->line[0] != '(')
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, *token);
 	else if ((*token)->line[0] == '(')
-		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK);
+		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK, *token);
 	i++;
 	while ((*token)->line[i])
 	{
@@ -43,12 +43,12 @@ void	check_subshells(t_token **token, int i)
 		}
 		if (check_redir((*token)->line[i]) == 0 && \
 		((*token)->line[i] != '\0' && (*token)->line[i] != ' '))
-			throw_error(SYNTAX_ERR);
+			throw_error_syntax(SYNTAX_ERR, *token);
 		i++;
 	}
 }
 
-int	have_brachek(char *line)
+int	have_brachek(char *line, t_token *tok)
 {
 	int	cnt;
 
@@ -60,7 +60,7 @@ int	have_brachek(char *line)
 		line++;
 	}
 	if (cnt > 1)
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, tok);
 	return (cnt);
 }
 
@@ -71,7 +71,7 @@ void	check_type(t_token **token)
 	set_type(token, '<', TIN, TDOC);
 	set_type(token, '>', TOUT, TADDOUT);
 	if ((*token)->type == NO_TYPE)
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, *token);
 }
 
 void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)

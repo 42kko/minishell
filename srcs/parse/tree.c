@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 20:53:49 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 21:23:43 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*cmd_tree(t_token *tok)
 
 	cmd = new_token(tok->info);
 	cmd->type = TRDYCMD;
-	cmd->line = "cmd용 빈파일"; //줄용량때문에 삭제예정
+	// cmd->line = "cmd용 빈파일"; //줄용량때문에 삭제예정
 	tmp = tok;
 	flag = 0;
 	while (tmp)
@@ -58,6 +58,8 @@ t_token	*get_tree(t_token *token)
 	t_oper_type	oper2;
 	t_oper_type	oper3;
 
+	if (token == 0)
+		return (0);
 	oper1 = 0;
 	oper2 = 0;
 	oper3 = 0;
@@ -98,9 +100,12 @@ void	extra_work_tree(t_token *tok) //괄호처리 작업예정.
 
 t_token	*next_token(t_token *token)
 {
+	if (token->next == 0)
+	{
+		throw_error_syntax(SYNTAX_ERR_TREE, token);
+		return (NULL);
+	}
 	token = token->next;
-	if (!token)
-		throw_error(SYNTAX_ERR);
 	token->prev->next = 0;
 	token->prev = 0;
 	while (token->next)
@@ -110,9 +115,12 @@ t_token	*next_token(t_token *token)
 
 t_token	*prev_token(t_token *token)
 {
+	if (token->prev == 0)
+	{
+		throw_error_syntax(SYNTAX_ERR_TREE, token);
+		return (NULL);
+	}
 	token = token->prev;
-	if (!token)
-		throw_error(SYNTAX_ERR);
 	token->next->prev = 0;
 	token->next = 0;
 	return (token);

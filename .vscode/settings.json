@@ -13,6 +13,7 @@
     "unordered_map": "c",
     "ios": "c",
     "__locale": "c",
-    "curses.h": "c"
+    "curses.h": "c",
+    "typeinfo": "c"
   }
 }

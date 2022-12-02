@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
-		run.c
+		run.c run_pipe.c
 SRCS_ENV= ft_split_for_env.c env.c free.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c check_env.c \
