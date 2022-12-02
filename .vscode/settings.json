@@ -12,6 +12,8 @@
     "chrono": "c",
     "unordered_map": "c",
     "ios": "c",
-    "__locale": "c"
+    "__locale": "c",
+    "curses.h": "c",
+    "typeinfo": "c"
   }
 }

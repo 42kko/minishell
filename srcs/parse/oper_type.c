@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   oper_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 10:12:49 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/02 17:27:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	check_subshells(t_token **token, int i)
 	i = 0;
 	(*token)->type = TBRACH;
 	if ((*token)->line[0] != '(')
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, *token);
 	else if ((*token)->line[0] == '(')
-		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK);
+		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK, *token);
 	i++;
 	while ((*token)->line[i])
 	{
@@ -43,12 +43,12 @@ void	check_subshells(t_token **token, int i)
 		}
 		if (check_redir((*token)->line[i]) == 0 && \
 		((*token)->line[i] != '\0' && (*token)->line[i] != ' '))
-			throw_error(SYNTAX_ERR);
+			throw_error_syntax(SYNTAX_ERR, *token);
 		i++;
 	}
 }
 
-int	have_brachek(char *line)
+int	have_brachek(char *line, t_token *tok)
 {
 	int	cnt;
 
@@ -60,7 +60,7 @@ int	have_brachek(char *line)
 		line++;
 	}
 	if (cnt > 1)
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, tok);
 	return (cnt);
 }
 
@@ -71,7 +71,7 @@ void	check_type(t_token **token)
 	set_type(token, '<', TIN, TDOC);
 	set_type(token, '>', TOUT, TADDOUT);
 	if ((*token)->type == NO_TYPE)
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, *token);
 }
 
 void	set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
@@ -100,6 +100,25 @@ t_oper_type	check_operator(char c)
 		return (TOUT);
 	else if (c == ';')
 		return(TSEMI);
+	return (NO_TYPE);
+}
+
+t_oper_type	check_operator_for_env(char c)
+{
+	if (c == '|')
+		return(TPIPE);
+	else if (c == '&')
+		return (TAND);
+	else if (c == '<')
+		return (TIN);
+	else if (c == '>')
+		return (TOUT);
+	else if (c == ';')
+		return(TSEMI);
+	else if (c == '\'')
+		return(O_COM);
+	else if (c == '\"')
+		return(T_COM);
 	return (NO_TYPE);
 }
 

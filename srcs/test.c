@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 10:16:20 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/02 03:34:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,32 @@ void	ft_tokeniter(t_token *lst)
 	while (lst)
 	{
 		printf("list : %s - %d\n", lst->line, lst->type);
+		if (lst->type == TCMD)
+		{
+			int i = 0;
+			while(lst->cmd[i])
+			{
+				printf("cmd:%s\n", lst->cmd[i]);
+				i++;
+			}
+		}
 		lst = lst->next;
 	}
 }
 
 void	viewtree(t_token *tok)
 {
+	int	i;
+
+	i = 0;
 	if (tok == 0)
 		return ;
 	viewtree(tok->left);
+	// printf("tree : %s\n", tok->line);
 	if (tok->left)
 		tok->left->parent = tok;
 	if (tok->right)
 		tok->right->parent = tok;
-	printf("tree : %s\n", tok->line);
 	viewtree(tok->right);
 }
 
@@ -128,7 +140,7 @@ void	printf_key(t_keys *keys)
 	keys_tmp = keys; 
 	while (keys_tmp) // key 확인
 	{
-		printf("key = %s , value = '%s'\n", keys_tmp->key, keys_tmp->value);
+		printf("key = %s , value = '%s' , idx = %d\n", keys_tmp->key, keys_tmp->value, keys_tmp->start_idx);
 		keys_tmp = keys_tmp->next;
 	}
 }

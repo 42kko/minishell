@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list.c                                       :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 21:28:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 17:56:58 by ko               ###   ########.fr       */
+/*   Created: 2022/12/02 20:49:37 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/02 20:50:56 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
 
-t_token	*ft_tokenlast(t_token *lst)
-{
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
+void	ft_echo(char **cmd);
+
+#endif

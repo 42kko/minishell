@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 18:45:40 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/01 19:20:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ static char	*update_token_line(t_token **token)
 	char *tmp;
 
 	i = 1;
-	new_line = (*token)->cmd[0];
+	new_line = ft_strdup((*token)->cmd[0]);
 	if (!new_line)
 		return (NULL);
 	while ((*token)->cmd[i])
@@ -127,7 +127,7 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	t_token	*redir_token;
 	char	**new_cmd_arr;
 
-	redir_token = pick_create_redir_tokens((*token)->cmd);
+	redir_token = pick_create_redir_tokens(token, (*token)->cmd);
 	new_cmd_arr = pick_create_only_cmd_arr((*token)->cmd, get_sec_arr_len((*token)->cmd) - token_list_len(redir_token));
 	free_sec_arr((*token)->cmd);
 	(*token)->cmd = new_cmd_arr;
@@ -139,7 +139,7 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 {
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
-	else if (have_brachek((*token)->line) != 0)
+	else if (have_brachek((*token)->line, *token) != 0)
 		check_subshells(token, 0);
 	else if (*token)
 	{
