@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:08:04 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:13:59 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,22 +40,14 @@ char	*cpy_wout_com(t_token **token, char *s, int start, int len) // " 안에 있
 	str = malloc_str(len); //  1. "$HOME" 2. <sfesdf 3. 'seifj$osdjfe'"$LOGNAME" 이놈들의 저장할 동적할당. 
 	tmp = init_parse_tmp(&i, &j, s, str);
 	tmp->len = len; // 끊을 길이가 들어온다.
-	printf("cpy_wout_com %s를 길이 %d만큼 짜를 것이다.", s, tmp->len);;
 	while (s[i] &&  j < len && i < start + len) // 만약 key를 value로 바꾼다면 str 동적할당을 value에 맞게 해야한다.
 	{ // 한 캐릭터씩 저장을 할건데 콤마가 나올경우를 체크하는 것이다
-		// tmp->type = ft_is_comma(s[i]); // 없어도 될듯;
-		printf("here = > i = %d, j = %d\n", *tmp->i, *tmp->j);
 		delete_comma_check_env(token, &keys, tmp); // 길이가 주어지고 그 안에서 따옴표를 제외하고 환경변수를 체크하는 함수
 	}
 	str[j] = '\0';
 	str = change_key_to_value(str, keys);
 	free(tmp);
 	if (keys)
-	{
-		printf_key(keys);
 		free_keys(keys);
-	}
 	return (str);
 }
-
-//  "$HOME" <sfesdf 'seifj$osdjfe'"$LOGNAME"

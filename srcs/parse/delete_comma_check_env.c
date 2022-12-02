@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:09:48 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:12:45 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 	tmp->type = ft_is_comma(s[(*i)]); 
 	if (tmp->type) // 복사를 하는 와중에 따옴표를 발견을 한다면 복사를 한다.
 	{
-		printf("따옴표를 발견했고 쭉 돌면서 저장을 해줄 것이다.\n");
 		(*i)++; // 따옴표로 들어온 거니까 다음 같은 따옴표가 나올때까지 복사를 해준다.
 		while (s[(*i)] && ft_is_comma(s[(*i)]) != tmp->type && (*j) < tmp->len) // 따옴표가 들어온 경우이기 때문에 while문으로 같은 따옴표를 만날때까지 쭉 저장을 해준다.
 		{
@@ -107,7 +106,6 @@ void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 			{
 				check_env_record(token, keys, (*i));
 				ft_keyslast(*keys)->start_idx = *j;
-				printf("%s , j = %d\n", ft_keyslast(*keys)->key, *j);
 			}
 			tmp->str[(*j)++] = s[(*i)++];
 		}
@@ -124,5 +122,3 @@ void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 		tmp->str[(*j)++] = s[(*i)++];
 	}
 }
-
-//  "$HOME" <sfesdf 'seifj$osdjfe'"$LOGNAME"

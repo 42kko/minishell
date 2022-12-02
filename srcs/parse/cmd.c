@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:07:31 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:15:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,10 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 	char	*line;
 // 1. "$HOME" 2. <sfesdf 3. 'seifj$osdjfe'"$LOGNAME" 이렇게 잘라야하는데
 	line = (*token)->line; // 그럼 일단 line을 가져오고 left, right에는 어떤 정보가 있냐. line의 어디서부터 어디까지 끊을지가 적혀있다.
-	printf("cut_cmd가 작동하고 있고 left = %d, right = %d, char = %c\n", *left, *right, line[(*right)]);
 	if (check_is_wave(token, arr, left, right)) // ~가 있으면 체크해준다.
 		return (SECCESS);
 	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우, <sfesdf
 	{
-		printf("cut_cmd가 지금은 %s을 리다렉션 작업중입니다.\n", &line[(*right)]);
 		push_index_len_redirection(line, right); // 리다리렉션의 길이를 구함 right를 변화시켜서 어디까지 리다이렉션인지 알려준다.
 		*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 		while (line[(*right)] == ' ')
@@ -95,11 +93,9 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 	}
 	else // 1. "$HOME" 3.'seifj$osdjfe'"$LOGNAME"
 	{
-		printf("cut_cmd가 지금은 %s을 작업중입니다.\n", &line[(*right)]);
 		if (check_is_start_cmd(line, right)) // 의미있는 문자가 나온경우 즉 ' ' \0 <가 아닌경우
 		{
 			push_index_until_space_or_oper(line, &(*right)); // 어디까지 읽어야할지 right로 측정해준다. 
-			printf("cut_cmd가 명령어를 만났고 자르려고 하고 있습니다.\n");
 			*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 			while (line[(*right)] == ' ')
 				(*right)++;
@@ -118,13 +114,12 @@ char	**ft_split_cmd(t_token **token, char *line) // cmd를 적절히 쪼갠다
 	int		left;
 	int		right;
 	int		i;
-// "$HOME" <sfesdf 'seifj$osdjfe'"$LOGNAME" 가 들어온다고 치면,
+
 	i = 0;
-	cmd = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1)); // 총 몇개로 컷이 되는지 확인 -> 
+	cmd = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1)); // 총 몇개로 컷이 되는지 확인 
 	if (!cmd)
 		throw_error(MALLOC_ERR);
 	right = 0;
-	printf("cmd가 총 몇개로 잘렸냐면 %d\n", count_space_out_of_comma(line));
 	while (line[right])
 	{
 		left = right;
