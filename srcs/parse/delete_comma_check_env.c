@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 17:04:33 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:09:48 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_keys **keys, char *line, int start)
 	if (line[finish] == '$')
 	{
 		while (line[finish] && line[finish] != ' ' && \
-		check_operator(line[finish]) == NO_TYPE)
+		check_operator_for_env(line[finish]) == NO_TYPE)
 			finish++;
 		key = malloc(sizeof(char) * (finish - start + 1));
 		if (!key)
@@ -86,27 +86,43 @@ static void	check_env_record(t_token **token, t_keys **keys, int i)
 	keys_last->value_len = ft_strlen(keys_last->value);
 }
 
-void	delete_comma_check_env(t_token **token, t_keys **keys,t_parse_tmp *tmp)
+void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 {
 	int		*i;
 	int		*j;
 	char	*s;
-
-	i = tmp->i;
-	j = tmp->j;
-	s = tmp->s;
-	if (tmp->type)
+// 밖에 while문에서 하나씩 캐릭터가 들어온다. 그래서 delete_comma_check_env는 따옴표가 오면=
+// 쭉 복사를해주거나 env가 있다면 체크를 해주는 역할을 한다.
+	i = tmp->i; // line의 어디부터 읽어야할지 적혀있다.
+	j = tmp->j; // cmd의 인덱스를 표현. 여기서는 tmp->str 전용 인덱스이다.
+	s = tmp->s; // token의 line이다.
+	tmp->type = ft_is_comma(s[(*i)]); 
+	if (tmp->type) // 복사를 하는 와중에 따옴표를 발견을 한다면 복사를 한다.
 	{
-		(*i)++;
-		while (s[(*i)] && ft_is_comma(s[(*i)]) != tmp->type && (*j) < tmp->len)
+		printf("따옴표를 발견했고 쭉 돌면서 저장을 해줄 것이다.\n");
+		(*i)++; // 따옴표로 들어온 거니까 다음 같은 따옴표가 나올때까지 복사를 해준다.
+		while (s[(*i)] && ft_is_comma(s[(*i)]) != tmp->type && (*j) < tmp->len) // 따옴표가 들어온 경우이기 때문에 while문으로 같은 따옴표를 만날때까지 쭉 저장을 해준다.
+		{
+			if (tmp->type == TWO_COM && s[(*i)] == '$')
+			{
+				check_env_record(token, keys, (*i));
+				ft_keyslast(*keys)->start_idx = *j;
+				printf("%s , j = %d\n", ft_keyslast(*keys)->key, *j);
+			}
 			tmp->str[(*j)++] = s[(*i)++];
+		}
 		if (s[(*i)])
 			(*i)++;
 	}
-	else
+	else // 따옴표가 아니라면 한글자씩 복사를 한다.
 	{
 		if (s[(*i)] == '$')
+		{
 			check_env_record(token, keys, (*i));
+			ft_keyslast(*keys)->start_idx = *j;
+		}
 		tmp->str[(*j)++] = s[(*i)++];
 	}
 }
+
+//  "$HOME" <sfesdf 'seifj$osdjfe'"$LOGNAME"

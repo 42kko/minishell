@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   oper_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 10:12:49 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/02 17:27:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,25 @@ t_oper_type	check_operator(char c)
 		return (TOUT);
 	else if (c == ';')
 		return(TSEMI);
+	return (NO_TYPE);
+}
+
+t_oper_type	check_operator_for_env(char c)
+{
+	if (c == '|')
+		return(TPIPE);
+	else if (c == '&')
+		return (TAND);
+	else if (c == '<')
+		return (TIN);
+	else if (c == '>')
+		return (TOUT);
+	else if (c == ';')
+		return(TSEMI);
+	else if (c == '\'')
+		return(O_COM);
+	else if (c == '\"')
+		return(T_COM);
 	return (NO_TYPE);
 }
 
