@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/02 21:26:45 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 23:31:29 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,8 @@ int	run(char *line, t_info *info)
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
-	run_shell(token);
+	printf("succ\n");
+	// run_shell(token);
 	return (0);
 }
 

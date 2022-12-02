@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 18:48:01 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 23:25:47 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,8 @@ char	*write_path(char *cmd, t_info *info)
 	char	*tmp;
 	char	*tmp1;
 
+	if (cmd[0] == '\0')
+		return (0);
 	if (ft_access(cmd, 1) == 0 && ft_strchr(cmd, '/') != 0)
 		return (cmd);
 	path = info_get_path(info);

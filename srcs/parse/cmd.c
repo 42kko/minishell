@@ -6,13 +6,13 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:41:05 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 23:37:03 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	push_index_len_redirection(char *line, int *index, t_token *tok)
+static void	push_index_len_redirection(char *line, int *index)
 {
 	int			flag;
 	t_oper_type	type;
