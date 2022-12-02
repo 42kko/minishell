@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 17:13:05 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 20:50:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@
 # include "libft.h"
 # include "env.h"
 # include "parse.h"
+# include "builtin.h"
 
 # include <sys/wait.h>
+
+# define SECCESS	1
+# define FAIL		0
 
 void	loop(char **envp);
 

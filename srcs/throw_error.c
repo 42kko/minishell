@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 16:58:17 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 21:28:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void	throw_error(t_error_type type)
 		error_message_exit("syntax error near unexpected token\n", type);
 	if (type == FORK_ERR)
 		error_message_exit("ERROR : FORK_ERR", type);
+	if (type == COMMAND_NOT)
+		error_message_exit("comman not found", type);
 	// error_message_exit("syntax error near unexpected token", type);
 }

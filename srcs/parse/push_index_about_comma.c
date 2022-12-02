@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 17:08:14 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 17:08:50 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 19:13:29 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	count_space_out_of_comma(char *str) // \", \' 을 스킵하고 ' ' 띄어쓰
 {
 	int	i;
 	int	count;
-
+// "$HOME" <sfesdf 'seifj$osdjfe'"$LOGNAME" 가 들어온다고 치면,
 	i = 0;
 	count = 1;
 	while (str[i])

@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 18:42:50 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 21:33:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ enum e_error_type
 	SYNTAX_ERR,
 	SYNTAX_ERR_TREE,
 	FORK_ERR,
+	COMMAND_NOT,
 };
 
 struct s_env_list
