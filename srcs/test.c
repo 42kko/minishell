@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 22:55:45 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/02 03:34:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void	printf_key(t_keys *keys)
 	keys_tmp = keys; 
 	while (keys_tmp) // key 확인
 	{
-		printf("key = %s , value = '%s'\n", keys_tmp->key, keys_tmp->value);
+		printf("key = %s , value = '%s' , idx = %d\n", keys_tmp->key, keys_tmp->value, keys_tmp->start_idx);
 		keys_tmp = keys_tmp->next;
 	}
 }

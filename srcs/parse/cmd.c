@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 02:31:15 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 20:15:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,16 @@ static void	push_index_len_redirection(char *line, int *index)
 	push_index_until_space_or_oper(line, &(*index));
 }
 
-int	check_is_start_cmd(char *line, int *right)
+static int	check_is_start_cmd(char *line, int *right)
 {
-	if (line[(*right)] == ' ' || line[(*right)] == '\0' || \
-	ft_is_redir(line[(*right)]) != NO_DIREC)
+	if (line[(*right)] && line[(*right)] != ' ' && ft_is_redir(line[(*right)]) == NO_DIREC) // 
 		return (1);
+	// if (line[*right] != ' ' && line[*right] != '\0' && \
+	// check_operator(line[*right]) == NO_TYPE)
 	return (0);
 }
 
-char	*ft_strdup_section(char *s, int left, int right)
+static char	*ft_strdup_section(char *s, int left, int right)
 {
 	char	*str;
 	int			i;
@@ -51,7 +52,8 @@ char	*ft_strdup_section(char *s, int left, int right)
 	str[i] = '\0';
 	return (str);
 }
-int	check_is_wave(t_token **token, char **arr, int *left, int *right)
+
+static int	check_is_wave(t_token **token, char **arr, int *left, int *right)
 {
 	char	*line;
 
@@ -77,25 +79,24 @@ int	check_is_wave(t_token **token, char **arr, int *left, int *right)
 static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 {
 	char	*line;
-
-	line = (*token)->line;
-	
-	if (check_is_wave(token, arr, left, right))
+// 1. "$HOME" 2. <sfesdf 3. 'seifj$osdjfe'"$LOGNAME" 이렇게 잘라야하는데
+	line = (*token)->line; // 그럼 일단 line을 가져오고 left, right에는 어떤 정보가 있냐. line의 어디서부터 어디까지 끊을지가 적혀있다.
+	if (check_is_wave(token, arr, left, right)) // ~가 있으면 체크해준다.
 		return (SECCESS);
-	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우,
+	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우, <sfesdf
 	{
-		push_index_len_redirection(line, right); // 리다리렉션의 길이를 구함
+		push_index_len_redirection(line, right); // 리다리렉션의 길이를 구함 right를 변화시켜서 어디까지 리다이렉션인지 알려준다.
 		*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 		while (line[(*right)] == ' ')
 			(*right)++;
 		return (SECCESS);
 	}
-	else
+	else // 1. "$HOME" 3.'seifj$osdjfe'"$LOGNAME"
 	{
-		push_index_until_space_or_oper(line, &(*right));
-		if (check_is_start_cmd(line, right))
+		if (check_is_start_cmd(line, right)) // 의미있는 문자가 나온경우 즉 ' ' \0 <가 아닌경우
 		{
-			*arr = cpy_wout_com(token, line, (*left), (*right) - (*left));
+			push_index_until_space_or_oper(line, &(*right)); // 어디까지 읽어야할지 right로 측정해준다. 
+			*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 			while (line[(*right)] == ' ')
 				(*right)++;
 			return (SECCESS);
@@ -103,6 +104,7 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 		else if (line[(*right)])
 			(*right)++;
 	}
+	// printf("6 left = %d, right = %d\n", *left, *right);
 	return (FAIL);
 }
 
@@ -112,18 +114,18 @@ char	**ft_split_cmd(t_token **token, char *line) // cmd를 적절히 쪼갠다
 	int		left;
 	int		right;
 	int		i;
-	int		check_env;
 
-	check_env = 0;
 	i = 0;
-	cmd = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1));
+	cmd = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1)); // 총 몇개로 컷이 되는지 확인 
 	if (!cmd)
 		throw_error(MALLOC_ERR);
 	right = 0;
 	while (line[right])
 	{
 		left = right;
-		if (cut_cmd(token, &cmd[i], &left, &right))
+		// left = 어디서부터 cmd에 저장을 해야할지 알려준다.
+		// right = 어디까지 읽을지 저장이 되어진다.
+		if (cut_cmd(token, &cmd[i], &left, &right)) // cut_cmd에서 하나씩 자를 것이다. 1. "$HOME" 2. <sfesdf 3. 'seifj$osdjfe'"$LOGNAME"
 			i++;
 	}
 	cmd[i] = NULL;

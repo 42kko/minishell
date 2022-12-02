@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 20:28:24 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 17:28:23 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ typedef struct s_keys
 	char			*value;
 	int				key_len;
 	int				value_len;
+	int				start_idx;
 	struct s_keys	*next;
 }	t_keys;
 
@@ -115,6 +116,7 @@ void			check_type(t_token **token);
 void			set_type(t_token **token, \
 char oper, t_oper_type one, t_oper_type two);
 t_oper_type		check_operator(char c);
+t_oper_type		check_operator_for_env(char c);
 void			check_subshells(t_token **token, int i);
 int				have_brachek(char *line);
 t_oper_type		first_check_operator(char c);
