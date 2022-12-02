@@ -32,6 +32,9 @@
 # include "env.h"
 # include "parse.h"
 
+
+# include <sys/wait.h>
+
 # define SECCESS	1
 # define FAIL		0
 

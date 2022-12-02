@@ -12,21 +12,23 @@
 # include <curses.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
-typedef struct s_pipe
+void	ft_pwd(void)
 {
-	int	cnt;
-	int	*p;
-}	t_pipe;
+	char	*s;
+	s = getcwd(0, 0);
+	printf("%s\n", s);
+}
 
 int main()
 {
-	struct s_pipe	pip;
-
-	pip.p = (int *)malloc(sizeof(int) * pip.cnt * 2);
-	pipe(pip.p);
-	pipe(pip.p + 2);
-	printf("%d\n",pip.p[0]);
-	printf("%d\n",pip.p[2]);
-	return 0;
+	ft_pwd();
+	pid_t pid = fork();
+	if (pid == 0)
+	{
+		chdir("..");
+		exit(1);
+	}
+	ft_pwd();
 }

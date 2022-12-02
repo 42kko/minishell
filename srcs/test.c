@@ -104,6 +104,15 @@ void	ft_tokeniter(t_token *lst)
 	while (lst)
 	{
 		printf("list : %s - %d\n", lst->line, lst->type);
+		if (lst->type == TCMD)
+		{
+			int i = 0;
+			while(lst->cmd[i])
+			{
+				printf("cmd:%s\n", lst->cmd[i]);
+				i++;
+			}
+		}
 		lst = lst->next;
 	}
 }
@@ -117,7 +126,7 @@ void	viewtree(t_token *tok)
 		tok->left->parent = tok;
 	if (tok->right)
 		tok->right->parent = tok;
-	printf("tree : %s\n", tok->line);
+	// printf("tree : %s\n", tok->line);
 	viewtree(tok->right);
 }
 

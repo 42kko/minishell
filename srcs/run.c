@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/11/30 21:50:21 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/01 18:07:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,35 @@ void	ft_redir(t_token *lst, t_pipe *pip)
 
 void	io_ctl(t_pipe *pip, int i)
 {
-	close(pip->p[(i * 2)]);
+	if (pip->cnt > i)
+	{
+		close(pip->p[(i * 2)]);
+	}
 	if (pip->fd_in != 0)
+	{
 		dup2(pip->fd_in, 0);
+		close(pip->fd_in);
+	}
 	else
 	{
-		if (i > 0)
+		if (i > 0) 
+		{
 			dup2(pip->p[(i - 1) * 2], 0);
+			close(pip->p[(i - 1) * 2]);
+		}
 	}
 	if (pip->fd_out != 0)
+	{
 		dup2(pip->fd_out, 1);
+		close(pip->fd_out);
+	}
 	else
 	{
 		if (i < pip->cnt)
+		{
 			dup2(pip->p[(i * 2) + 1], 1);
+			close(pip->p[(i * 2) + 1]);
+		}
 	}
 }
 
@@ -131,7 +146,7 @@ void	ft_parent(int i, t_pipe *pip)
 	if (pip->cnt > i)
 		close(pip->p[(i * 2) + 1]);
 	if (pip->cnt > i + 1)
-		pipe(pip->p + (i * 2));
+		pipe(pip->p + ((i + 1) * 2));
 	if (i > 1 && pip->cnt + 1 > i)
 		close(pip->p[((i - 2) * 2)]);
 }
@@ -207,6 +222,7 @@ void	run_pipe(t_token *tok)
 	
 // }
 
+
 void	run(t_token *tok)
 {
 	if (tok == 0)
@@ -214,8 +230,8 @@ void	run(t_token *tok)
 	if (tok->type == TPIPE)
 	{
 		run_pipe(tok);
-		run(tok->left);
-		run(tok->right);
+		// run(tok->left);
+		// run(tok->right);
 	}
 	// else if (tok->type == TRDYCMD)
 	// {
