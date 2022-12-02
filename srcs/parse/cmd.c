@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:15:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 23:35:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ static int	check_is_start_cmd(char *line, int *right)
 {
 	if (line[(*right)] && line[(*right)] != ' ' && ft_is_redir(line[(*right)]) == NO_DIREC) // 
 		return (1);
-	// if (line[*right] != ' ' && line[*right] != '\0' && \
-	// check_operator(line[*right]) == NO_TYPE)
 	return (0);
 }
 
@@ -104,7 +102,6 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 		else if (line[(*right)])
 			(*right)++;
 	}
-	// printf("6 left = %d, right = %d\n", *left, *right);
 	return (FAIL);
 }
 

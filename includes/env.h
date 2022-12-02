@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/30 17:39:08 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 21:33:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ enum e_error_type
 	MALLOC_ERR,
 	SYNTAX_ERR,
 	FORK_ERR,
+	COMMAND_NOT,
 };
 
 struct s_env_list

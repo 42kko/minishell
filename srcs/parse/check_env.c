@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:55:10 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 03:31:56 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/02 21:42:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*change_key_to_value(char *cmd, t_keys *keys)
 			while (keys->value[j])
 				str[i++] = keys->value[j++];
 			k += keys->key_len;
-			changed_idx = keys->value_len - keys->key_len;
+			changed_idx += keys->value_len - keys->key_len;
 			keys = keys->next;
 		}
 		else
