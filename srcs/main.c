@@ -6,14 +6,16 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/03 23:20:37 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/04 21:32:42 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 struct termios	old_term; // 외부 변수라서 지워야할듯
-struct termios	term;
+struct termios	term; // 외부 변수라서 지워야할듯
+
+int	g_errno; // 여기에 g_errno를 선언하고 minishell.h 에서 extern 을 작성해서 minishell.h를 include하는 모든 파일에서 g.errno를 사용할 수 있게 된다.
 
 void	handler(int signo) //시그널핸들러
 {
@@ -42,7 +44,7 @@ void	initial(void) //초기작업.
 	term.c_cflag &= ~(ICANON | ECHO); // ICANON :
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term); // 이것의 의미는?
 }
 
 int	main(int ac, char **av, char **envp)

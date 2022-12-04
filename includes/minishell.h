@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:50:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/04 17:34:40 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 
 # define SECCESS	1
 # define FAIL		0
+
+extern int	g_errno;
 
 void	loop(char **envp);
 
