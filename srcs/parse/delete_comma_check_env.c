@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 20:12:45 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/03 18:41:32 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,20 @@ static t_keys	*ft_keyslast(t_keys *keys)
 	return (keys);
 }
 
+static char	*case_env_question(t_token **token, t_keys **keys, char *line, int start)
+{
+	char	*key;
+	char	*state;
+
+	if (!key)
+		throw_error(MALLOC_ERR);
+	ft_keycpy(key, &line[start], 3);
+	(*keys)->key = key;
+	state = ft_strdup("0"); // 임시 방편 밑에 꺼로 바꿔야한다.
+	// state = ft_get_prev_pipe_state(~~~~~);
+	return (state); // string 상태의 그것이 와야한다.
+}
+
 static char	*get_env_value_of_key(t_token **token, \
 t_keys **keys, char *line, int start)
 {
@@ -49,6 +63,8 @@ t_keys **keys, char *line, int start)
 	finish = start;
 	if (line[finish] == '$')
 	{
+		if(line[finish + 1] == '?')
+			return (case_env_question(token, keys, line, start));
 		while (line[finish] && line[finish] != ' ' && \
 		check_operator_for_env(line[finish]) == NO_TYPE)
 			finish++;
@@ -63,7 +79,7 @@ t_keys **keys, char *line, int start)
 	return (NULL);
 }
 
-static void	check_env_record(t_token **token, t_keys **keys, int i)
+static void	check_env_record(t_token **token, t_keys **keys, int i, t_parse_tmp *tmp)
 {
 	t_keys	*keys_last;
 	int		key_len;
@@ -84,41 +100,31 @@ static void	check_env_record(t_token **token, t_keys **keys, int i)
 	&keys_last, (*token)->line, i);
 	keys_last->key_len = ft_strlen(keys_last->key);
 	keys_last->value_len = ft_strlen(keys_last->value);
+	keys_last->start_idx = *tmp->j;
 }
 
 void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 {
-	int		*i;
-	int		*j;
 	char	*s;
-// 밖에 while문에서 하나씩 캐릭터가 들어온다. 그래서 delete_comma_check_env는 따옴표가 오면=
-// 쭉 복사를해주거나 env가 있다면 체크를 해주는 역할을 한다.
-	i = tmp->i; // line의 어디부터 읽어야할지 적혀있다.
-	j = tmp->j; // cmd의 인덱스를 표현. 여기서는 tmp->str 전용 인덱스이다.
+
 	s = tmp->s; // token의 line이다.
-	tmp->type = ft_is_comma(s[(*i)]); 
+	tmp->type = ft_is_comma(s[(*tmp->i)]); 
 	if (tmp->type) // 복사를 하는 와중에 따옴표를 발견을 한다면 복사를 한다.
 	{
-		(*i)++; // 따옴표로 들어온 거니까 다음 같은 따옴표가 나올때까지 복사를 해준다.
-		while (s[(*i)] && ft_is_comma(s[(*i)]) != tmp->type && (*j) < tmp->len) // 따옴표가 들어온 경우이기 때문에 while문으로 같은 따옴표를 만날때까지 쭉 저장을 해준다.
+		(*tmp->i)++; // 따옴표로 들어온 거니까 다음 같은 따옴표가 나올때까지 복사를 해준다.
+		while (s[(*tmp->i)] && ft_is_comma(s[(*tmp->i)]) != tmp->type && (*tmp->j) < tmp->len) // 따옴표가 들어온 경우이기 때문에 while문으로 같은 따옴표를 만날때까지 쭉 저장을 해준다.
 		{
-			if (tmp->type == TWO_COM && s[(*i)] == '$')
-			{
-				check_env_record(token, keys, (*i));
-				ft_keyslast(*keys)->start_idx = *j;
-			}
-			tmp->str[(*j)++] = s[(*i)++];
+			if (tmp->type == TWO_COM && s[(*tmp->i)] == '$')
+				check_env_record(token, keys, (*tmp->i), tmp);
+			tmp->str[(*tmp->j)++] = s[(*tmp->i)++];
 		}
-		if (s[(*i)])
-			(*i)++;
+		if (s[(*tmp->i)])
+			(*tmp->i)++;
 	}
 	else // 따옴표가 아니라면 한글자씩 복사를 한다.
 	{
-		if (s[(*i)] == '$')
-		{
-			check_env_record(token, keys, (*i));
-			ft_keyslast(*keys)->start_idx = *j;
-		}
-		tmp->str[(*j)++] = s[(*i)++];
+		if (s[(*tmp->i)] == '$')
+			check_env_record(token, keys, (*tmp->i), tmp);
+		tmp->str[(*tmp->j)++] = s[(*tmp->i)++];
 	}
 }
