@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/02 23:31:29 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/05 18:08:14 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	free_lst(t_token *tok)
 	return (1);
 }
 
-void	free_tree(t_token *tok)
+static void	free_tree(t_token *tok)
 {
 	if (tok == NULL)
 		return ;
@@ -159,7 +159,8 @@ int	run(char *line, t_info *info)
 	if (check_tree(token) == 1)
 		return (1);
 	printf("succ\n");
-	// run_shell(token);
+	run_shell(token);
+	printf("run_shell\n");
 	return (0);
 }
 
@@ -177,7 +178,7 @@ void	loop(char **envp)
 	while (1)
 	{
 		line = readline("seekko> ");
-		if (line == NULL)
+		if (line == NULL) // line 널이면 readline이 오류를 뱉은 건가...
 		{
 			printf("exit\n");
 			exit(-1);
@@ -191,6 +192,7 @@ void	loop(char **envp)
 			continue ;
 		}
 		run(line, info);
+		exec(line, info);
 		free(line);
 		line = NULL;
 	}

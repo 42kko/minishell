@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/04 21:32:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 15:46:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,12 @@ void	initial(void) //초기작업.
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
 	signal(SIGTERM, handler);
-	tcgetattr(STDIN_FILENO, &term);
+	tcgetattr(STDIN_FILENO, &term); // 터미널의 속성으 term에 저장
 	old_term = term;
-	term.c_cflag &= ~(ICANON | ECHO); // ICANON :
+	term.c_cflag &= ~(ICANON | ECHO); // cflag는 control flags인데 
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term); // 이것의 의미는?
+	tcsetattr(STDIN_FILENO, TCSANOW, &term); // 변경된 내용을 터미널에 적용
 }
 
 int	main(int ac, char **av, char **envp)
