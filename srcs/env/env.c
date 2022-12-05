@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 16:41:05 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/06 04:47:50 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	init_env(t_info *info, char **envp)
 		tmp->next = NULL;
 		i++;
 	}
+	ft_putenv(info->env_list, "~", ft_getenv(info->env_list, "HOME"));
 }
 
 char	*ft_getenv(t_env_list *env_list, char *key)
@@ -106,6 +107,11 @@ void	ft_unset(t_env_list **env_list, char *key)
 
 	tmp_a = *env_list;
 	tmp_b = tmp_a;
+	if (ft_strncmp(key, "~", 1) == 0)
+	{
+		printf("unset: `%s': not a valid identifier", ft_getenv(env_list, key));
+		return ;
+	}
 	while (tmp_a)
 	{
 		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key)))
