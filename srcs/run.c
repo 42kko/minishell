@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/02 21:24:17 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/05 21:11:44 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ void	throw_error_syntax(t_error_type type, t_token *tok)
 	else
 		tmp->err_flag_syn = 1;
 }
-
-
 
 void	run_shell(t_token *tok)
 {

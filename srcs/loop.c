@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/05 18:08:14 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 04:27:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,7 +192,6 @@ void	loop(char **envp)
 			continue ;
 		}
 		run(line, info);
-		exec(line, info);
 		free(line);
 		line = NULL;
 	}

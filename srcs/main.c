@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 15:46:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 04:24:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	handler(int signo) //시그널핸들러
 		rl_replace_line("", 1); // 1인 이유는? 
 		rl_redisplay();
 	}
-	else if (signo == SIGQUIT) // cntl + z
+	else if (signo == SIGQUIT) // cntl + ?
+	{
+		printf("SIGQUIT\n");
 		return ;
+	}
 	else if (signo == SIGTERM) // cntl + d
 		printf("exit\n");
 	return ;
