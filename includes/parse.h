@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 17:28:23 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:55:19 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,8 @@ int				start_is_seperator(char *line, t_token *tok);
 void			new_push_index_until_space(char *line,\
 int *index, t_brachek_type type, t_token *tok);
 t_token			*ft_tokenstart(t_token *lst);
+int				identify_built_exec(t_token *tok);
+
 
 // parse_utility
 char			*cpy_wout_com(t_token **token, char *s, \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/28 11:54:51 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/05 21:22:09 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	handler(int signo) //시그널핸들러
 {
 	if (signo == SIGINT)
 	{
+		// printf("ctrl+c");
 		printf("\n");
 		if (rl_on_new_line() == -1)
 			exit(1);
@@ -26,9 +27,15 @@ void	handler(int signo) //시그널핸들러
 		rl_redisplay();
 	}
 	else if (signo == SIGQUIT)
+	{
+		printf("ctrl+/");
 		return ;
+	}
 	else if (signo == SIGTERM)
+	{
+		printf("sig ctrl+d");
 		printf("exit\n");
+	}
 	return ;
 }
 
@@ -40,6 +47,7 @@ void	initial(void) //초기작업.
 	tcgetattr(STDIN_FILENO, &term);
 	old_term = term;
 	term.c_cflag &= ~(ICANON | ECHO);
+	// term.c_lflag &= ~(ECHOCTL);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);

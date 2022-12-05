@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 23:42:48 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 21:46:45 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	start_is_seperator(char *line, t_token *tok)
 {
 	t_brachek_type	type;
 
-	if (*line == '|' || *line == '&' || *line == ';')
+	if (*line == '|' || *line == '&')
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))
 			return (2);
@@ -100,7 +100,7 @@ int	seperate_token(char *line, t_token *tok)
 	{
 		if (ft_is_comma_brachek(line[i]) != NO_BRACHEK)
 			new_push_index_until_space(line, &i, ft_is_comma_brachek(line[i]), tok); //에러판단부
-		else if (line[i] == '|' || line[i] == '&' || line[i] == ';')
+		else if (line[i] == '|' || line[i] == '&')
 			return (i);
 		i++;
 	}
@@ -192,6 +192,11 @@ char	**info_get_path(t_info *info)
 	return (ret);
 }
 
+void	not_found(char *cmd)
+{
+	printf("command nt found: %s\n", cmd);
+}
+
 char	*write_path(char *cmd, t_info *info)
 {
 	int		i;
@@ -220,6 +225,7 @@ char	*write_path(char *cmd, t_info *info)
 		i++;
 	}
 	free(tmp1);
+	not_found(cmd);
 	return (cmd);
 }
 
@@ -249,6 +255,7 @@ t_token	*init_token(char *line, t_info *info)
 		temp = temp->next;
 	}
 	add_path(token, info);
-	ft_tokeniter(token);
+	errno = 0;
+	// ft_tokeniter(token);
 	return (token);
 }
