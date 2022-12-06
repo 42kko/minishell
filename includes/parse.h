@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 22:03:14 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 02:43:20 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,16 @@ enum e_oper_type
 	T_COM, // "
 	TRDYCMD,
 	TNOCMD,
+};
+
+enum e_sigset
+{
+	BASH,
+	CHILD,
+	DOC,
+	DFL,
+	FORK,
+	IGN,
 };
 
 enum e_comma_type
@@ -233,5 +243,8 @@ void	open_redir(t_token *tok);
 
 //path
 void	add_path(t_token *tok, t_info *info);
+
+//signal
+void	set_signal(int num);
 
 #endif

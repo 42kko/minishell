@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 21:21:12 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 01:06:35 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ void	add_path(t_token *tok, t_info *info)
 {
 	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
 		tok->cmd[0] = write_path(tok->cmd[0], info);
+	errno = 0;
 }
 
 t_token	*init_token(char *line, t_info *info)

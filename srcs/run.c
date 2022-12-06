@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/06 21:21:31 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 03:31:58 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,21 @@ void	exec(t_token *tok)
 	pid_t	pid;
 	int		stat;
 
-	
 	pid = fork();
 	if (pid == 0)
 	{
+		set_signal(DFL);
 		errno = 0;
 		if (tok->left->type != NO_REDIR)
 			io_ctl_cmd(tok->left);
-		execve(tok->right->cmd[0], tok->right->cmd, 0);
+		if (tok->right->type == TNOCMD)
+			exit (0);
+		add_path(tok->right, tok->info);
+		execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 		exit(errno);
 	}
 	else if (pid > 0)
-		waitpid(-1, &stat, 0);
+		wait(&stat);
 	if (WIFEXITED(stat))
 	{
 		tok->exit_num = WEXITSTATUS(stat);
@@ -67,19 +70,21 @@ void	exec(t_token *tok)
 	else if (WIFSIGNALED(stat))
 	{
 		tok->exit_num = WTERMSIG(stat);
+		
 	}
 }
 
 void	run_exec(t_token *tok)
 {
-	add_path(tok->right, tok->info);
 	if (identify_built_exec(tok->right) == 1) //빌트인
 	{
-		// bulitin();
+		// ft_bulitin(tok);
 	}
 	else if (identify_built_exec(tok->right) == 0) //exec
 	{
+		set_signal(IGN);
 		exec(tok);
+		set_signal(BASH);
 	}
 }
 
@@ -89,7 +94,9 @@ void	run_shell(t_token *tok)
 		return ;
 	if (tok->type == TPIPE)
 	{
+		set_signal(FORK);
 		run_pipe(tok);
+		set_signal(BASH);
 	}
 	else
 	{
