@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 02:33:03 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 03:36:44 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ void	loop(char **envp, t_info *info)
 {
 	char	*line;
 
-	atexit(leak);
 	info = malloc(sizeof(t_info));
 	if (!info)
 		throw_error(MALLOC_ERR);
