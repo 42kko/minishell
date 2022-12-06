@@ -100,6 +100,7 @@ int	run(char *line, t_info *info)
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token));
+	ft_tokeniter(token);
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
@@ -114,6 +115,10 @@ void	loop(char **envp, t_info *info)
 {
 	char	*line;
 
+	atexit(leak);
+	info = malloc(sizeof(t_info));
+	if (!info)
+		throw_error(MALLOC_ERR);
 	init_env(info, envp);
 	while (1)
 	{
