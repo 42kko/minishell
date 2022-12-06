@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 03:34:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 04:24:48 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,17 @@ void	printf_key(t_keys *keys)
 	{
 		printf("key = %s , value = '%s' , idx = %d\n", keys_tmp->key, keys_tmp->value, keys_tmp->start_idx);
 		keys_tmp = keys_tmp->next;
+	}
+}
+
+void	printf_env(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+	{
+		printf("%s\n", arr[i]);
+		i++;
 	}
 }

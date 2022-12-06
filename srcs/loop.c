@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/05 21:45:42 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/06 04:27:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	free_lst(t_token *tok)
 	return (1);
 }
 
-void	free_tree(t_token *tok)
+static void	free_tree(t_token *tok)
 {
 	if (tok == NULL)
 		return ;
@@ -178,7 +178,7 @@ void	loop(char **envp)
 	while (1)
 	{
 		line = readline("seekko> ");
-		if (line == NULL)
+		if (line == NULL) // line 널이면 readline이 오류를 뱉은 건가...
 		{
 			printf("ctrl+d\n");
 			exit(1);

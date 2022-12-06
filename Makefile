@@ -6,13 +6,13 @@
 #    By: ko <ko@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/05 17:29:14 by ko               ###   ########.fr        #
+#    Updated: 2022/12/06 03:41:38 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
 		run.c run_pipe.c
-SRCS_ENV= ft_split_for_env.c env.c free.c
+SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c check_env.c \
 			push_index_about_comma.c delete_comma_check_env.c \
@@ -22,11 +22,13 @@ SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
 SRC_BULT= srcs/builtin/
+SRC_EXE= srcs/exec/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} \
-			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}}
-CC		= clang-12
-# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
-CFLAGS	= -Wall -Werror -Wextra -lreadline
+			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}} \
+			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}}
+CC		= cc
+CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS	= -Wall -Werror -Wextra -lreadline
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft

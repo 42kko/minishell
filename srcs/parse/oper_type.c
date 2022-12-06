@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 17:27:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/05 19:40:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ t_oper_type	check_operator(char c)
 		return (TIN);
 	else if (c == '>')
 		return (TOUT);
-	else if (c == ';')
-		return(TSEMI);
 	return (NO_TYPE);
 }
 
@@ -113,8 +111,6 @@ t_oper_type	check_operator_for_env(char c)
 		return (TIN);
 	else if (c == '>')
 		return (TOUT);
-	else if (c == ';')
-		return(TSEMI);
 	else if (c == '\'')
 		return(O_COM);
 	else if (c == '\"')
@@ -128,7 +124,5 @@ t_oper_type	first_check_operator(char c)
 		return (TPIPE);
 	else if (c == '&')
 		return (TAND);
-	else if (c == ';')
-		return (TSEMI);
 	return (NO_TYPE);
 }

@@ -6,7 +6,7 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 21:46:45 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/06 04:23:09 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,15 +180,17 @@ int	ft_access(const char *pathname, int mode)
 
 char	**info_get_path(t_info *info)
 {
-	char	**ret;
+	char		**ret;
+	t_env_list	*tmp;
 
-	while (info->env_list)
+	tmp = info->env_list;
+	while (tmp)
 	{
-		if (ft_strncmp(info->env_list->key, "PATH", 5) == 0)
+		if (ft_strncmp(tmp->key, "PATH", 5) == 0)
 			break ;
-		info->env_list = info->env_list->next;
+		tmp = tmp->next;
 	}
-	ret = ft_split(info->env_list->value, ':');
+	ret = ft_split(tmp->value, ':');
 	return (ret);
 }
 

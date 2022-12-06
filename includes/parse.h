@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 19:55:19 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/06 03:47:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,5 +199,6 @@ void			ft_tokeniter(t_token *lst);
 void			viewtree(t_token *tok);
 void			show_list_type_data(t_token *lst);
 void			printf_key(t_keys *keys);
+void			printf_env(char **arr);
 
 #endif
