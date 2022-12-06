@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 19:03:34 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:36:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	push_index_len_redirection(char *line, int *index)
 	(*index)++;
 	if (check_operator(line[*index]) == type)
 		(*index)++;
-	else if (check_operator(line[*index]) != NO_TYPE)
+	if (check_operator(line[*index]) != NO_TYPE)
 		throw_error(SYNTAX_ERR);
 	while (line[*index] == ' ')
 		(*index)++;
@@ -51,15 +51,14 @@ static char	*ft_strdup_section(char *s, int left, int right)
 	return (str);
 }
 
-static int	check_is_wave(t_token **token, char **arr, int *left, int *right)
+static t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
 {
 	char	*line;
 
 	line = (*token)->line;
 	push_index_until_space_or_oper(line, right);
 	*arr= ft_strdup_section(line, *left, *right);
-	// *arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 요거 바꿔야함
-	if (ft_strncmp(*arr, "~", 2) == 0)
+	if (ft_strncmp(*arr, "~", 2) == 0) // ~ 혼자만 올 경우.
 	{
 		free(*arr);
 		*arr = ft_strdup(ft_getenv((*token)->info->env_list, "~"));
@@ -67,42 +66,105 @@ static int	check_is_wave(t_token **token, char **arr, int *left, int *right)
 			throw_error(MALLOC_ERR);
 		while (line[(*right)] == ' ')
 				(*right)++;
-		return (SECCESS);
+		return (ONLY_WAVE);
+	}
+	*right = *left;
+	while (line[(*right)] == '<' || line[(*right)] == '>')
+		(*right)++;
+	while (line[(*right)] && line[(*right)] == ' ')
+		(*right)++;
+	if (ft_strncmp(line + *right, "~", 1) == 0)
+	{
+		free(*arr);
+		*right = *left;
+		return (MAYBE_HOME);
 	}
 	free(*arr);
-	*right = *left; 
-	return (FAIL);
+	*right = *left;
+	return (NO_WAVE);
 }
 
-static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
+static void	set_redirection_cmd(t_token **token, char **arr, int *left, int *right)
 {
 	char	*line;
-// 1. "$HOME" 2. <sfesdf 3. 'seifj$osdjfe'"$LOGNAME" 이렇게 잘라야하는데
-	line = (*token)->line; // 그럼 일단 line을 가져오고 left, right에는 어떤 정보가 있냐. line의 어디서부터 어디까지 끊을지가 적혀있다.
-	if (check_is_wave(token, arr, left, right)) // ~가 있으면 체크해준다.
-		return (SECCESS);
-	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우, <sfesdf
+
+	line = (*token)->line;
+	push_index_len_redirection(line, right); // 리다리렉션의 길이를 구함 right를 변화시켜서 어디까지 리다이렉션인지 알려준다.
+	*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
+	while (line[(*right)] == ' ')
+		(*right)++;
+}
+
+static int	set_normal_cmd(t_token **token, char **arr, int *left, int *right)
+{
+	char	*line;
+
+	line = (*token)->line;
+	if (check_is_start_cmd(line, right)) // 의미있는 문자가 나온경우 즉 ' ' \0 <가 아닌경우
 	{
-		push_index_len_redirection(line, right); // 리다리렉션의 길이를 구함 right를 변화시켜서 어디까지 리다이렉션인지 알려준다.
+		push_index_until_space_or_oper(line, &(*right)); // 어디까지 읽어야할지 right로 측정해준다. 
 		*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 		while (line[(*right)] == ' ')
 			(*right)++;
 		return (SECCESS);
 	}
-	else // 1. "$HOME" 3.'seifj$osdjfe'"$LOGNAME"
-	{
-		if (check_is_start_cmd(line, right)) // 의미있는 문자가 나온경우 즉 ' ' \0 <가 아닌경우
-		{
-			push_index_until_space_or_oper(line, &(*right)); // 어디까지 읽어야할지 right로 측정해준다. 
-			*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
-			while (line[(*right)] == ' ')
-				(*right)++;
-			return (SECCESS);
-		}
-		else if (line[(*right)])
-			(*right)++;
-	}
+	else if (line[(*right)])
+		(*right)++;
 	return (FAIL);
+}
+
+static void	change_wave_to_home(t_token **token, char **arr, int i)
+{
+	char	*wave;
+	char	*front_part;
+	char	*back_part;
+	char	*new;
+	char	*tmp;
+
+	wave = ft_getenv((*token)->info->env_list, "~");
+	front_part = ft_substr(*arr, 0 , i);
+	back_part = ft_strdup(*arr + i + 1);
+	new = ft_strjoin(front_part, wave);
+	if (!new)
+		throw_error(MALLOC_ERR);
+	tmp = new;
+	new = ft_strjoin(new, back_part);
+	if (!new)
+		throw_error(MALLOC_ERR);
+	free(tmp);
+	free(wave);
+	free(front_part);
+	free(back_part);
+	free(*arr);
+	*arr = new;
+}
+
+static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
+{
+	char			*line;
+	t_wave_type		check_wave;
+	int				i;
+
+	i = 0;
+	line = (*token)->line; // 그럼 일단 line을 가져오고 left, right에는 어떤 정보가 있냐. line의 어디서부터 어디까지 끊을지가 적혀있다.
+	check_wave = check_is_wave(token, arr, left, right); // wave의 여부를 판단
+	printf("check_wave = %d\n", check_wave);
+	if (check_wave == ONLY_WAVE) // ~ 밖에 없는 경우 바로 변경하고 리턴
+		return (SECCESS);
+	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우, <sfesdf
+		set_redirection_cmd(token, arr, left, right);
+	else // 1. "$HOME" 3.'seifj$osdjfe'"$LOGNAME"
+		set_normal_cmd(token, arr, left, right);
+	if (check_wave == MAYBE_HOME)
+	{
+		while ((*arr)[i] == '<' || (*arr)[i] == '>')
+			i++;
+		while ((*arr)[i] && (*arr)[i] == ' ')
+			i++;
+		if (ft_strncmp(*arr + i, "~/", 2) == 0)
+			change_wave_to_home(token, arr, i);
+	}
+	return (SECCESS);
 }
 
 char	**ft_split_cmd(t_token **token, char *line) // cmd를 적절히 쪼갠다

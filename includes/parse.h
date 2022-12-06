@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 03:47:15 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 20:23:39 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@ typedef enum e_oper_type	t_oper_type;
 typedef enum e_comma_type	t_comma_type;
 typedef enum e_brachek_type	t_brachek_type;
 typedef enum e_redir_type	t_redir_type;
+typedef enum e_wave_type	t_wave_type;
+
+enum e_wave_type
+{
+	NO_WAVE,
+	ONLY_WAVE,
+	MAYBE_HOME,
+};
 
 enum e_oper_type
 {
