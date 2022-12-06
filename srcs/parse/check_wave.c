@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:45:49 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 01:06:15 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 03:24:50 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@ static char	*ft_strdup_section(char *s, int left, int right)
 	return (str);
 }
 
-t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
+static int	if_only_wave(t_token **token, char **arr, int *right)
 {
 	char	*line;
 
 	line = (*token)->line;
-	push_index_until_space_or_oper(line, right);
-	*arr= ft_strdup_section(line, *left, *right);
 	if (ft_strncmp(*arr, "~", 2) == 0) // ~ 혼자만 올 경우.
 	{
 		free(*arr);
@@ -44,6 +42,17 @@ t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
 				(*right)++;
 		return (ONLY_WAVE);
 	}
+	return (FAIL);
+}
+t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
+{
+	char	*line;
+
+	line = (*token)->line;
+	push_index_until_space_or_oper(line, right);
+	*arr= ft_strdup_section(line, *left, *right);
+	if (if_only_wave(token, arr, right))
+		return (ONLY_WAVE);
 	*right = *left;
 	while (line[(*right)] == '<' || line[(*right)] == '>')
 		(*right)++;

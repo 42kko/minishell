@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 02:51:37 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 03:26:52 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,9 @@ char			*malloc_changed_str(char *cmd, t_keys *keys);
 // check_wave
 void			change_wave_to_home(t_token **token, char **arr, int i);
 t_wave_type		check_is_wave(t_token **token, char **arr, int *left, int *right);
+
+// cut_cmd
+void			cut_cmd(t_token **token, char **arr, int *left, int *right);
 
 
 // test -- 지울것

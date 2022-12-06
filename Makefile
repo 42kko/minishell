@@ -6,7 +6,7 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/07 01:03:14 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/07 03:26:27 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,8 @@ SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c check_env.c \
 			push_index_about_comma.c delete_comma_check_env.c \
-			token_list_len.c malloc_utils.c check_wave.c
+			token_list_len.c malloc_utils.c check_wave.c \
+			cut_cmd.c
 SRCS_BULT= ft_echo.c
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
