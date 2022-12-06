@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 03:25:13 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 05:13:14 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ t_token	*cmd_tree(t_token *tok)
 	return (cmd);
 }
 
+void	zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k)
+{
+	*i = 0;
+	*j = 0;
+	*k = 0;
+}
+
 t_token	*get_tree(t_token *token)
 {
 	t_token		*tmp;
@@ -59,9 +66,7 @@ t_token	*get_tree(t_token *token)
 
 	if (token == 0)
 		return (0);
-	oper1 = 0;
-	oper2 = 0;
-	oper3 = 0;
+	zero_parameter(&oper1, &oper2, &oper3);
 	tmp = token;
 	select_oper(token, &oper1, &oper2, &oper3);
 	if (oper1 == 0 && (token->type == TIN || token->type == TOUT || \
@@ -153,5 +158,3 @@ void	select_oper(t_token *tok, t_oper_type *oper1, \
 		tmp = tmp->prev;
 	}
 }
-
-

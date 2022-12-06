@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 02:43:35 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 06:21:17 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,12 @@ void	handler1(int signo) //시그널핸들러
 	(void) signo;
 }
 
-void	initial(t_info *info) //초기작업.
+void	initial(t_info *info, char **envp) //초기작업.
 {
 	struct termios	term;
 
+	init_env(info, envp);
+	info->path = info_get_path(info);
 	set_signal(BASH);
 	tcgetattr(STDIN_FILENO, &term); // 터미널의 속성을 term에 저장
 	tcgetattr(STDIN_FILENO, info->old_term); // 터미널의 속성을 term에 저장
@@ -82,15 +84,38 @@ void	set_signal(int num)
 	}
 }
 
+void	err_msg(char *msg, t_token *tok) //open, close, pipe 에 사용댐
+{
+	// dup2(tok->info->stdio_backup[0], 0);
+	dup2(tok->info->stdio_backup[1], 1);
+	printf("%s:%s", msg, strerror(errno));
+	if (errno == 24)
+		exit(1);
+}
+
+t_info	*new_info(t_info *info)
+{
+	t_info	*new;
+
+	new = (t_info *)malloc(sizeof(info));
+	if (!new)
+		throw_error(MALLOC_ERR);
+	new->env_list = 0;
+	new->old_term = 0;
+	new->path = 0;
+	new->exit_num = 0;
+	new->stdio_backup[0] = dup(0);
+	new->stdio_backup[1] = dup(1);
+	return (new);
+}
+
 int	main(int ac, char **av, char **envp)
 {
 	t_info	*info;
 
-	info = malloc(sizeof(t_info));
-	if (!info)
-		throw_error(MALLOC_ERR);
-	initial(info); //초기작업. 여기서 환경변수 및 시그널을 컨트롤할듯
-	loop(envp, info); //readline 을 받아줄곳.
+	info = new_info(info);
+	initial(info, envp); //초기작업. 여기서 환경변수 및 시그널을 컨트롤할듯
+	loop(info); //readline 을 받아줄곳.
 	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term); // 이거해주는 이유는
 	printf("done\n");
 	return (0);

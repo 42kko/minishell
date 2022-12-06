@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 01:12:35 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 05:35:52 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,6 @@
 
 extern int	g_errno;
 
-void	loop(char **envp, t_info *info);
+void	loop(t_info *info);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 03:31:58 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 06:22:45 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ void	io_ctl_cmd(t_token *tok)
 	if (tok->fd_in != -1)
 	{
 		dup2(tok->fd_in, 0);
-		close(tok->fd_in);
+		close_util(tok->fd_in, tok);
 	}
 	if (tok->fd_out != -1)
 	{
 		dup2(tok->fd_out, 1);
-		close(tok->fd_out);
+		close_util(tok->fd_out, tok);
 	}
 }
 
@@ -57,7 +57,7 @@ void	exec(t_token *tok)
 			io_ctl_cmd(tok->left);
 		if (tok->right->type == TNOCMD)
 			exit (0);
-		add_path(tok->right, tok->info);
+		add_path(tok->right);
 		execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 		exit(errno);
 	}
@@ -65,12 +65,11 @@ void	exec(t_token *tok)
 		wait(&stat);
 	if (WIFEXITED(stat))
 	{
-		tok->exit_num = WEXITSTATUS(stat);
+		tok->info->exit_num = WEXITSTATUS(stat);
 	}
 	else if (WIFSIGNALED(stat))
 	{
-		tok->exit_num = WTERMSIG(stat);
-		
+		tok->info->exit_num = WTERMSIG(stat);
 	}
 }
 
@@ -101,12 +100,14 @@ void	run_shell(t_token *tok)
 	else
 	{
 		run_shell(tok->left);
-		if (tok->type == TAND && tok->left->exit_num != 0)
-			tok->right = 0;
-		else if (tok->type == TOR && tok->left->exit_num == 0)
-			tok->right = 0;
-		else if (tok->type == TRDYCMD)
+		// if (tok->type == TAND && tok->info->exit_num != 0)
+		// 	tok->right = 0;
+		// else if (tok->type == TOR && tok->info->exit_num == 0)
+		// 	tok->right = 0;
+		if (tok->type == TRDYCMD)
 			run_exec(tok);
-		run_shell(tok->right);
+		if ((tok->type == TAND && tok->info->exit_num != 0) || \
+		(tok->type == TOR && tok->info->exit_num == 0))
+			run_shell(tok->right);
 	}
 }

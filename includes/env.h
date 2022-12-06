@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 20:20:38 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 05:53:00 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ typedef struct s_info		t_info;
 struct s_info
 {
 	struct termios	*old_term;
-	t_env_list *env_list;
+	t_env_list		*env_list;
+	char			**path;
+	int				exit_num;
+	int				stdio_backup[2];
 };
 
 enum e_error_type

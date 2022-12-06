@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 01:06:35 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 05:39:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,10 +201,9 @@ void	not_found(char *cmd)
 	printf("command nt found: %s\n", cmd);
 }
 
-char	*write_path(char *cmd, t_info *info)
+char	*write_path(char *cmd, t_token *tok)
 {
 	int		i;
-	char	**path;
 	char	*tmp;
 	char	*tmp1;
 
@@ -212,12 +211,11 @@ char	*write_path(char *cmd, t_info *info)
 		return (0);
 	if (ft_access(cmd, 1) == 0 && ft_strchr(cmd, '/') != 0)
 		return (cmd);
-	path = info_get_path(info);
 	i = 0;
 	tmp1 = ft_strjoin("/", cmd);
-	while (path[i])
+	while (tok->info->path[i])
 	{
-		tmp = ft_strjoin(path[i], tmp1);
+		tmp = ft_strjoin(tok->info->path[i], tmp1);
 		if (ft_access(tmp, 1) == 0)
 		{
 			free(cmd);
@@ -233,10 +231,10 @@ char	*write_path(char *cmd, t_info *info)
 	return (cmd);
 }
 
-void	add_path(t_token *tok, t_info *info)
+void	add_path(t_token *tok)
 {
 	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
-		tok->cmd[0] = write_path(tok->cmd[0], info);
+		tok->cmd[0] = write_path(tok->cmd[0], tok);
 	errno = 0;
 }
 

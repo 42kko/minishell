@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 02:43:20 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 06:18:17 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ typedef struct s_token
 	int					token_type;
 	int					fd_out;
 	int					fd_in;
-	int					exit_num;
 	char				**cmd;
 	char				*line;
 	struct s_token		*next;
@@ -114,8 +113,6 @@ typedef struct s_token
 	t_info				*info;
 	t_oper_type			type;
 	t_comma_type		comma_type;
-	int	std_in_backup;
-	int	std_out_backup;
 }	t_token;
 
 typedef struct s_parse_tmp
@@ -196,7 +193,7 @@ int	open_util(t_oper_type type, char *line);
 void	ft_redir(t_token *lst, t_pipe *pip);
 void	io_ctl(t_pipe *pip, int i, t_token *tok);
 void	ft_child(t_token *tok, int i, t_pipe *pip);
-void	ft_parent(int i, t_pipe *pip);
+void	ft_parent(int i, t_pipe *pip, t_token *tok);
 void	new_pipe(t_pipe *pip);
 void	run_pipe(t_token *tok);
 
@@ -232,9 +229,9 @@ void			printf_key(t_keys *keys);
 void			printf_env(char **arr);
 
 // open_dir
-void	writedoc(char *limiter, int *p);
+void	writedoc(char *limiter, int *p, t_token *tok);
 int		open_util(t_oper_type type, char *line);
-int		here_doc(char *limiter);
+int		here_doc(char *limiter, t_token *tok);
 char	*find_redir(char *s);
 void	open_out(t_token *tok, t_token *tmp);
 void	open_in(t_token *tok, t_token *tmp);
@@ -242,9 +239,14 @@ void	start_open(t_token *tok);
 void	open_redir(t_token *tok);
 
 //path
-void	add_path(t_token *tok, t_info *info);
+void	add_path(t_token *tok);
+char	**info_get_path(t_info *info);
 
 //signal
 void	set_signal(int num);
+
+//err
+void	err_msg(char *msg, t_token *tok);
+void	close_util(int fd, t_token *tok);
 
 #endif
