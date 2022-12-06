@@ -158,9 +158,8 @@ int	run(char *line, t_info *info)
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
-	printf("succ\n");
+	// printf("succ\n");
 	run_shell(token);
-	printf("run_shell\n");
 	return (0);
 }
 
@@ -175,13 +174,14 @@ void	loop(char **envp)
 	if (!info)
 		throw_error(MALLOC_ERR);
 	init_env(info, envp);
+	printf("start errno:%d\n", errno);
 	while (1)
 	{
 		line = readline("seekko> ");
 		if (line == NULL) // line 널이면 readline이 오류를 뱉은 건가...
 		{
-			printf("exit\n");
-			exit(-1);
+			printf("ctrl+d\n");
+			exit(1);
 		}
 		else if (line != NULL && *line != '\0')
 			add_history(line);

@@ -21,19 +21,23 @@ void	handler(int signo) //시그널핸들러
 {
 	if (signo == SIGINT) // cntl + c
 	{
+		// printf("ctrl+c");
 		printf("\n");
 		if (rl_on_new_line() == -1)
 			exit(1);
 		rl_replace_line("", 1); // 1인 이유는? 
 		rl_redisplay();
 	}
-	else if (signo == SIGQUIT) // cntl + ?
+	else if (signo == SIGQUIT)
 	{
-		printf("SIGQUIT\n");
+		printf("ctrl+/");
 		return ;
 	}
-	else if (signo == SIGTERM) // cntl + d
+	else if (signo == SIGTERM)
+	{
+		printf("sig ctrl+d");
 		printf("exit\n");
+	}
 	return ;
 }
 
@@ -44,7 +48,8 @@ void	initial(void) //초기작업.
 	signal(SIGTERM, handler);
 	tcgetattr(STDIN_FILENO, &term); // 터미널의 속성으 term에 저장
 	old_term = term;
-	term.c_cflag &= ~(ICANON | ECHO); // cflag는 control flags인데 
+	term.c_cflag &= ~(ICANON | ECHO);
+	// term.c_lflag &= ~(ECHOCTL);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term); // 변경된 내용을 터미널에 적용

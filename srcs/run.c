@@ -29,6 +29,27 @@ void	throw_error_syntax(t_error_type type, t_token *tok)
 		tmp->err_flag_syn = 1;
 }
 
+void	exec(t_token *tok)
+{
+	pid_t	pid;
+	int		stat;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		printf("errno:%d\n", errno);
+		execve(tok->cmd[0], tok->cmd, 0);
+		printf("err\n");
+		exit(errno);
+	}
+	else if (pid > 0)
+		waitpid(-1, &stat, 0);
+	if (WIFEXITED(stat))
+	{
+		printf("exit:%d\n",WEXITSTATUS(stat));
+	}
+}
+
 void	run_shell(t_token *tok)
 {
 	if (tok == 0)
@@ -36,16 +57,18 @@ void	run_shell(t_token *tok)
 	if (tok->type == TPIPE)
 	{
 		run_pipe(tok);
-		// run(tok->left);
-		// run(tok->right);
 	}
-	// else if (tok->type == TRDYCMD)
-	// {
-	// 	execve(tok->right->cmd[0], tok->right->cmd, 0);
-	// }
 	else
 	{
 		run_shell(tok->left);
+		if (identify_built_exec(tok) == 1)
+		{
+			// bulitin();
+		}
+		if (identify_built_exec(tok) == 0)
+		{
+			exec(tok);
+		}
 		run_shell(tok->right);
 	}
 }
