@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 21:36:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:41:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,6 @@ static int	cut_cmd(t_token **token, char **arr, int *left, int *right)
 	i = 0;
 	line = (*token)->line; // 그럼 일단 line을 가져오고 left, right에는 어떤 정보가 있냐. line의 어디서부터 어디까지 끊을지가 적혀있다.
 	check_wave = check_is_wave(token, arr, left, right); // wave의 여부를 판단
-	printf("check_wave = %d\n", check_wave);
 	if (check_wave == ONLY_WAVE) // ~ 밖에 없는 경우 바로 변경하고 리턴
 		return (SECCESS);
 	if (line[(*right)] == '<' || line[(*right)] == '>') // 리다이렉션이 올 경우, <sfesdf
