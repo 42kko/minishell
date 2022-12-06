@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 04:50:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:03:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	check_is_wave(t_token **token, char **arr, int *left, int *right)
 	push_index_until_space_or_oper(line, right);
 	*arr= ft_strdup_section(line, *left, *right);
 	// *arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 요거 바꿔야함
-	if (ft_strncmp(*arr, "~", 1) == 0)
+	if (ft_strncmp(*arr, "~", 2) == 0)
 	{
 		free(*arr);
 		*arr = ft_strdup(ft_getenv((*token)->info->env_list, "~"));

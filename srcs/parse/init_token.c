@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 04:23:09 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:05:03 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,15 +140,15 @@ int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
 		return (1);
 	else if (ft_strncmp(tok->cmd[0], "cd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "pwd", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "pwd", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "export", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "export", 7) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "unset", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "unset", 5) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "env", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "env", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "exit", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "exit", 5) == 0)
 		return (1);
 	else
 		return (0);
