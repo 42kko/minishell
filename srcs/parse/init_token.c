@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 19:05:03 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:21:12 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_token	*new_token(t_info *info)
 	new->comma_type = NO_COM;
 	new->parent = NULL;
 	new->info = info;
+	new->fd_in = -1;
+	new->fd_out = -1;
 
 	new->err_flag_syn = 0;
 	new->err_flag_notfound = 0;
@@ -233,11 +235,8 @@ char	*write_path(char *cmd, t_info *info)
 
 void	add_path(t_token *tok, t_info *info)
 {
-	if (tok == 0)
-		return ;
 	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
 		tok->cmd[0] = write_path(tok->cmd[0], info);
-	add_path(tok->next, info);
 }
 
 t_token	*init_token(char *line, t_info *info)
@@ -256,7 +255,6 @@ t_token	*init_token(char *line, t_info *info)
 		set_type_remove_operator(&temp, &token);
 		temp = temp->next;
 	}
-	add_path(token, info);
 	errno = 0;
 	// ft_tokeniter(token);
 	return (token);

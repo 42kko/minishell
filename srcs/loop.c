@@ -3,69 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/06 22:35:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:57:39 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include <string.h>
-
-
-// void	loop(char **envp)
-// {
-// 	char	*line;
-// 	t_info	*info;
-// 	pid_t	execute_pid;
-// 	t_token	*tok;
-
-// 	info = malloc(sizeof(t_info));
-// 	if (!info)
-// 		throw_error(MALLOC_ERR);
-// 	init_env(info, envp);
-// 	while (1)
-// 	{
-// 		line = readline("seekko> ");
-// 		if (line && line[0] != '\0')
-// 		{
-// 			if (strcmp(line, "exit") == 0) // 고치기
-// 			{
-// 				free(line);
-// 				return ;
-// 			}
-// 			add_history(line);
-// 			execute_pid = fork();
-// 			if (execute_pid == -1)
-// 				throw_error(FORK_ERR);
-// 			if (execute_pid == 0)
-// 			{
-// 				tok = init_token(line, info);
-// 				run(tok);
-// 				exit(0);
-// 				// 잘끝나면 token 동적할당 됐을 거고
-// 				// 아니면 exit로 에러를 내보냄
-// 			}
-// 			waitpid(execute_pid, NULL, 0);
-// 			free(line);
-// 			line = 0;
-// 			// run(tok);
-// 			// free_tree(tok);
-// 		}
-// 		else if(line == 0)
-// 		{
-// 			free(line);
-// 			line = 0;
-// 			return ;
-// 		}
-// 		else
-// 		{
-// 			free(line);
-// 			line = 0;
-// 		}
-// 	}
-// }
 
 void	free_cmd(char **cmd)
 {
@@ -159,35 +104,27 @@ int	run(char *line, t_info *info)
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
-	// printf("succ\n");
+	open_redir(token);
 	run_shell(token);
 	return (0);
 }
 
-void	leak(void)
-{
-	system("leaks minishell");
-}
-
-void	loop(char **envp)
+void	loop(char **envp, t_info *info)
 {
 	char	*line;
-	t_info	*info;
-	pid_t	execute_pid;
-	t_token	*tok;
 
 	atexit(leak);
 	info = malloc(sizeof(t_info));
 	if (!info)
 		throw_error(MALLOC_ERR);
 	init_env(info, envp);
-	printf("start errno:%d\n", errno);
 	while (1)
 	{
 		line = readline("seekko> ");
 		if (line == NULL) // line 널이면 readline이 오류를 뱉은 건가...
 		{
 			printf("ctrl+d\n");
+			tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 			exit(1);
 		}
 		else if (line != NULL && *line != '\0')
