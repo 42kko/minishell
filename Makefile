@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ko <ko@student.42.fr>                      +#+  +:+       +#+         #
+#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/06 03:41:38 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/06 19:07:08 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
-		run.c run_pipe.c
+		run.c run_pipe.c open_dir.c
 SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
 			redirection.c ft_strjoin_space.c tree.c check_env.c \
@@ -27,8 +27,8 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}} \
 			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}}
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
-# CFLAGS	= -Wall -Werror -Wextra -lreadline
+#CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+ CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
@@ -36,15 +36,17 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft
+#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft
+#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
 
 clean:
 			make clean -C ${LIBFT}/

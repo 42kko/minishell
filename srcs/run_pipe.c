@@ -3,59 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/03 01:31:35 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/06 22:09:21 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	open_util(t_oper_type type, char *line)
-{
-	int	fd;
-
-	fd = 0;
-	while (*line != ' ')
-		line++;
-	if (type == TOUT)
-		fd = open(line, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	else if (type == TADDOUT)
-		fd = open(line, O_WRONLY | O_APPEND | O_CREAT, 0644);
-	else if (type == TIN) 
-		fd = open(line, O_RDONLY);
-	else if (type == TDOC) //히어독모드 추가예정
-		fd = 0;
-	return (fd);
-}
-
-void	ft_redir(t_token *lst, t_pipe *pip)
-{
-	while (lst)
-	{
-		if (lst->type == TOUT)
-			pip->fd_out = open_util(TOUT, lst->line + 1);
-		else if (lst->type == TADDOUT)
-			pip->fd_out = open_util(TADDOUT, lst->line + 2);
-		else if (lst->type == TIN)
-			pip->fd_in = open_util(TIN, lst->line + 1);
-		else if (lst->type == TDOC)
-			pip->fd_in = open_util(TDOC, lst->line + 2); //아직 here_doc 구현안함
-		lst = lst->next;
-	}
-}
-
-void	io_ctl(t_pipe *pip, int i)
+void	io_ctl(t_pipe *pip, int i, t_token *tok)
 {
 	if (pip->cnt > i)
 	{
 		close(pip->p[(i * 2)]);
 	}
-	if (pip->fd_in != 0)
+	if (tok->type != NO_REDIR && tok->fd_in != -1)
 	{
-		dup2(pip->fd_in, 0);
-		close(pip->fd_in);
+		dup2(tok->fd_in, 0);
+		close(tok->fd_in);
 	}
 	else
 	{
@@ -65,14 +31,14 @@ void	io_ctl(t_pipe *pip, int i)
 			close(pip->p[(i - 1) * 2]);
 		}
 	}
-	if (pip->fd_out != 0)
+	if (tok->type != NO_REDIR && tok->fd_out != -1)
 	{
-		dup2(pip->fd_out, 1);
-		close(pip->fd_out);
+		dup2(tok->fd_out, 1);
+		close(tok->fd_out);
 	}
 	else
 	{
-		if (i < pip->cnt)
+		if (i < pip->cnt) 
 		{
 			dup2(pip->p[(i * 2) + 1], 1);
 			close(pip->p[(i * 2) + 1]);
@@ -92,11 +58,9 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 			tok = tok->right; //RDYCMD로 이동해줌
 		tmp++;
 	}
-	if (tok->left->type != NO_REDIR) //리다이렉션이 있을경우 fd값을 받아와줌
-		ft_redir(tok->left, pip); 
-	io_ctl(pip, i); //받아온 fd값을 가지고 입,출력을 바꿔줄함수
-	
-	execve(tok->right->cmd[0], tok->right->cmd, 0); 
+	io_ctl(pip, i, tok->left); //받아온 fd값을 가지고 입,출력을 바꿔줄함수
+	add_path(tok->right, tok->info);
+	execve(tok->right->cmd[0], tok->right->cmd, 0);
 	exit(1); //실행이되지않았다면 exit으로 끝냄.
 }
 
@@ -122,8 +86,6 @@ void	new_pipe(t_pipe *pip)
 {
 	pip->cnt = 0;
 	pip->p = 0;
-	pip->fd_in = 0;
-	pip->fd_out = 0;
 }
 
 void	run_pipe(t_token *tok)
@@ -143,8 +105,6 @@ void	run_pipe(t_token *tok)
 	pipe(pip.p); //첫파이프 오픈
 	while (i < pip.cnt + 1) //실행할 횟수는 명령어갯수만큼.
 	{
-		pip.fd_out = 0; //초기값으로 설정해줌
-		pip.fd_in = 0;
 		pid_t pid = fork();
 		if (pid == 0)
 			ft_child(tok, i, &pip);
@@ -152,10 +112,12 @@ void	run_pipe(t_token *tok)
 			ft_parent(i, &pip);
 		i++;
 	}
-	close(pip.p[((i - 1) * 2)]);
+	if (pip.p[((i - 1) * 2)] != 0 && pip.p[((i - 1) * 2)] != 1)
+		close(pip.p[((i - 1) * 2)]);
 	while (i > 0) //자식이 열렸던만큼 기다려줌.
 	{
 		waitpid(-1, 0, 0);
 		i--;
 	}
+	free(pip.p);
 }
