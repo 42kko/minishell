@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/06 04:27:15 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 22:35:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,18 @@ int	run(char *line, t_info *info)
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token));
+	ft_tokeniter(token);
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
 	// printf("succ\n");
 	run_shell(token);
 	return (0);
+}
+
+void	leak(void)
+{
+	system("leaks minishell");
 }
 
 void	loop(char **envp)
@@ -170,6 +176,7 @@ void	loop(char **envp)
 	pid_t	execute_pid;
 	t_token	*tok;
 
+	atexit(leak);
 	info = malloc(sizeof(t_info));
 	if (!info)
 		throw_error(MALLOC_ERR);

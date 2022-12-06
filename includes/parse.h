@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 20:23:39 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 21:48:20 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,10 @@ int				token_list_len(t_token *token);
 // malloc_utils
 char			*malloc_str(int len);
 char			*malloc_changed_str(char *cmd, t_keys *keys);
+
+// check_wave
+void			change_wave_to_home(t_token **token, char **arr, int i);
+
 
 // test -- 지울것
 void			ft_tokeniter(t_token *lst);
