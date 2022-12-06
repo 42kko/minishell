@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/01 19:20:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 02:57:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	attach_redir_token(t_token **token, \
-t_token	**redir_token, char *line)
+t_token	**redir_token, char *file_name)
 {
 	t_token	*new;
 	t_token	*tmp;
 
 	tmp = *redir_token;
-	new = new_token((*token)->info);
-	new->line = ft_strdup(line);
+	new = new_token((*token)->info); // 새로운 토큰 생성
+	new->line = ft_strdup(file_name); // <a
 	check_type(&new);
 	if (!new->line)
 		throw_error(MALLOC_ERR);
@@ -35,17 +35,17 @@ t_token	**redir_token, char *line)
 	new->prev = tmp;
 }
 
-static t_token	*pick_create_redir_tokens(t_token **token, char **arr)
+static t_token	*pick_create_redir_tokens(t_token **token, char **cmd)
 {
 	int		i;
 	t_token	*redir_token;
 
 	i = 0;
 	redir_token = NULL;
-	while (arr[i])
+	while (cmd[i])
 	{
-		if (ft_is_redir(arr[i][0]) != NO_DIREC)
-			attach_redir_token(token, &redir_token, arr[i]);
+		if (ft_is_redir(cmd[i][0]) != NO_DIREC)
+			attach_redir_token(token, &redir_token, cmd[i]); // redir_token을 새로 만들어줘서 따로 정리 해준다.
 		i++;
 	}
 	return (redir_token);
@@ -57,6 +57,8 @@ static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 	int		i;
 	int		k;
 
+	if (only_cmd_len == 0)
+		return (NULL);
 	new_cmd_arr = malloc(sizeof(char *) * (only_cmd_len + 1));
 	if (!new_cmd_arr)
 		throw_error(MALLOC_ERR);
@@ -85,6 +87,8 @@ static char	*update_token_line(t_token **token)
 	char *tmp;
 
 	i = 1;
+	if (!(*token)->cmd)
+		return (NULL);
 	new_line = ft_strdup((*token)->cmd[0]);
 	if (!new_line)
 		return (NULL);
@@ -131,6 +135,7 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	new_cmd_arr = pick_create_only_cmd_arr((*token)->cmd, get_sec_arr_len((*token)->cmd) - token_list_len(redir_token));
 	free_sec_arr((*token)->cmd);
 	(*token)->cmd = new_cmd_arr;
+	(*token)->type = TNOCMD;
 	(*token)->line = update_token_line(token);
 	sort_token_order(token, first, redir_token);
 }

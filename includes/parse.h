@@ -17,6 +17,14 @@ typedef enum e_oper_type	t_oper_type;
 typedef enum e_comma_type	t_comma_type;
 typedef enum e_brachek_type	t_brachek_type;
 typedef enum e_redir_type	t_redir_type;
+typedef enum e_wave_type	t_wave_type;
+
+enum e_wave_type
+{
+	NO_WAVE,
+	ONLY_WAVE,
+	MAYBE_HOME,
+};
 
 enum e_oper_type
 {
@@ -36,6 +44,7 @@ enum e_oper_type
 	O_COM, // '
 	T_COM, // "
 	TRDYCMD,
+	TNOCMD,
 };
 
 enum e_comma_type
@@ -196,6 +205,14 @@ int				token_list_len(t_token *token);
 // malloc_utils
 char			*malloc_str(int len);
 char			*malloc_changed_str(char *cmd, t_keys *keys);
+
+// check_wave
+void			change_wave_to_home(t_token **token, char **arr, int i);
+t_wave_type		check_is_wave(t_token **token, char **arr, int *left, int *right);
+
+// cut_cmd
+void			cut_cmd(t_token **token, char **arr, int *left, int *right);
+
 
 // test -- 지울것
 void			ft_tokeniter(t_token *lst);

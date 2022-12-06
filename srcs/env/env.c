@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 04:47:50 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/06 19:05:54 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_getenv(t_env_list *env_list, char *key)
 	tmp = env_list;
 	while (tmp)
 	{
-		if (!ft_strncmp(key, tmp->key, ft_strlen(key)))
+		if (!ft_strncmp(key, tmp->key, ft_strlen(key) + 1))
 		{
 			value = ft_strdup(tmp->value);
 			if (!value)
@@ -81,7 +81,7 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 	tmp_a = env_list;
 	while (tmp_a)
 	{
-		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key)))
+		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key) + 1))
 		{
 			free(tmp_a->value);
 			tmp_a->value = ft_strdup(value);
@@ -107,14 +107,14 @@ void	ft_unset(t_env_list **env_list, char *key)
 
 	tmp_a = *env_list;
 	tmp_b = tmp_a;
-	if (ft_strncmp(key, "~", 1) == 0)
+	if (ft_strncmp(key, "~", 2) == 0)
 	{
 		printf("unset: `%s': not a valid identifier", ft_getenv(env_list, key));
 		return ;
 	}
 	while (tmp_a)
 	{
-		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key)))
+		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key) + 1))
 		{
 			if (tmp_a == *env_list)
 			{

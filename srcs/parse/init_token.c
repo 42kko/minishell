@@ -142,15 +142,15 @@ int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
 		return (1);
 	else if (ft_strncmp(tok->cmd[0], "cd", 3) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "pwd", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "pwd", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "export", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "export", 7) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "unset", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "unset", 5) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "env", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "env", 4) == 0)
 		return (1);
-	else if (ft_strncmp(tok->cmd[0], "exit", 3) == 0)
+	else if (ft_strncmp(tok->cmd[0], "exit", 5) == 0)
 		return (1);
 	else
 		return (0);
