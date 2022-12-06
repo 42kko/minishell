@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 21:45:49 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 22:19:29 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 01:06:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static char	*ft_strdup_section(char *s, int left, int right)
 	return (str);
 }
 
-
-static t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
+t_wave_type	check_is_wave(t_token **token, char **arr, int *left, int *right)
 {
 	char	*line;
 

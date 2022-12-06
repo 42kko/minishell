@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 22:34:11 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 01:04:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,6 @@ static int	set_normal_cmd(t_token **token, char **arr, int *left, int *right)
 		(*right)++;
 	return (FAIL);
 }
-
-
 
 static void	cut_cmd(t_token **token, char **arr, int *left, int *right)
 {
