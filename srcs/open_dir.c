@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/06 21:14:28 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 02:02:42 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	writedoc(char *limiter, int *p)
 {
 	char	*line;
 
+	set_signal(DOC);
 	close(p[0]);
 	while (1)
 	{
@@ -39,13 +40,20 @@ int	here_doc(char *limiter)
 {
 	pid_t	pid;
 	int		p[2];
+	int		stat;
 
 	pipe(p);
 	pid = fork();
 	if (pid == 0)
 		writedoc(limiter, p);
-	close(p[1]);
-	waitpid(-1, 0, 0);
+	else if (pid > 0)
+		close(p[1]);
+	waitpid(-1, &stat, 0);
+	if (WIFSIGNALED(stat))
+	{
+		if (WTERMSIG(stat) == 2)
+			errno = -1;
+	}
 	return (p[0]);
 }
 
@@ -113,7 +121,9 @@ void	open_in(t_token *tok, t_token *tmp)
 	}
 	else if (tmp->type == TDOC)
 	{
+		set_signal(FORK);
 		tok->fd_in = here_doc(find_redir(tmp->line + 2));
+		set_signal(BASH);
 	}
 }
 

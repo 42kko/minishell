@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/06 21:57:39 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 02:33:03 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,8 @@ int	run(char *line, t_info *info)
 	if (check_tree(token) == 1)
 		return (1);
 	open_redir(token);
+	if (errno == -1)
+		return (1);
 	run_shell(token);
 	return (0);
 }

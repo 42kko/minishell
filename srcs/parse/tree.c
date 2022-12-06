@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/12/02 21:23:43 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/07 03:25:13 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_token	*cmd_tree(t_token *tok)
 
 	cmd = new_token(tok->info);
 	cmd->type = TRDYCMD;
-	// cmd->line = "cmd용 빈파일"; //줄용량때문에 삭제예정
 	tmp = tok;
 	flag = 0;
 	while (tmp)
