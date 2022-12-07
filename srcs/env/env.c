@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 12:11:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 23:49:00 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 	tmp_b->next->next = NULL;
 }
 
-void	ft_unset(t_env_list **env_list, char *key)
+void	ft_unset_env_list(t_env_list **env_list, char *key)
 {
 	t_env_list	*tmp_a;
 	t_env_list	*tmp_b;

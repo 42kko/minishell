@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.h                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 20:49:37 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 23:50:01 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/07 23:14:05 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/07 23:31:32 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTIN_H
-# define BUILTIN_H
+#include "minishell.h"
 
-void	ft_echo(char **cmd);
-void	ft_cd(t_token *token);
-void	ft_pwd(char **cmd);
-void	ft_unset(t_token *token);
-void	ft_export(t_token *token);
-void	ft_env(t_token *token);
-
-#endif
+void	ft_pwd(char **cmd)
+{
+	char	*pwd;
+	char	*buf;
+	(void) cmd;
+	
+	buf = calloc(4096, 1);
+	if (!buf)
+		throw_error(MALLOC_ERR);
+	pwd = getcwd(buf, 4096);
+	printf("%s\n", pwd);
+	free(buf);
+}

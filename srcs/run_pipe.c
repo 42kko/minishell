@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 14:25:33 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 20:57:21 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,15 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 	io_ctl(pip, i, tok->left); //받아온 fd값을 가지고 입,출력을 바꿔줄함수
 	if (tok->right->type == TNOCMD)
 		exit (0);
-	add_path(tok->right);
-	execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
+	if (identify_built_exec(tok->right) != 1)
+	{
+		add_path(tok->right);
+		execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
+	}
+	else
+	{
+		ft_bulitin(tok);
+	}
 	exit(errno); //실행이되지않았다면 exit으로 끝냄.
 }
 

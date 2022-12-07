@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 14:34:12 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 22:11:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	throw_error_syntax(t_error_type type, t_token *tok)
 
 void	io_ctl_cmd(t_token *tok)
 {
-	if (tok->fd_in != -1)
+	if (tok->fd_in != -1) // fd_in 
 	{
 		dup2(tok->fd_in, 0);
 		close_util(tok->fd_in, tok);
@@ -77,7 +77,10 @@ void	run_exec(t_token *tok)
 {
 	if (identify_built_exec(tok->right) == 1) //빌트인
 	{
-		// ft_bulitin(tok);
+		set_signal(IGN);
+		printf("builtin 실행중\n");
+		built_exec(tok);
+		set_signal(BASH);
 	}
 	else if (identify_built_exec(tok->right) == 0) //exec
 	{

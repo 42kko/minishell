@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 14:22:48 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 21:10:10 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ t_oper_type *oper2, t_oper_type *oper3);
 void	throw_error_syntax(t_error_type type, t_token *tok);
 void			run_shell(t_token *tok);
 int				run(char *line, t_info *info);
+void			io_ctl_cmd(t_token *tok);
 
 // run_pipe
 int	open_util(t_oper_type type, char *line);

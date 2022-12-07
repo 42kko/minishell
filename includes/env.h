@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 05:53:00 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 23:49:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,10 @@ char 	*ft_getenv(t_env_list *env_list, char *key);
 void	init_env(t_info *info, char **envp);
 void	print_envs(t_env_list *env_list);
 void	ft_putenv(t_env_list *env_list, char *key, char *value);
-void	ft_unset(t_env_list **env_list, char *key);
+void	ft_unset_env_list(t_env_list **env_list, char *key);
 
 // get
 void	ft_split_for_env(char const *s, char **key, char **value);
-
-// throw_error
-void	throw_error(t_error_type type);
 
 // utility
 int		get_sec_arr_len(char **arr);

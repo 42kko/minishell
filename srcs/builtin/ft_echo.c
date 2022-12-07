@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 19:05:59 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:17:35 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_echo(char **cmd)
 	{
 		printf("%s", cmd[i]);
 		i++;
+		if (cmd[i])
+			printf(" ");
 	}
 	if (n_flag)
 		printf("\n");
