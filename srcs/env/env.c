@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 19:05:54 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:11:47 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	ft_unset(t_env_list **env_list, char *key)
 	tmp_b = tmp_a;
 	if (ft_strncmp(key, "~", 2) == 0)
 	{
-		printf("unset: `%s': not a valid identifier", ft_getenv(env_list, key));
+		printf("unset: `%s': not a valid identifier", ft_getenv(*env_list, key));
 		return ;
 	}
 	while (tmp_a)
