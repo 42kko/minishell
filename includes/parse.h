@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 06:18:17 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:22:48 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ enum e_oper_type
 	O_COM, // '
 	T_COM, // "
 	TRDYCMD,
+	TRDYBRACH,
 	TNOCMD,
 };
 
@@ -103,6 +104,7 @@ typedef struct s_token
 	int					token_type;
 	int					fd_out;
 	int					fd_in;
+	int					errn;
 	char				**cmd;
 	char				*line;
 	struct s_token		*next;
@@ -175,7 +177,7 @@ void			set_type_remove_operator(t_token **token, t_token **first);
 char			*ft_strjoin_space(char const *s1, char const *s2);
 
 // tree
-t_token			*cmd_tree(t_token *tok);
+t_token			*cmd_tree(t_token *tok, int i);
 t_token			*get_tree(t_token *token);
 void			extra_work_tree(t_token *tok);
 t_token			*next_token(t_token *token);
@@ -246,7 +248,7 @@ char	**info_get_path(t_info *info);
 void	set_signal(int num);
 
 //err
-void	err_msg(char *msg, t_token *tok);
+void	err_msg(char *msg, t_token *tok, char *target);
 void	close_util(int fd, t_token *tok);
 
 #endif

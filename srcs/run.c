@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 06:22:45 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:34:12 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,22 @@ void	run_exec(t_token *tok)
 	}
 	else if (identify_built_exec(tok->right) == 0) //exec
 	{
-		set_signal(IGN);
-		exec(tok);
-		set_signal(BASH);
+		if (tok->errn != -1)
+		{
+			set_signal(IGN);
+			exec(tok);
+			set_signal(BASH);
+		}
+		else
+			tok->info->exit_num = 1;
 	}
+}
+
+void	run_subshell(t_token *tok)
+{
+	int	i;
+
+	i = 0;
 }
 
 void	run_shell(t_token *tok)
@@ -105,9 +117,13 @@ void	run_shell(t_token *tok)
 		// else if (tok->type == TOR && tok->info->exit_num == 0)
 		// 	tok->right = 0;
 		if (tok->type == TRDYCMD)
+		{
 			run_exec(tok);
-		if ((tok->type == TAND && tok->info->exit_num != 0) || \
-		(tok->type == TOR && tok->info->exit_num == 0))
+		}
+		if (tok->type == TBRACH)
+			run_subshell(tok);
+		if ((tok->type == TDAND && tok->info->exit_num == 0) || \
+		(tok->type == TOR && tok->info->exit_num != 0))
 			run_shell(tok->right);
 	}
 }

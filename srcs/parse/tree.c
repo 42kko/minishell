@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 05:13:14 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 13:42:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,33 +21,74 @@ t_token	*redir_null(t_info *info)
 	return (tmp);
 }
 
-t_token	*cmd_tree(t_token *tok)
+t_token	*cmd_tree(t_token *tok, int i)
 {
 	t_token	*cmd;
 	t_token	*tmp;
-	int		flag;
 
 	cmd = new_token(tok->info);
 	cmd->type = TRDYCMD;
 	tmp = tok;
-	flag = 0;
 	while (tmp)
 	{
-		if (tmp->type != TCMD)
-			flag = 1; //flag 1이면 리다이렉션이존재
-		if (tmp->type == TCMD)
+		if (tmp->type != TCMD && tmp->type != TNOCMD)
+			i = 1;
+		if (tmp->type == TCMD || tmp->type == TNOCMD)
 			break ;
 		tmp = tmp->next;
 	}
-	cmd->left = redir_null(tok->info);
-	if (flag == 1)
+	if (i == 1)
 	{
 		tmp->prev->next = 0;
 		tmp->prev = 0;
 		cmd->left = tok;
 	}
+	else
+		cmd->left = redir_null(tok->info);
 	cmd->right = tmp;
 	return (cmd);
+}
+
+t_token *brach_tree(t_token *tok, int i)
+{
+	t_token	*cmd;
+	t_token	*tmp;
+
+	cmd = new_token(tok->info);
+	cmd->type = TRDYBRACH;
+	tmp = tok;
+	while (tmp)
+	{
+		if (tmp->type != TBRACH)
+			i = 1;
+		if (tmp->type == TBRACH)
+			break ;
+		tmp = tmp->next;
+	}
+	if (i == 1)
+	{
+		tmp->prev->next = 0;
+		tmp->prev = 0;
+		cmd->left = tok;
+	}
+	else
+		cmd->left = redir_null(tok->info);
+	cmd->right = tmp;
+	return (cmd);
+}
+
+t_token	*cmd_brach(t_token *tok)
+{
+	t_token	*tmp;
+
+	tmp = tok;
+	while (tmp->type != TCMD && tmp->type != TBRACH && tmp->type != TNOCMD)
+		tmp = tmp->next;
+	if (tmp->type == TCMD)
+		tmp = cmd_tree(tok, 0);
+	else if (tmp->type == TBRACH)
+		tmp = brach_tree(tok, 0);
+	return (tmp);
 }
 
 void	zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k)
@@ -70,8 +111,9 @@ t_token	*get_tree(t_token *token)
 	tmp = token;
 	select_oper(token, &oper1, &oper2, &oper3);
 	if (oper1 == 0 && (token->type == TIN || token->type == TOUT || \
-	token->type == TDOC || token->type == TADDOUT || token->type == TCMD))
-		return (cmd_tree(ft_tokenstart(token)));
+	token->type == TDOC || token->type == TADDOUT || token->type == TCMD || \
+	token->type == TBRACH))
+		return (cmd_brach(ft_tokenstart(token)));
 	while (tmp)
 	{
 		if (tmp->type == oper1 || tmp->type == oper2 || tmp->type == oper3)
@@ -95,7 +137,7 @@ void	extra_work_tree(t_token *tok) //괄호처리 작업예정.
 	while (tmp)
 	{
 		if (tmp->type == TCMD)
-			cmd_tree(tok);
+			cmd_tree(tok, 0);
 		tmp = tmp->next;
 	}
 	extra_work_tree(tok->left);

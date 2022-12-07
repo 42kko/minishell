@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 06:22:22 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:25:33 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	ft_parent(int i, t_pipe *pip, t_token *tok)
 	if (pip->cnt > i + 1)
 	{
 		if (pipe(pip->p + ((i + 1) * 2)) < 0)
-			err_msg("pipe err", tok);
+			err_msg("pipe err", tok, 0);
 	}
 	if (i > 1 && pip->cnt + 1 > i)
 		close_util(pip->p[((i - 2) * 2)], tok);
@@ -168,7 +168,7 @@ void	run_pipe(t_token *tok)
 	pip.cnt = cnt_pipe(&tok);
 	pip.p = (int *)malloc(sizeof(int) * pip.cnt * 2); //필요한 파이프만큼 오픈
 	if (pipe(pip.p) < 0) //첫파이프 오픈
-		err_msg("pipe_err", tok);
+		err_msg("pipe_err", tok, 0);
 	while (i < pip.cnt + 1) //실행할 횟수는 명령어갯수만큼.
 	{
 		pid_t pid = fork();
@@ -180,8 +180,6 @@ void	run_pipe(t_token *tok)
 	}
 	if (pip.p[((i - 1) * 2)] != 0 && pip.p[((i - 1) * 2)] != 1)
 		close_util(pip.p[((i - 1) * 2)], tok);
-	// while (i-- > 0) //자식이 열렸던만큼 기다려줌.
-	// 	waitpid(-1, 0, 0);
 	waitpid_stat(tok, i);
 	free(pip.p);
 }

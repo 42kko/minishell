@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 06:21:17 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:25:14 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,17 @@ void	set_signal(int num)
 	}
 }
 
-void	err_msg(char *msg, t_token *tok) //open, close, pipe 에 사용댐
+void	err_msg(char *msg, t_token *tok, char *target) //open, close, pipe 에 사용댐
 {
-	// dup2(tok->info->stdio_backup[0], 0);
-	dup2(tok->info->stdio_backup[1], 1);
-	printf("%s:%s", msg, strerror(errno));
+	if (target != 0)
+	{
+		ft_putstr_fd(target, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
+	ft_putstr_fd(msg, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(strerror(errno), STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	if (errno == 24)
 		exit(1);
 }
@@ -104,13 +110,19 @@ t_info	*new_info(t_info *info)
 	new->old_term = 0;
 	new->path = 0;
 	new->exit_num = 0;
-	new->stdio_backup[0] = dup(0);
-	new->stdio_backup[1] = dup(1);
+	new->stdio_backup[0] = dup(STDIN_FILENO);
+	new->stdio_backup[1] = dup(STDOUT_FILENO);
 	return (new);
+}
+
+void	leak(void)
+{
+	system("leaks minishell");
 }
 
 int	main(int ac, char **av, char **envp)
 {
+	// atexit(leak);
 	t_info	*info;
 
 	info = new_info(info);

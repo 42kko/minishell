@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 05:39:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:42:38 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ t_token	*new_token(t_info *info)
 	new->info = info;
 	new->fd_in = -1;
 	new->fd_out = -1;
-
+	new->errn = 0;
 	new->err_flag_syn = 0;
 	new->err_flag_notfound = 0;
 	new->token_type = 0;
-
 	return (new);
 }
 
@@ -151,6 +150,8 @@ int	identify_built_exec(t_token *tok) //빌트인 - 1 , exec - 0
 	else if (ft_strncmp(tok->cmd[0], "env", 4) == 0)
 		return (1);
 	else if (ft_strncmp(tok->cmd[0], "exit", 5) == 0)
+		return (1);
+	else if (ft_strncmp(tok->cmd[0], "$?", 3) == 0)
 		return (1);
 	else
 		return (0);
@@ -238,6 +239,30 @@ void	add_path(t_token *tok)
 	errno = 0;
 }
 
+void	check_redir_data(t_token *tok)
+{
+	int	i;
+
+	while (tok)
+	{
+		i = 0;
+		if (tok->type == TDOC || tok->type == TADDOUT || \
+		tok->type == TIN || tok->type == TOUT)
+		{
+			while (tok->line[i])
+			{
+				if (tok->line[i] != '<' && tok->line[i] != '>' && \
+				tok->line[i] != ' ' && tok->line[i] != '\0')
+					break ;
+				i++;
+			}
+			if (tok->line[i] == '\0')
+				throw_error_syntax(SYNTAX_ERR, tok);
+		}
+		tok = tok->next;
+	}
+}
+
 t_token	*init_token(char *line, t_info *info)
 {
 	t_token	*token;
@@ -254,7 +279,7 @@ t_token	*init_token(char *line, t_info *info)
 		set_type_remove_operator(&temp, &token);
 		temp = temp->next;
 	}
+	check_redir_data(token);
 	errno = 0;
-	// ft_tokeniter(token);
 	return (token);
 }

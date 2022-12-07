@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 02:57:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 13:08:57 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	new_cmd_arr = pick_create_only_cmd_arr((*token)->cmd, get_sec_arr_len((*token)->cmd) - token_list_len(redir_token));
 	free_sec_arr((*token)->cmd);
 	(*token)->cmd = new_cmd_arr;
-	(*token)->type = TNOCMD;
+	// (*token)->type = TNOCMD;
 	(*token)->line = update_token_line(token);
 	sort_token_order(token, first, redir_token);
 }
@@ -145,7 +145,12 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
 	else if (have_brachek((*token)->line, *token) != 0)
+	{
+		(*token)->type = TBRACH;
+		if ((*token)->line[0] != '(')
+			throw_error_syntax(SYNTAX_ERR, *token);
 		check_subshells(token, 0);
+	}
 	else if (*token)
 	{
 		set_cmd(token);

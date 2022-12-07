@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 05:35:28 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:02:37 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	run(char *line, t_info *info)
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token));
-	ft_tokeniter(token);
+	// ft_tokeniter(token);
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
