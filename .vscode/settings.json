@@ -29,6 +29,7 @@
     "tuple": "c",
     "utility": "c",
     "__string": "c",
-    "locale": "c"
+    "locale": "c",
+    "string.h": "c"
   }
 }

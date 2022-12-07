@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 03:36:44 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 14:02:37 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int	run(char *line, t_info *info)
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token));
-	ft_tokeniter(token);
+	// ft_tokeniter(token);
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (1);
@@ -111,14 +111,10 @@ int	run(char *line, t_info *info)
 	return (0);
 }
 
-void	loop(char **envp, t_info *info)
+void	loop(t_info *info)
 {
 	char	*line;
 
-	info = malloc(sizeof(t_info));
-	if (!info)
-		throw_error(MALLOC_ERR);
-	init_env(info, envp);
 	while (1)
 	{
 		line = readline("seekko> ");

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
 /*   Updated: 2022/12/07 13:37:14 by seokchoi         ###   ########.fr       */
@@ -148,7 +148,12 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
 		check_type(token);
 	else if (have_brachek((*token)->line, *token) != 0)
+	{
+		(*token)->type = TBRACH;
+		if ((*token)->line[0] != '(')
+			throw_error_syntax(SYNTAX_ERR, *token);
 		check_subshells(token, 0);
+	}
 	else if (*token)
 	{
 		set_cmd(token);

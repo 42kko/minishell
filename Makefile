@@ -6,7 +6,7 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/06 19:07:08 by kko              ###   ########.fr        #
+#    Updated: 2022/12/07 13:28:18 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,8 +28,8 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}} \
 			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}}
 CC		= cc
-#CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
- CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
+# CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft

@@ -6,44 +6,78 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 03:31:18 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/07 14:25:33 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	io_ctl(t_pipe *pip, int i, t_token *tok)
+void	stdin_ctl(t_pipe *pip, int i, t_token *tok)
 {
-	if (pip->cnt > i)
-	{
-		close(pip->p[(i * 2)]);
-	}
 	if (tok->type != NO_REDIR && tok->fd_in != -1)
 	{
 		dup2(tok->fd_in, 0);
-		close(tok->fd_in);
+		close_util(tok->fd_in, tok);
 	}
 	else
 	{
-		if (i > 0) 
+		if (i > 0)
 		{
 			dup2(pip->p[(i - 1) * 2], 0); 
-			close(pip->p[(i - 1) * 2]);
+			close_util(pip->p[(i - 1) * 2], tok);
 		}
 	}
+}
+
+void	stdout_ctl(t_pipe *pip, int i, t_token *tok)
+{
 	if (tok->type != NO_REDIR && tok->fd_out != -1)
 	{
 		dup2(tok->fd_out, 1);
-		close(tok->fd_out);
+		close_util(tok->fd_out, tok);
 	}
 	else
 	{
 		if (i < pip->cnt) 
 		{
 			dup2(pip->p[(i * 2) + 1], 1);
-			close(pip->p[(i * 2) + 1]);
+			close_util(pip->p[(i * 2) + 1], tok);
 		}
 	}
+}
+
+void	io_ctl(t_pipe *pip, int i, t_token *tok)
+{
+	if (pip->cnt > i)
+		close_util(pip->p[(i * 2)], tok);
+	stdin_ctl(pip, i , tok);
+	// if (tok->type != NO_REDIR && tok->fd_in != -1)
+	// {
+	// 	dup2(tok->fd_in, 0);
+	// 	close(tok->fd_in);
+	// }
+	// else
+	// {
+	// 	if (i > 0) 
+	// 	{
+	// 		dup2(pip->p[(i - 1) * 2], 0); 
+	// 		close(pip->p[(i - 1) * 2]);
+	// 	}
+	// }
+	stdout_ctl(pip, i, tok);
+	// if (tok->type != NO_REDIR && tok->fd_out != -1)
+	// {
+	// 	dup2(tok->fd_out, 1);
+	// 	close(tok->fd_out);
+	// }
+	// else
+	// {
+	// 	if (i < pip->cnt) 
+	// 	{
+	// 		dup2(pip->p[(i * 2) + 1], 1);
+	// 		close(pip->p[(i * 2) + 1]);
+	// 	}
+	// }
 }
 
 void	ft_child(t_token *tok, int i, t_pipe *pip)
@@ -63,7 +97,7 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 	io_ctl(pip, i, tok->left); //받아온 fd값을 가지고 입,출력을 바꿔줄함수
 	if (tok->right->type == TNOCMD)
 		exit (0);
-	add_path(tok->right, tok->info);
+	add_path(tok->right);
 	execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 	exit(errno); //실행이되지않았다면 exit으로 끝냄.
 }
@@ -76,14 +110,17 @@ cmd0 - 1 을 이어줄 파이프는 while문 시작전에 열어줌  (1)
 그다음 cmd1 - 2 를 연결해줄파이프를 index 0일때 미리 열어줘야함  (2)
 그리고 안쓰는 파이프들을 적절히 닫아줌.
 */
-void	ft_parent(int i, t_pipe *pip) 
+void	ft_parent(int i, t_pipe *pip, t_token *tok)
 {
 	if (pip->cnt > i)
-		close(pip->p[(i * 2) + 1]);
+		close_util(pip->p[(i * 2) + 1], tok);
 	if (pip->cnt > i + 1)
-		pipe(pip->p + ((i + 1) * 2));
+	{
+		if (pipe(pip->p + ((i + 1) * 2)) < 0)
+			err_msg("pipe err", tok, 0);
+	}
 	if (i > 1 && pip->cnt + 1 > i)
-		close(pip->p[((i - 2) * 2)]);
+		close_util(pip->p[((i - 2) * 2)], tok);
 }
 
 void	new_pipe(t_pipe *pip)
@@ -107,6 +144,21 @@ int	cnt_pipe(t_token **tok)
 	return (ret);
 }
 
+void	waitpid_stat(t_token *tok, int i)
+{
+	int	stat;
+
+	while (i > 0)
+	{
+		waitpid(-1, &stat, 0);
+		i--;
+	}
+	if (WIFEXITED(stat))
+		tok->info->exit_num = WEXITSTATUS(stat);
+	else if (WIFSIGNALED(stat))
+		tok->info->exit_num = WTERMSIG(stat);
+}
+
 void	run_pipe(t_token *tok)
 {
 	struct s_pipe	pip;
@@ -115,19 +167,19 @@ void	run_pipe(t_token *tok)
 	new_pipe(&pip); //파이프에서 사용할 구조체
 	pip.cnt = cnt_pipe(&tok);
 	pip.p = (int *)malloc(sizeof(int) * pip.cnt * 2); //필요한 파이프만큼 오픈
-	pipe(pip.p); //첫파이프 오픈
+	if (pipe(pip.p) < 0) //첫파이프 오픈
+		err_msg("pipe_err", tok, 0);
 	while (i < pip.cnt + 1) //실행할 횟수는 명령어갯수만큼.
 	{
 		pid_t pid = fork();
 		if (pid == 0)
 			ft_child(tok, i, &pip);
 		else if (pid > 0)
-			ft_parent(i, &pip);
+			ft_parent(i, &pip, tok);
 		i++;
 	}
 	if (pip.p[((i - 1) * 2)] != 0 && pip.p[((i - 1) * 2)] != 1)
-		close(pip.p[((i - 1) * 2)]);
-	while (i-- > 0) //자식이 열렸던만큼 기다려줌.
-		waitpid(-1, 0, 0);
+		close_util(pip.p[((i - 1) * 2)], tok);
+	waitpid_stat(tok, i);
 	free(pip.p);
 }

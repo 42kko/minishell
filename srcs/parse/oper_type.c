@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   oper_type.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:43:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/05 19:40:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 10:42:19 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,59 @@ int	check_redir(char c)
 	return (0);
 }
 
+int	cnt_redir(char *line, t_token **tok)
+{
+	if (line[1] == '\0')
+		return (1);
+	else if (line[0] == '<' && line[1] == '<')
+		return (2);
+	else if (line[0] == '>' && line[1] == '>')
+		return (2);
+	else if (line[1] != '\0')
+		return (1);
+	throw_error_syntax(SYNTAX_ERR, *tok);
+	return (1);
+}
+
+int	push_index(char *line, int *i)
+{
+	int	j;
+	int	k;
+
+	j = 0;
+	k = 0;
+	if (line[j] == '\0')
+		return (-1);
+	while (line[j] == ' ' && line[j] != '\0')
+		j++;
+	if (line[j] == '\0')
+		return (-1);
+	while (line[j + k] != ' ' && line[j + k] != '\0' && \
+	check_redir(line[j + k]) == 0)
+		k++;
+	if (k == 0)
+		return (-1);
+	return (*i += j + k - 1);
+}
+
 void	check_subshells(t_token **token, int i)
 {
 	i = 0;
-	(*token)->type = TBRACH;
-	if ((*token)->line[0] != '(')
-		throw_error_syntax(SYNTAX_ERR, *token);
-	else if ((*token)->line[0] == '(')
+	if ((*token)->line[0] == '(')
 		new_push_index_until_space((*token)->line + i, &i, O_BRACHEK, *token);
 	i++;
 	while ((*token)->line[i])
 	{
 		if (check_redir((*token)->line[i]))
 		{
-			while ((*token)->line[i])
+			i += cnt_redir((*token)->line + i, token);
+			if (push_index((*token)->line + i, &i) < 0)
 			{
-				if ((*token)->line[i] == '\0')
-					return ;
-				else if ((*token)->line[i] == ' ')
-					break ;
-				i++;
+				throw_error_syntax(SYNTAX_ERR, *token);
+				return ;
 			}
 		}
-		if (check_redir((*token)->line[i]) == 0 && \
+		else if (check_redir((*token)->line[i]) == 0 && \
 		((*token)->line[i] != '\0' && (*token)->line[i] != ' '))
 			throw_error_syntax(SYNTAX_ERR, *token);
 		i++;
