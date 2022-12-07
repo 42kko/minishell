@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/03 18:41:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/07 12:48:32 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,24 @@ static t_keys	*ft_keyslast(t_keys *keys)
 	return (keys);
 }
 
-static char	*case_env_question(t_token **token, t_keys **keys, char *line, int start)
+static char	*case_env_question(t_keys *keys, char *line, int start)
 {
 	char	*key;
 	char	*state;
 
+	key = malloc(sizeof(char) * 3);
 	if (!key)
 		throw_error(MALLOC_ERR);
 	ft_keycpy(key, &line[start], 3);
-	(*keys)->key = key;
-	state = ft_strdup("0"); // 임시 방편 밑에 꺼로 바꿔야한다.
-	// state = ft_get_prev_pipe_state(~~~~~);
+	keys->key = key;
+	state = ft_itoa(errno); // 임시 방편 밑에 꺼로 바꿔야한다.
+	if (!state)
+		throw_error(MALLOC_ERR);
 	return (state); // string 상태의 그것이 와야한다.
 }
 
 static char	*get_env_value_of_key(t_token **token, \
-t_keys **keys, char *line, int start)
+t_keys *keys, char *line, int start)
 {
 	int		finish;
 	char	*key;
@@ -64,7 +66,7 @@ t_keys **keys, char *line, int start)
 	if (line[finish] == '$')
 	{
 		if(line[finish + 1] == '?')
-			return (case_env_question(token, keys, line, start));
+			return (case_env_question(keys, line, finish));
 		while (line[finish] && line[finish] != ' ' && \
 		check_operator_for_env(line[finish]) == NO_TYPE)
 			finish++;
@@ -72,7 +74,7 @@ t_keys **keys, char *line, int start)
 		if (!key)
 			throw_error(MALLOC_ERR);
 		ft_keycpy(key, &line[start], finish - start + 1);
-		(*keys)->key = key;
+		keys->key = key;
 		value = ft_getenv((*token)->info->env_list, key + 1);
 		return (value);
 	}
@@ -97,7 +99,7 @@ static void	check_env_record(t_token **token, t_keys **keys, int i, t_parse_tmp 
 	if (!keys_last)
 		throw_error(MALLOC_ERR);
 	keys_last->value = get_env_value_of_key(token, \
-	&keys_last, (*token)->line, i);
+	keys_last, (*token)->line, i);
 	keys_last->key_len = ft_strlen(keys_last->key);
 	keys_last->value_len = ft_strlen(keys_last->value);
 	keys_last->start_idx = *tmp->j;
