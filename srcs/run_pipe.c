@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 16:41:53 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 20:00:14 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	stdout_ctl(t_pipe *pip, int i, t_token *tok)
 	}
 	else
 	{
-		if (i < pip->cnt) 
+		if (i < pip->cnt)
 		{
 			dup2(pip->p[(i * 2) + 1], 1);
 			close_util(pip->p[(i * 2) + 1], tok);
@@ -103,9 +103,7 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 		execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 	}
 	else
-	{
-		ft_bulitin(tok);
-	}
+		ft_bulitin(tok->right);
 	exit(errno); //실행이되지않았다면 exit으로 끝냄.
 }
 

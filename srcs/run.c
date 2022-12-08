@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 18:14:01 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 20:00:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	run_exec(t_token *tok)
 	{
 		set_signal(IGN);
 		printf("builtin 실행중\n");
-		built_exec(tok);
+		builtin_alone_exec(tok);
 		set_signal(BASH);
 	}
 	else if (identify_built_exec(tok->right) == 0) //exec

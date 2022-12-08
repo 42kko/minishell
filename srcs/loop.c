@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 18:17:38 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 20:00:01 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,10 +120,7 @@ int	run(char *line, t_info *info)
 	check_cmd_num(token, &cmd_num);
 	if (errno == -1)
 		return (1);
-	if (cmd_num == 1 && identify_built_exec(token->right) == 1)
-		builtin_alone_exec(token);
-	else
-		run_shell(token);
+	run_shell(token);
 	return (0);
 }
 
