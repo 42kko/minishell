@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ioctl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:38:32 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:57:46 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:28:14 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	io_ctl_cmd(t_token *tok)
 	}
 }
 
-void	stdin_ctl(t_pipe *pip, int i, t_token *tok)
+static void	stdin_ctl(t_pipe *pip, int i, t_token *tok)
 {
 	if (tok->type != NO_REDIR && tok->fd_in != -1)
 	{
@@ -37,13 +37,13 @@ void	stdin_ctl(t_pipe *pip, int i, t_token *tok)
 	{
 		if (i > 0)
 		{
-			dup2(pip->p[(i - 1) * 2], 0); 
+			dup2(pip->p[(i - 1) * 2], 0);
 			close_util(pip->p[(i - 1) * 2], tok);
 		}
 	}
 }
 
-void	stdout_ctl(t_pipe *pip, int i, t_token *tok)
+static void	stdout_ctl(t_pipe *pip, int i, t_token *tok)
 {
 	if (tok->type != NO_REDIR && tok->fd_out != -1)
 	{

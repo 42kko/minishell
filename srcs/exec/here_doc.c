@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:56:41 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:56:47 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:25:44 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	writedoc(char *limiter, int *p, t_token *tok)
+static void	writedoc(char *limiter, int *p, t_token *tok)
 {
 	char	*line;
 

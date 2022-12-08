@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:31:54 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:38:02 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:36:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	run_exec(t_token *tok)
+static void	run_exec(t_token *tok)
 {
-	if (identify_built_exec(tok->right) == 1) //빌트인
+	if (identify_built_exec(tok->right) == 1)
 	{
 		builtin_alone_exec(tok);
 	}
-	else if (identify_built_exec(tok->right) == 0) //exec
+	else if (identify_built_exec(tok->right) == 0)
 	{
 		if (tok->errn != -1)
 		{
@@ -31,7 +31,7 @@ void	run_exec(t_token *tok)
 	}
 }
 
-void	run_subshell(t_token *tok)
+static void	run_subshell(t_token *tok)
 {
 	pid_t	pid;
 	int		stat;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:45:39 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 02:12:23 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ typedef enum e_comma_type	t_comma_type;
 typedef enum e_brachek_type	t_brachek_type;
 typedef enum e_redir_type	t_redir_type;
 typedef enum e_wave_type	t_wave_type;
+typedef struct s_keys		t_keys;
+typedef struct s_token		t_token;
+typedef struct s_parse_tmp	t_parse_tmp;
+typedef struct s_info		t_info;
+typedef struct s_env_list	t_env_list;
+
+struct s_info
+{
+	struct termios	*old_term;
+	t_env_list		*env_list;
+	char			**path;
+	int				exit_num;
+	int				stdio_backup[2];
+};
 
 enum e_wave_type
 {
@@ -30,19 +44,19 @@ enum e_oper_type
 {
 	NO_TYPE,
 	TCMD,
-	TOUT, //>
-	TADDOUT, //>>
-	TIN, //<
-	TDOC, //<<
-	NO_REDIR, //리다이렉션없음
-	TPIPE, //|
-	TOR, //||
-	TAND, //&
-	TDAND, //&&
-	TSEMI, //;
-	TBRACH, // ( )
-	O_COM, // '
-	T_COM, // "
+	TOUT,
+	TADDOUT,
+	TIN,
+	TDOC,
+	NO_REDIR,
+	TPIPE,
+	TOR,
+	TAND,
+	TDAND,
+	TSEMI,
+	TBRACH,
+	O_COM,
+	T_COM,
 	TRDYCMD,
 	TRDYBRACH,
 	TNOCMD,
@@ -65,7 +79,7 @@ enum e_comma_type
 	TWO_COM,
 };
 
-enum e_brachek_type //타입에러때문에 ONE_COM을 가져왔습니다.
+enum e_brachek_type
 {
 	NO_BRACHEK,
 	ONE_COMM,
@@ -81,7 +95,7 @@ enum e_redir_type
 	C_DIREC,
 };
 
-typedef struct s_keys
+struct s_keys
 {
 	char			*key;
 	char			*value;
@@ -89,9 +103,9 @@ typedef struct s_keys
 	int				value_len;
 	int				start_idx;
 	struct s_keys	*next;
-}	t_keys;
+};
 
-typedef struct s_token
+struct s_token
 {
 	int					err_flag_syn;
 	int					err_flag_notfound;
@@ -109,9 +123,9 @@ typedef struct s_token
 	t_info				*info;
 	t_oper_type			type;
 	t_comma_type		comma_type;
-}	t_token;
+};
 
-typedef struct s_parse_tmp
+struct s_parse_tmp
 {
 	t_comma_type	type;
 	int				*i;
@@ -119,7 +133,7 @@ typedef struct s_parse_tmp
 	int				len;
 	char			*s;
 	char			*str;
-}	t_parse_tmp;
+};
 
 //check_list
 void			check_redir_data(t_token *tok);
@@ -133,7 +147,8 @@ int				check_redir(char c);
 void			check_subshells(t_token **token, int i);
 
 //check wave
-t_wave_type		check_is_wave(t_token **token, char **arr, int *left, int *right);
+t_wave_type		check_is_wave(t_token **token, \
+char **arr, int *left, int *right);
 void			change_wave_to_home(t_token **token, char **arr, int i);
 
 //cmd
@@ -151,57 +166,70 @@ t_parse_tmp *tmp);
 
 //init_token
 void			new_push_index_until_space(char *line, int *index, \
-t_brachek_type type, t_token *tok)
-t_token			*init_token(char *line, t_info *info)
+t_brachek_type type, t_token *tok);
+t_token			*init_token(char *line, t_info *info);
+
+// key_util
+int				ft_keycpy(char *dst, char *src, int dstsize);
+t_keys			*ft_keyslast(t_keys *keys);
 
 //is_type
-t_brachek_type	ft_is_comma_brachek(char c)
-t_brachek_type	ft_is_brachek(char c)
-t_redir_type	ft_is_redir(char c)
-t_comma_type	ft_is_comma(char c)
+t_brachek_type	ft_is_comma_brachek(char c);
+t_brachek_type	ft_is_brachek(char c);
+t_redir_type	ft_is_redir(char c);
+t_comma_type	ft_is_comma(char c);
 
 //malloc_utils
-char			*malloc_str(int len)
-char			*malloc_changed_str(char *cmd, t_keys *keys)
+char			*malloc_str(int len);
+char			*malloc_changed_str(char *cmd, t_keys *keys);
 
 //oper_type
-int				cnt_redir(char *line, t_token **tok)
-int				push_index(char *line, int *i)
-int				have_brachek(char *line, t_token *tok)
-void			set_type(t_token **token, char oper, t_oper_type one, t_oper_type two)
+int				cnt_redir(char *line, t_token **tok);
+int				push_index(char *line, int *i);
+int				have_brachek(char *line, t_token *tok);
+void			set_type(t_token **token, char oper, \
+t_oper_type one, t_oper_type two);
 
 //parse_utility
-char			*cpy_wout_com(t_token **token, char *s, int start, int len)
+char			*cpy_wout_com(t_token **token, char *s, int start, int len);
 
 //push_index_about_comma
-int				count_space_out_of_comma(char *str)
-void			push_index_until_space_or_oper(char *line, int *index)
+int				count_space_out_of_comma(char *str);
+void			push_index_until_space_or_oper(char *line, int *index);
 
 
 //redirection
-추가필요
+void			set_type_remove_operator(t_token **token, t_token **first);
+
+//redirection2
+char			*update_token_line(t_token **token);
+void			sort_token_order(t_token **token, t_token **first, \
+t_token *redir_token);
+
+//check_subshell_redir
+void			get_redir_token(t_token *tok);
 
 //token_list_len
 int				token_list_len(t_token *token);
 
 //token_util
-t_token			*ft_tokenstart(t_token *lst)
-t_token			*ft_tokenlast(t_token *lst)
-t_token			*new_token(t_info *info)
+t_token			*ft_tokenstart(t_token *lst);
+t_token			*ft_tokenlast(t_token *lst);
+t_token			*new_token(t_info *info);
 
 //tree_recursion
-t_token			*get_tree(t_token *token)
+t_token			*get_tree(t_token *token);
 
 //tree_check
-void			viewtree(t_token *tok)
-void			viewtree2(t_token *tok)
-int				check_tree(t_token *token)
+void			viewtree(t_token *tok);
+void			viewtree2(t_token *tok);
+int				check_tree(t_token *token);
 
 //tree_util
-void			zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k)
-t_token			*next_token(t_token *token)
-t_token			*prev_token(t_token *token)
+void			zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k);
+t_token			*next_token(t_token *token);
+t_token			*prev_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
-t_oper_type *oper2, t_oper_type *oper3)
+t_oper_type *oper2, t_oper_type *oper3);
 
 #endif

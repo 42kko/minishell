@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   key_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 23:33:43 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:53:08 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/09 01:50:30 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/09 01:50:53 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_env(t_token *token)
+int	ft_keycpy(char *dst, char *src, int dstsize)
 {
-	t_env_list	*env_list;
+	size_t	len;
+	size_t	i;
 
-	env_list = token->info->env_list;
-	if (get_sec_arr_len(token->cmd) > 2)
+	i = 0;
+	len = ft_strlen(src);
+	if (dstsize == 0)
+		return (len);
+	while (i < dstsize - 1 && src[i])
 	{
-		throw_error_message("cd", token->cmd[1], \
-		"No such file or directory", 1);
-		errno = 127;
-		return ;
+		dst[i] = src[i];
+		i++;
 	}
-	print_envs(token->info->env_list);
-	errno = 0;
+	dst[i] = '\0';
+	return (len);
+}
+
+t_keys	*ft_keyslast(t_keys *keys)
+{
+	if (!keys)
+		return (NULL);
+	while (keys->next)
+		keys = keys->next;
+	return (keys);
 }

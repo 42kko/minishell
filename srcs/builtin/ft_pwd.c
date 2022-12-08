@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:14:05 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:58:11 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:55:06 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	ft_pwd(char **cmd)
 {
 	char	*pwd;
 	char	*buf;
+
 	(void) cmd;
-	
-	buf = calloc(4096, 1);
+	buf = ft_calloc(4096, 1);
 	if (!buf)
 		throw_error(MALLOC_ERR);
 	pwd = getcwd(buf, 4096);

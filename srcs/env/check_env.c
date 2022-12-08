@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   check_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:55:10 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:02:09 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:09:47 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		*create_idx_arr(t_keys *keys)
+static int	*create_idx_arr(t_keys *keys)
 {
 	int		len;
 	int		*idx;
@@ -39,37 +39,38 @@ static int		*create_idx_arr(t_keys *keys)
 	return (idx);
 }
 
+static	void	init_value(t_change_tmp	*tmp, t_keys *keys, int **idx)
+{
+	*idx = create_idx_arr(keys);
+	(*tmp).i = 0;
+	(*tmp).k = 0;
+	(*tmp).ord = 0;
+	(*tmp).ch_idx = 0;
+}
+
 char	*change_key_to_value(char *cmd, t_keys *keys)
 {
-	int		i;
-	int		k;
-	int		j;
-	char	*str;
-	int		ord;
-	int		*idx;
-	int		changed_idx;
+	char			*str;
+	int				*idx;
+	t_change_tmp	tmp;
 
 	str = malloc_changed_str(cmd, keys);
-	idx = create_idx_arr(keys);
-	i = 0;
-	k = 0;
-	ord = 0;
-	changed_idx = 0;
-	while (cmd[k])
+	init_value(&tmp, keys, &idx);
+	while (cmd[tmp.k])
 	{
-		if (cmd[k] == '$' && keys && k == idx[ord] + changed_idx)
+		if (cmd[tmp.k] == '$' && keys && tmp.k == idx[tmp.ord] + tmp.ch_idx)
 		{
-			j = 0;
-			while (keys->value[j])
-				str[i++] = keys->value[j++];
-			k += keys->key_len;
-			changed_idx += keys->value_len - keys->key_len;
+			tmp.j = 0;
+			while (keys->value[tmp.j])
+				str[tmp.i++] = keys->value[tmp.j++];
+			tmp.k += keys->key_len;
+			tmp.ch_idx += keys->value_len - keys->key_len;
 			keys = keys->next;
 		}
 		else
-			str[i++] = cmd[k++];
+			str[tmp.i++] = cmd[tmp.k++];
 	}
-	str[i] = '\0';
+	str[tmp.i] = '\0';
 	free(cmd);
 	return (str);
 }

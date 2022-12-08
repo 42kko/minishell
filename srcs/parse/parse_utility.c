@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utility.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:36:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:35:47 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 00:55:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_parse_tmp	*init_parse_tmp(int *i, int *j, char *s, char *str)
 {
 	t_parse_tmp		*tmp;
 
-	tmp = calloc(sizeof(t_parse_tmp), 1);
+	tmp = ft_calloc(sizeof(t_parse_tmp), 1);
 	if (!tmp)
 		throw_error(MALLOC_ERR);
 	tmp->i = i;

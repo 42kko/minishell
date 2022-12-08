@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   initial.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:20:15 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 00:13:31 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:53:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handler(int signo)
+static void	handler(int signo)
 {
 	int	pid;
 
@@ -25,7 +25,7 @@ void	handler(int signo)
 	(void) signo;
 }
 
-void	handler1(int signo)
+static void	handler1(int signo)
 {
 	int	pid;
 

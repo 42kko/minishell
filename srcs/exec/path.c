@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:44:37 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:30:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ char	**info_get_path(t_info *info)
 	return (ret);
 }
 
-int	ft_access(const char *pathname, int mode)
+static int	ft_access(const char *pathname, int mode)
 {
 	struct stat	buf;
 	int			r;
@@ -52,7 +52,7 @@ int	ft_access(const char *pathname, int mode)
 	return (-1);
 }
 
-void	not_found(char *cmd)
+static void	not_found(char *cmd)
 {
 	errno = 127;
 	ft_putstr_fd("command not found: ", 2);
@@ -60,7 +60,7 @@ void	not_found(char *cmd)
 	ft_putstr_fd("\n", 2);
 }
 
-char	*write_path(char *cmd, t_token *tok)
+static char	*write_path(char *cmd, t_token *tok)
 {
 	int		i;
 	char	*tmp;

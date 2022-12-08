@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:18:35 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 00:18:52 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:22:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	throw_error(t_error_type type)
 {
 	if (type == MALLOC_ERR)
 		error_message_exit("ERROR : MALLOR_ERR", type);
-	if (type == SYNTAX_ERR) //만들었던 토큰화를 전부 할당해제해준다.
+	if (type == SYNTAX_ERR)
 		error_message_exit("syntax error near unexpected token\n", type);
 }

@@ -6,32 +6,32 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 17:07:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:53:55 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	compare_str(char *str1, char *str2)
+static int	compare_str(char *s1, char *s2)
 {
 	size_t	i;
 
 	i = 0;
-	while (str1[i] != '\0' && str2[i] != '\0')
+	while (s1[i] != '\0' && s2[i] != '\0')
 	{
-		if (str1[i] - str2[i] < 0)
+		if (s1[i] - s2[i] < 0)
 			return (1);
-		else if (str1[i] - str2[i] > 0)
+		else if (s1[i] - s2[i] > 0)
 			return (0);
 		i++;
 	}
-	if (str1[i] == '\0')
+	if (s1[i] == '\0')
 		return (1);
 	else
 		return (0);
 }
 
-void	sort_env(char **env, int env_len)
+static void	sort_env(char **env, int env_len)
 {
 	char	*tmp;
 	int		i;
@@ -55,7 +55,7 @@ void	sort_env(char **env, int env_len)
 	}
 }
 
-void	print_export(char **cmd)
+static void	print_export(char **cmd)
 {
 	int	i;
 
@@ -68,7 +68,7 @@ void	print_export(char **cmd)
 	}
 }
 
-void	check_export_arg_right(t_token *token)
+static void	check_export_arg_right(t_token *token)
 {
 	char	*key;
 	char	*value;

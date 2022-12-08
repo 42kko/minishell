@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:56:50 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 01:29:05 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	open_out(t_token *tok, t_token *tmp)
+static void	open_out(t_token *tok, t_token *tmp)
 {
 	if (tmp->type == TOUT)
 	{
@@ -36,7 +36,7 @@ void	open_out(t_token *tok, t_token *tmp)
 	}
 }
 
-void	open_in(t_token *tok, t_token *tmp)
+static void	open_in(t_token *tok, t_token *tmp)
 {
 	if (tmp->type == TIN)
 	{
@@ -56,7 +56,7 @@ void	open_in(t_token *tok, t_token *tmp)
 	}
 }
 
-void	start_open(t_token *tok)
+static void	start_open(t_token *tok)
 {
 	t_token	*tmp;
 
