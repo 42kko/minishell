@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 23:49:00 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:15:58 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_env(t_info *info, char **envp)
 	t_env_list	*tmp;
 
 	env_len = get_sec_arr_len(envp);
-	info->env_list = malloc(sizeof(t_env_list));
+	info->env_list = calloc(sizeof(t_env_list), 1);
 	if (!info->env_list)
 		return (throw_error(MALLOC_ERR));
 	tmp = info->env_list;
@@ -29,7 +29,7 @@ void	init_env(t_info *info, char **envp)
 	i = 1;
 	while (envp[i])
 	{
-		tmp->next = malloc(sizeof(t_env_list));
+		tmp->next = calloc(sizeof(t_env_list), 1);
 		if (!tmp->next)
 			return (throw_error(MALLOC_ERR));
 		tmp = tmp->next;
@@ -37,7 +37,7 @@ void	init_env(t_info *info, char **envp)
 		tmp->next = NULL;
 		i++;
 	}
-	ft_putenv(info->env_list, "~", ft_getenv(info->env_list, "HOME"));
+	ft_putenv(info->env_list, "~", ft_getenv(info->env_list, "HOME"), 0);
 }
 
 char	*ft_getenv(t_env_list *env_list, char *key)
@@ -73,7 +73,7 @@ void	print_envs(t_env_list *env_list)
 	}
 }
 
-void	ft_putenv(t_env_list *env_list, char *key, char *value)
+void	ft_putenv(t_env_list *env_list, char *key, char *value, int equal)
 {
 	t_env_list	*tmp_a;
 	t_env_list	*tmp_b;
@@ -85,6 +85,7 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 		{
 			free(tmp_a->value);
 			tmp_a->value = ft_strdup(value);
+			tmp_a->equal = equal;
 			if (!tmp_a->value)
 				throw_error(MALLOC_ERR);
 			return ;
@@ -92,12 +93,13 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value)
 		tmp_b = tmp_a;
 		tmp_a = tmp_a->next;
 	}
-	tmp_b->next = malloc(sizeof(t_env_list));
+	tmp_b->next = calloc(sizeof(t_env_list), 1);
 	if (!tmp_b->next)
 		throw_error(MALLOC_ERR);
 	tmp_b->next->key = ft_strdup(key);
 	tmp_b->next->value = ft_strdup(value);
 	tmp_b->next->next = NULL;
+	tmp_b->next->equal = equal;
 }
 
 void	ft_unset_env_list(t_env_list **env_list, char *key)

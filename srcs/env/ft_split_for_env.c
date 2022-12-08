@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 14:44:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,10 @@ int	ft_split_for_env(char const *s, char **key, char **value)
 			equal_flag = 1;
 		i++;
 	}
-	if (equal_flag == 0)
-		return (FAIL);
 	s += create_str_to_c(s, key, '=');
 	create_str_to_c(s, value, 0);
-	return (SECCESS);
+	if (equal_flag == 1)
+		return (2);
+	else
+		return (SUCCESS);
 }

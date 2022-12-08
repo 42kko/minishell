@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 14:48:08 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ enum e_error_type
 struct s_env_list
 {
 	char 		*key;
+	int			equal;
 	char 		*value;
 	t_env_list	*next;
 };
@@ -49,7 +50,7 @@ struct s_env_list
 char 	*ft_getenv(t_env_list *env_list, char *key);
 void	init_env(t_info *info, char **envp);
 void	print_envs(t_env_list *env_list);
-void	ft_putenv(t_env_list *env_list, char *key, char *value);
+void	ft_putenv(t_env_list *env_list, char *key, char *value, int equal);
 void	ft_unset_env_list(t_env_list **env_list, char *key);
 
 // get
@@ -64,6 +65,7 @@ t_env_list	*free_a_node_of_env_list(t_env_list *env_list);
 
 // env_arr
 char		**get_env_arr(t_env_list *env_list);
+char		**get_export_arr(t_env_list *env_list);
 int			get_env_num(t_env_list *env_list);
 
 #endif

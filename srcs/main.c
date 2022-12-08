@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 14:25:14 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 17:00:47 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ void	initial(t_info *info, char **envp) //초기작업.
 	tcgetattr(STDIN_FILENO, info->old_term); // 터미널의 속성을 term에 저장
 	// term.c_cflag &= ~(ICANON | ECHO);
 	term.c_lflag &= ~(ECHOCTL);
-	// term.c_cc[VMIN] = 1;
-	// term.c_cc[VTIME] = 0;
+	term.c_cc[VMIN] = 1;
+	term.c_cc[VTIME] = 0;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term); // 변경된 내용을 터미널에 적용
 }
 

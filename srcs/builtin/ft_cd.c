@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 21:52:02 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:14:50 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	update_pwd(t_token *token)
 	tmp = calloc(4096, sizeof(char));
 	prev_pwd = ft_getenv(env_list, "PWD");
 	cur_pwd = getcwd(tmp, 4096);
-	ft_putenv(env_list, "PWD", cur_pwd);
-	ft_putenv(env_list, "OLDPWD", prev_pwd);
+	ft_putenv(env_list, "PWD", cur_pwd, 0);
+	ft_putenv(env_list, "OLDPWD", prev_pwd, 0);
 	free(tmp);
 	free(prev_pwd);
 	free(cur_pwd);

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 20:24:19 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@
 # include "builtin.h"
 # include <sys/wait.h>
 
-# define SECCESS	1
+# define SUCCESS	1
 # define FAIL		0
 
 extern int	g_errno;

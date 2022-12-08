@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 14:55:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:07:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,18 @@ void	check_export_arg_right(t_token *token)
 {
 	char	*key;
 	char	*value;
+	int		flag;
 
-	if (ft_split_for_env(token->cmd[1], &key, &value) == FAIL)
+	flag = ft_split_for_env(token->cmd[1], &key, &value);
+	if (flag == FAIL)
 	{
 		errno = 1;
 		return ;
 	}
-	ft_putenv(token->info->env_list, key, value);
+	else if (flag == SUCCESS)
+		ft_putenv(token->info->env_list, key, value, 1);
+	else if (flag == 2)
+		ft_putenv(token->info->env_list, key, value, 0);
 	errno = 0;
 }
 
@@ -92,7 +97,7 @@ void	ft_export(t_token *token)
 	env_list = token->info->env_list;
 	if (cmd_len == 1)
 	{
-		env = get_env_arr(env_list);
+		env = get_export_arr(env_list);
 		sort_env(env, get_env_num(env_list));
 		print_export(env);
 		free_sec_arr(env);
