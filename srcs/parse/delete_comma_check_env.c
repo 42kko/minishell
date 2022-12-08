@@ -6,13 +6,14 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 01:51:53 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:38:26 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*case_env_question(t_keys *keys, char *line, int start)
+static char	*case_env_question(t_token **token, \
+t_keys *keys, char *line, int start)
 {
 	char	*key;
 	char	*state;
@@ -22,7 +23,7 @@ static char	*case_env_question(t_keys *keys, char *line, int start)
 		throw_error(MALLOC_ERR);
 	ft_keycpy(key, &line[start], 3);
 	keys->key = key;
-	state = ft_itoa(errno);
+	state = ft_itoa((*token)->info->exit_num);
 	if (!state)
 		throw_error(MALLOC_ERR);
 	return (state);
@@ -39,7 +40,7 @@ t_keys *keys, char *line, int start)
 	if (line[finish] == '$')
 	{
 		if (line[finish + 1] == '?')
-			return (case_env_question(keys, line, finish));
+			return (case_env_question(token, keys, line, finish));
 		while (line[finish] && line[finish] != ' ' && \
 		check_operator_for_env(line[finish]) == NO_TYPE)
 			finish++;

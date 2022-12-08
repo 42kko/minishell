@@ -6,13 +6,13 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 03:25:45 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:31:25 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:47:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	push_index_len_redirection(char *line, int *index)
+static void	push_index_len_redirection(t_token **token, char *line, int *index)
 {
 	int			flag;
 	t_oper_type	type;
@@ -23,7 +23,7 @@ static void	push_index_len_redirection(char *line, int *index)
 	if (check_operator(line[*index]) == type)
 		(*index)++;
 	if (check_operator(line[*index]) != NO_TYPE)
-		throw_error(SYNTAX_ERR);
+		throw_error_syntax(SYNTAX_ERR, *token);
 	while (line[*index] == ' ')
 		(*index)++;
 	push_index_until_space_or_oper(line, &(*index));
@@ -43,7 +43,7 @@ int *left, int *right)
 	char	*line;
 
 	line = (*token)->line;
-	push_index_len_redirection(line, right);
+	push_index_len_redirection(token, line, right);
 	*arr = cpy_wout_com(token, line, (*left), (*right) - (*left));
 	while (line[(*right)] == ' ')
 		(*right)++;
