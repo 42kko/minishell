@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 13:42:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 16:12:10 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*cmd_tree(t_token *tok, int i)
 	return (cmd);
 }
 
-t_token *brach_tree(t_token *tok, int i)
+t_token	*brach_tree(t_token *tok, int i)
 {
 	t_token	*cmd;
 	t_token	*tmp;
@@ -84,7 +84,7 @@ t_token	*cmd_brach(t_token *tok)
 	tmp = tok;
 	while (tmp->type != TCMD && tmp->type != TBRACH && tmp->type != TNOCMD)
 		tmp = tmp->next;
-	if (tmp->type == TCMD)
+	if (tmp->type == TCMD || tmp->type == TNOCMD)
 		tmp = cmd_tree(tok, 0);
 	else if (tmp->type == TBRACH)
 		tmp = brach_tree(tok, 0);
@@ -112,7 +112,7 @@ t_token	*get_tree(t_token *token)
 	select_oper(token, &oper1, &oper2, &oper3);
 	if (oper1 == 0 && (token->type == TIN || token->type == TOUT || \
 	token->type == TDOC || token->type == TADDOUT || token->type == TCMD || \
-	token->type == TBRACH))
+	token->type == TBRACH || token->type == TNOCMD))
 		return (cmd_brach(ft_tokenstart(token)));
 	while (tmp)
 	{
