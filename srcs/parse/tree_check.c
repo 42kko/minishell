@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tree_check.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:27:09 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 23:27:26 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 02:30:24 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	viewtree(t_token *tok)
 	if (tok == 0)
 		return ;
 	viewtree(tok->left);
-	// printf("tree : %s\n", tok->line);
 	if (tok->left)
 		tok->left->parent = tok;
 	if (tok->right)

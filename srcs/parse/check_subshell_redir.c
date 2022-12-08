@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 01:43:47 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 01:47:35 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:30:56 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,3 @@ void	get_redir_token(t_token *tok)
 	tok->line = tmp2;
 	create_redir_token(tok, tmp);
 }
-
