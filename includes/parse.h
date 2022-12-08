@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 21:10:10 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:46:27 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,5 +251,11 @@ void	set_signal(int num);
 //err
 void	err_msg(char *msg, t_token *tok, char *target);
 void	close_util(int fd, t_token *tok);
+
+//subshell
+int	check_redir(char c);
+int	push_index(char *line, int *i);
+int	cnt_redir(char *line, t_token **tok);
+
 
 #endif

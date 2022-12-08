@@ -6,11 +6,11 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 13:37:14 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:24:27 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 static void	attach_redir_token(t_token **token, \
 t_token	**redir_token, char *file_name)
@@ -143,6 +143,61 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	sort_token_order(token, first, redir_token);
 }
 
+int	redir_token(t_token *tok, char *tmp)
+{
+	t_token	*new;
+	int		i;
+
+	i = 0;
+	new = new_token(tok->info);
+	i = cnt_redir(tmp, &tok);
+	push_index(tmp + i, &i);
+	new->line = ft_substr(tmp, 0, i + 1);
+	if (tok->prev)
+	{
+		tok->prev->next = new;
+		new->prev = tok->prev;
+	}
+	tok->prev = new;
+	new->next = tok;
+	check_type(&new);
+	return (i);
+}
+
+void	create_redir_token(t_token *tok, char *tmp)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while(tmp[i])
+	{
+		j = 0;
+		if (tmp[i] == '<' || tmp[i] == '>')
+			j = redir_token(tok, tmp + i);
+		i += j;
+		i++;
+	}
+}
+
+void	get_redir_token(t_token *tok)
+{
+	char	*tmp;
+	char	*tmp1;
+	char	*tmp2;
+	int		i;
+
+	i = 0;
+	while (tok->line[i] != ')')
+		i++;
+	tmp = ft_substr(tok->line, i + 1, ft_strlen(tok->line + i));
+	tmp1 = tok->line;
+	tmp2 = ft_substr(tok->line + 1, 0, i - 1);
+	free(tmp1);
+	tok->line = tmp2;
+	create_redir_token(tok, tmp);
+}
+
 void	set_type_remove_operator(t_token **token, t_token **first)
 {
 	if (first_check_operator((*token)->line[0]) != NO_TYPE)
@@ -153,6 +208,8 @@ void	set_type_remove_operator(t_token **token, t_token **first)
 		if ((*token)->line[0] != '(')
 			throw_error_syntax(SYNTAX_ERR, *token);
 		check_subshells(token, 0);
+		if ((*token)->err_flag_syn != 1)
+			get_redir_token(*token);
 	}
 	else if (*token)
 	{
