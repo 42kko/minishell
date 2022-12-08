@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 14:34:12 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 18:14:01 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,9 +94,26 @@ void	run_exec(t_token *tok)
 
 void	run_subshell(t_token *tok)
 {
-	int	i;
+	pid_t	pid;
+	int		stat;
 
-	i = 0;
+	if (tok->errn == -1)
+		return ;
+	pid = fork();
+	if (pid == 0)
+	{
+		set_signal(DFL);
+		errno = 0;
+		if (tok->left->type != NO_REDIR)
+			io_ctl_cmd(tok->left);
+		exit(run(tok->right->line, tok->info));
+	}
+	else if (pid > 0)
+		wait(&stat);
+	if (WIFEXITED(stat))
+		tok->info->exit_num = WEXITSTATUS(stat);
+	else if (WIFSIGNALED(stat))
+		tok->info->exit_num = WTERMSIG(stat);
 }
 
 void	run_shell(t_token *tok)
@@ -112,15 +129,11 @@ void	run_shell(t_token *tok)
 	else
 	{
 		run_shell(tok->left);
-		// if (tok->type == TAND && tok->info->exit_num != 0)
-		// 	tok->right = 0;
-		// else if (tok->type == TOR && tok->info->exit_num == 0)
-		// 	tok->right = 0;
 		if (tok->type == TRDYCMD)
 		{
 			run_exec(tok);
 		}
-		if (tok->type == TBRACH)
+		if (tok->type == TRDYBRACH)
 			run_subshell(tok);
 		if ((tok->type == TDAND && tok->info->exit_num == 0) || \
 		(tok->type == TOR && tok->info->exit_num != 0))

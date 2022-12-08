@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 14:25:33 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 16:41:53 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	ft_child(t_token *tok, int i, t_pipe *pip)
 	}
 	io_ctl(pip, i, tok->left); //받아온 fd값을 가지고 입,출력을 바꿔줄함수
 	if (tok->right->type == TNOCMD)
+		exit (0);
+	if (tok->errn != 0)
 		exit (0);
 	add_path(tok->right);
 	execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));

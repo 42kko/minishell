@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 14:24:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 18:03:08 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	open_in(t_token *tok, t_token *tmp)
 		{
 			err_msg("open err", tok, find_redir(tmp->line + 1));
 			tok->fd_in = -1;
+			tok->parent->errn = 1;
 		}
 	}
 	else if (tmp->type == TDOC)
@@ -157,6 +158,4 @@ void	open_redir(t_token *tok)
 		if (errno != 0)
 			tok->parent->errn = -1;
 	}
-	// else if (tok->type == TBRACH)
-	// 	brach_redir(tok);
 }

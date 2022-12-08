@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:45:48 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 04:24:48 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:17:45 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ void	show_list_type_data(t_token *lst)
 
 void	ft_tokeniter(t_token *lst)
 {
+	while (lst->prev)
+		lst = lst->prev;
 	while (lst)
 	{
 		printf("list : %s - %d\n", lst->line, lst->type);
