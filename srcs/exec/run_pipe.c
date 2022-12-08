@@ -6,79 +6,11 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 20:00:14 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 23:59:53 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	stdin_ctl(t_pipe *pip, int i, t_token *tok)
-{
-	if (tok->type != NO_REDIR && tok->fd_in != -1)
-	{
-		dup2(tok->fd_in, 0);
-		close_util(tok->fd_in, tok);
-	}
-	else
-	{
-		if (i > 0)
-		{
-			dup2(pip->p[(i - 1) * 2], 0); 
-			close_util(pip->p[(i - 1) * 2], tok);
-		}
-	}
-}
-
-void	stdout_ctl(t_pipe *pip, int i, t_token *tok)
-{
-	if (tok->type != NO_REDIR && tok->fd_out != -1)
-	{
-		dup2(tok->fd_out, 1);
-		close_util(tok->fd_out, tok);
-	}
-	else
-	{
-		if (i < pip->cnt)
-		{
-			dup2(pip->p[(i * 2) + 1], 1);
-			close_util(pip->p[(i * 2) + 1], tok);
-		}
-	}
-}
-
-void	io_ctl(t_pipe *pip, int i, t_token *tok)
-{
-	if (pip->cnt > i)
-		close_util(pip->p[(i * 2)], tok);
-	stdin_ctl(pip, i , tok);
-	// if (tok->type != NO_REDIR && tok->fd_in != -1)
-	// {
-	// 	dup2(tok->fd_in, 0);
-	// 	close(tok->fd_in);
-	// }
-	// else
-	// {
-	// 	if (i > 0) 
-	// 	{
-	// 		dup2(pip->p[(i - 1) * 2], 0); 
-	// 		close(pip->p[(i - 1) * 2]);
-	// 	}
-	// }
-	stdout_ctl(pip, i, tok);
-	// if (tok->type != NO_REDIR && tok->fd_out != -1)
-	// {
-	// 	dup2(tok->fd_out, 1);
-	// 	close(tok->fd_out);
-	// }
-	// else
-	// {
-	// 	if (i < pip->cnt) 
-	// 	{
-	// 		dup2(pip->p[(i * 2) + 1], 1);
-	// 		close(pip->p[(i * 2) + 1]);
-	// 	}
-	// }
-}
 
 void	ft_child(t_token *tok, int i, t_pipe *pip)
 {
@@ -126,27 +58,6 @@ void	ft_parent(int i, t_pipe *pip, t_token *tok)
 	}
 	if (i > 1 && pip->cnt + 1 > i)
 		close_util(pip->p[((i - 2) * 2)], tok);
-}
-
-void	new_pipe(t_pipe *pip)
-{
-	pip->cnt = 0;
-	pip->p = 0;
-}
-
-int	cnt_pipe(t_token **tok)
-{
-	int	ret;
-
-	ret = 0;
-	while ((*tok)->left)
-	{
-		if ((*tok)->type == TPIPE)
-			ret++;
-		*tok = (*tok)->left;
-	}
-	(*tok) = (*tok)->parent;
-	return (ret);
 }
 
 void	waitpid_stat(t_token *tok, int i)

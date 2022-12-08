@@ -3,30 +3,33 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/08 17:25:40 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/08 23:37:37 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c throw_error.c utility.c loop.c token_list.c test.c \
-		run.c run_pipe.c open_dir.c built_run.c
+		 open_dir.c built_run.c
 SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c
 SRCS_PAR= cmd.c init_token.c is_type.c oper_type.c parse_utility.c \
-			redirection.c ft_strjoin_space.c tree.c check_env.c \
+			redirection.c ft_strjoin_space.c check_env.c \
 			push_index_about_comma.c delete_comma_check_env.c \
 			token_list_len.c malloc_utils.c check_wave.c \
-			cut_cmd.c
+			cut_cmd.c tree_ recursion.c tree_util.c
 SRCS_BULT= ft_echo.c ft_cd.c ft_pwd.c ft_env.c ft_export.c ft_unset.c
+SRCS_ERR= err.c
+SRCS_EXE= run.c
 SOURCE	= srcs/
 SRC_ENV = srcs/env/
 SRC_PAR = srcs/parse/
 SRC_BULT= srcs/builtin/
 SRC_EXE= srcs/exec/
+SRC_ERR= srcs/error/
 OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c=.o}} \
 			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}} \
-			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}}
+			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}} ${addprefix ${SRC_ERR},${SRCS_ERR:.c=.o}}
 CC		= cc
 CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
 # CFLAGS	= -Wall -Werror -Wextra
@@ -39,15 +42,15 @@ all:		${NAME}
 .c.o:		${SRCS}
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
-#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
+#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft
 #			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib  -I/opt/homebrew/opt/readline/include  -lreadline
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
-#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
+#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib  -I/goinfre/seokchoi/.brew/opt/readline/include  -lreadline
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -I/Users/kko/.brew/opt/readline/include  -lreadline
 
 clean:
 			make clean -C ${LIBFT}/

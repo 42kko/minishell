@@ -13,17 +13,17 @@
 
 #include "minishell.h"
 
-t_brachek_type    ft_is_comma_brachek(char c) // 괄호도 찾을 수 있게 수정했습니다.
+t_brachek_type	ft_is_comma_brachek(char c)
 {
-    if (c == '\'')
-        return (ONE_COMM);
-    if (c == '\"')
-        return (TWO_COMM);
-    if (c == '(')
-        return (O_BRACHEK);
-    if (c == ')')
-        return (C_BRACHEK);
-    return (NO_BRACHEK);
+	if (c == '\'')
+		return (ONE_COMM);
+	if (c == '\"')
+		return (TWO_COMM);
+	if (c == '(')
+		return (O_BRACHEK);
+	if (c == ')')
+		return (C_BRACHEK);
+	return (NO_BRACHEK);
 }
 
 t_comma_type	ft_is_comma(char c)

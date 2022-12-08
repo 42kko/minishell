@@ -1,41 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd.c                                              :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/22 20:34:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:26:16 by kko              ###   ########.fr       */
+/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/09 00:00:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	**ft_split_cmd(t_token **token, char *line)
+void	free_sec_arr(char **arr)
 {
-	char	**cmd;
-	int		left;
-	int		right;
-	int		i;
+	int	i;
 
 	i = 0;
-	cmd = malloc(sizeof(char *) * (count_space_out_of_comma(line) + 1));
-	if (!cmd)
-		throw_error(MALLOC_ERR);
-	right = 0;
-	while (line[right])
+	while (arr[i])
 	{
-		left = right;
-		cut_cmd(token, &cmd[i], &left, &right);
+		free(arr[i]);
 		i++;
 	}
-	cmd[i] = NULL;
-	return (cmd);
+	free(arr);
 }
 
-void	set_cmd(t_token **token)
+int	get_sec_arr_len(char **arr)
 {
-	(*token)->type = TCMD;
-	(*token)->cmd = ft_split_cmd(token, (*token)->line);
+	int	length;
+
+	length = 0;
+	while (arr[length])
+		length++;
+	return (length);
 }

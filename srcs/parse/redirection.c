@@ -6,11 +6,11 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 18:24:27 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 00:37:59 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void	attach_redir_token(t_token **token, \
 t_token	**redir_token, char *file_name)
@@ -19,8 +19,8 @@ t_token	**redir_token, char *file_name)
 	t_token	*tmp;
 
 	tmp = *redir_token;
-	new = new_token((*token)->info); // 새로운 토큰 생성
-	new->line = ft_strdup(file_name); // <a
+	new = new_token((*token)->info);
+	new->line = ft_strdup(file_name);
 	check_type(&new);
 	if (!new->line)
 		throw_error(MALLOC_ERR);
@@ -45,13 +45,13 @@ static t_token	*pick_create_redir_tokens(t_token **token, char **cmd)
 	while (cmd[i])
 	{
 		if (ft_is_redir(cmd[i][0]) != NO_DIREC)
-			attach_redir_token(token, &redir_token, cmd[i]); // redir_token을 새로 만들어줘서 따로 정리 해준다.
+			attach_redir_token(token, &redir_token, cmd[i]);
 		i++;
 	}
 	return (redir_token);
 }
 
-static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
+static char	**pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 {
 	char	**new_cmd_arr;
 	int		i;
@@ -82,9 +82,9 @@ static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 
 static char	*update_token_line(t_token **token)
 {
-	int	i;
-	char *new_line;
-	char *tmp;
+	int		i;
+	char	*new_line;
+	char	*tmp;
 
 	i = 1;
 	if (!(*token)->cmd)
@@ -102,7 +102,8 @@ static char	*update_token_line(t_token **token)
 	return (new_line);
 }
 
-static void	sort_token_order(t_token **token, t_token **first, t_token *redir_token)
+static void	sort_token_order(t_token **token, t_token **first, \
+t_token *redir_token)
 {
 	t_token	*redir_last;
 	t_token	*tmp_prev_token;

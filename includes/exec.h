@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_list.c                                       :+:      :+:    :+:   */
+/*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/16 21:28:28 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 17:56:58 by ko               ###   ########.fr       */
+/*   Created: 2022/12/08 23:17:36 by kko               #+#    #+#             */
+/*   Updated: 2022/12/08 23:58:48 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef EXEC_H
+# define EXEC_H
 
-t_token	*ft_tokenlast(t_token *lst)
+typedef struct s_pipe
 {
-	if (!lst)
-		return (NULL);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
-}
+	int	cnt;
+	int	*p;
+}	t_pipe;
+
+void	run_shell(t_token *tok);
+void	run_subshell(t_token *tok);
+void	run_exec(t_token *tok);
+void	exec(t_token *tok);
+
+#endif

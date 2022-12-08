@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:55:10 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/02 21:42:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:02:09 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,3 @@ void	free_keys(t_keys *keys)
 		keys = tmp;
 	}
 }
-
-// echo $HOME<sddfei asldij elwj cat >dsd $dfaije $HOME

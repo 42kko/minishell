@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_comma_check_env.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 12:48:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:29:37 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ static char	*case_env_question(t_keys *keys, char *line, int start)
 		throw_error(MALLOC_ERR);
 	ft_keycpy(key, &line[start], 3);
 	keys->key = key;
-	state = ft_itoa(errno); // 임시 방편 밑에 꺼로 바꿔야한다.
+	state = ft_itoa(errno);
 	if (!state)
 		throw_error(MALLOC_ERR);
-	return (state); // string 상태의 그것이 와야한다.
+	return (state);
 }
 
 static char	*get_env_value_of_key(t_token **token, \
@@ -65,7 +65,7 @@ t_keys *keys, char *line, int start)
 	finish = start;
 	if (line[finish] == '$')
 	{
-		if(line[finish + 1] == '?')
+		if (line[finish + 1] == '?')
 			return (case_env_question(keys, line, finish));
 		while (line[finish] && line[finish] != ' ' && \
 		check_operator_for_env(line[finish]) == NO_TYPE)
@@ -109,12 +109,13 @@ void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 {
 	char	*s;
 
-	s = tmp->s; // token의 line이다.
-	tmp->type = ft_is_comma(s[(*tmp->i)]); 
-	if (tmp->type) // 복사를 하는 와중에 따옴표를 발견을 한다면 복사를 한다.
+	s = tmp->s;
+	tmp->type = ft_is_comma(s[(*tmp->i)]);
+	if (tmp->type)
 	{
-		(*tmp->i)++; // 따옴표로 들어온 거니까 다음 같은 따옴표가 나올때까지 복사를 해준다.
-		while (s[(*tmp->i)] && ft_is_comma(s[(*tmp->i)]) != tmp->type && (*tmp->j) < tmp->len) // 따옴표가 들어온 경우이기 때문에 while문으로 같은 따옴표를 만날때까지 쭉 저장을 해준다.
+		(*tmp->i)++;
+		while (s[(*tmp->i)] && ft_is_comma(s[(*tmp->i)]) != \
+		tmp->type && (*tmp->j) < tmp->len)
 		{
 			if (tmp->type == TWO_COM && s[(*tmp->i)] == '$')
 				check_env_record(token, keys, (*tmp->i), tmp);
@@ -123,7 +124,7 @@ void	delete_comma_check_env(t_token **token, t_keys **keys, t_parse_tmp *tmp)
 		if (s[(*tmp->i)])
 			(*tmp->i)++;
 	}
-	else // 따옴표가 아니라면 한글자씩 복사를 한다.
+	else
 	{
 		if (s[(*tmp->i)] == '$')
 			check_env_record(token, keys, (*tmp->i), tmp);

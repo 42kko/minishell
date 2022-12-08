@@ -1,37 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utility.c                                          :+:      :+:    :+:   */
+/*   err.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/11/25 11:58:38 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/08 23:17:36 by kko               #+#    #+#             */
+/*   Updated: 2022/12/08 23:29:52 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ERR_H
+# define ERR_H
 
-void	free_sec_arr(char **arr)
-{
-	int	i;
+void	throw_error_syntax(t_error_type type, t_token *tok);
+void	err_msg(char *msg, t_token *tok, char *target);
 
-	i = 0;
-	while (arr[i])
-	{
-		free(arr[i]);
-		i++;
-	}
-	free(arr);
-}
-
-int	get_sec_arr_len(char **arr)
-{
-	int	length;
-
-	length = 0;
-	while (arr[length])
-		length++;
-	return (length);
-}
-
+#endif

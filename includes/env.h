@@ -3,17 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:31 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 00:44:25 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
-
-#include "minishell.h"
 
 typedef enum e_error_type	t_error_type;
 typedef struct s_env_list	t_env_list;
@@ -67,5 +65,10 @@ t_env_list	*free_a_node_of_env_list(t_env_list *env_list);
 char		**get_env_arr(t_env_list *env_list);
 char		**get_export_arr(t_env_list *env_list);
 int			get_env_num(t_env_list *env_list);
+
+// check_env
+char			*change_key_to_value(char *cmd, t_keys *keys);
+void			free_keys(t_keys *keys);
+
 
 #endif
