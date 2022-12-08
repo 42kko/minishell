@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 03:25:45 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 03:27:02 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	set_normal_cmd(t_token **token, char **arr, int *left, int *right)
 		*arr = cpy_wout_com(token, line, (*left), (*right) - (*left)); // 길이 만큼 자른다.
 		while (line[(*right)] == ' ')
 			(*right)++;
-		return (SECCESS);
+		return (SUCCESS);
 	}
 	else if (line[(*right)])
 		(*right)++;

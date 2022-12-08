@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   open_dir.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
 /*   Updated: 2022/12/08 18:03:08 by kko              ###   ########.fr       */
@@ -145,7 +145,7 @@ void	start_open(t_token *tok)
 	}
 }
 
-void	open_redir(t_token *tok)
+void	open_redir(t_token *tok) // 이 함수의 정체는??
 {
 	if (tok == 0)
 		return ;

@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:58:56 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/07 23:33:26 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/08 17:52:00 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **cmd)
+void	ft_unset(t_token *token)
 {
-	int	i;
-	int	n_flag;
+	char	*key;
+	char	*value;
 
-	n_flag = 1;
-	i = 1;
-	if (ft_strncmp(cmd[1], "-n", 3) == 0)
+	if (token->cmd[1])
 	{
-		n_flag = 0;
-		i = 2;
+		ft_split_for_env(token->cmd[1], &key, &value);
+		ft_unset_env_list(&token->info->env_list, key);
+		errno = 0;
 	}
-	while (cmd[i])
+	else
 	{
-		printf("%s", cmd[i]);
-		i++;
-		if (cmd[i])
-			printf(" ");
+		throw_error_message("unset", NULL, "not enough arguments", 1);
+		return ;
 	}
-	if (n_flag)
-		printf("\n");
 }

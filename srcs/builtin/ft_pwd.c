@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:58:56 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/07 23:14:05 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/08 02:58:11 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **cmd)
+void	ft_pwd(char **cmd)
 {
-	int	i;
-	int	n_flag;
-
-	n_flag = 1;
-	i = 1;
-	if (ft_strncmp(cmd[1], "-n", 3) == 0)
-	{
-		n_flag = 0;
-		i = 2;
-	}
-	while (cmd[i])
-	{
-		printf("%s", cmd[i]);
-		i++;
-		if (cmd[i])
-			printf(" ");
-	}
-	if (n_flag)
-		printf("\n");
+	char	*pwd;
+	char	*buf;
+	(void) cmd;
+	
+	buf = calloc(4096, 1);
+	if (!buf)
+		throw_error(MALLOC_ERR);
+	pwd = getcwd(buf, 4096);
+	printf("%s\n", pwd);
+	errno = 0;
+	free(buf);
 }

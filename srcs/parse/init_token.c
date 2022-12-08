@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
 /*   Updated: 2022/12/08 16:46:59 by kko              ###   ########.fr       */
@@ -189,7 +189,7 @@ char	**info_get_path(t_info *info)
 	tmp = info->env_list;
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->key, "PATH", 5) == 0)
+		if (tmp->key && ft_strncmp(tmp->key, "PATH", 5) == 0)
 			break ;
 		tmp = tmp->next;
 	}

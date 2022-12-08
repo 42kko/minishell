@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:58:56 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/07 23:33:43 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/07 23:59:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **cmd)
+void	ft_env(t_token *token)
 {
-	int	i;
-	int	n_flag;
+	t_env_list	*env_list;
 
-	n_flag = 1;
-	i = 1;
-	if (ft_strncmp(cmd[1], "-n", 3) == 0)
+	env_list = token->info->env_list;
+	if (get_sec_arr_len(token->cmd) > 2)
 	{
-		n_flag = 0;
-		i = 2;
+		throw_error_message("cd", token->cmd[1], "No such file or directory", 1);
+		errno = 127;
+		return ;
 	}
-	while (cmd[i])
-	{
-		printf("%s", cmd[i]);
-		i++;
-		if (cmd[i])
-			printf(" ");
-	}
-	if (n_flag)
-		printf("\n");
+	print_envs(token->info->env_list);
+	errno = 0;
 }

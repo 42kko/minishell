@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 05:35:52 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,19 @@
 # include "builtin.h"
 # include <sys/wait.h>
 
-# define SECCESS	1
+# define SUCCESS	1
 # define FAIL		0
 
 extern int	g_errno;
 
 void	loop(t_info *info);
+
+// throw_error
+void	throw_error(t_error_type type);
+void	throw_error_message(char *cmd, char *err, char *message, int exit_errno);
+
+int		ft_bulitin(t_token *tok);
+void	built_exec(t_token *tok);
+void	builtin_alone_exec(t_token *tok);
 
 #endif

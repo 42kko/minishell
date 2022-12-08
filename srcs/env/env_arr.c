@@ -6,13 +6,13 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:21:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 03:43:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 16:49:06 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_env_num(t_env_list *env_list)
+int	get_env_num(t_env_list *env_list)
 {
 	int	num;
 
@@ -25,7 +25,7 @@ static int	get_env_num(t_env_list *env_list)
 	return (num);
 }
 
-static char	*link_key_value(char *key, char *value)
+static char	*link_key_value(char *key, char *value, int equal)
 {
 	size_t	key_len;
 	size_t	val_len;
@@ -44,7 +44,8 @@ static char	*link_key_value(char *key, char *value)
 	j = 0;
 	while (j < key_len)
 		str[i++] = key[j++];
-	str[i++] = '=';
+	if (equal == 0)
+		str[i++] = '=';
 	j = 0;
 	while (j < val_len)
 		str[i++] = value[j++];
@@ -62,12 +63,40 @@ char	**get_env_arr(t_env_list *env_list)
 	i = 0;
 	tmp = env_list;
 	num = get_env_num(env_list);
+	env = calloc(sizeof(char *), (num + 1));
+	if (!env)
+		throw_error(MALLOC_ERR);
+	while (i < num && tmp)
+	{
+		if (tmp->equal == 0)
+		{
+			env[i] = link_key_value(tmp->key, tmp->value, tmp->equal);
+			if (!env[i])
+				throw_error(MALLOC_ERR);
+			i++;
+		}
+		tmp = tmp->next;
+	}
+	env[i] = NULL;
+	return (env);
+}
+
+char	**get_export_arr(t_env_list *env_list)
+{
+	int			num;
+	char		**env;
+	int			i;
+	t_env_list	*tmp;
+
+	i = 0;
+	tmp = env_list;
+	num = get_env_num(env_list);
 	env = malloc(sizeof(char *) * (num + 1));
 	if (!env)
 		throw_error(MALLOC_ERR);
 	while (i < num && tmp)
 	{
-		env[i] = link_key_value(tmp->key, tmp->value);
+		env[i] = link_key_value(tmp->key, tmp->value, tmp->equal);
 		if (!env[i])
 			throw_error(MALLOC_ERR);
 		tmp = tmp->next;

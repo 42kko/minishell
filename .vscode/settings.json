@@ -30,6 +30,12 @@
     "utility": "c",
     "__string": "c",
     "locale": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "__node_handle": "c",
+    "atomic": "c",
+    "__memory": "c",
+    "optional": "c",
+    "system_error": "c",
+    "vector": "c"
   }
 }
