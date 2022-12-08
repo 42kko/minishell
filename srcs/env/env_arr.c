@@ -6,13 +6,13 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:21:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/06 03:43:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 13:30:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_env_num(t_env_list *env_list)
+int	get_env_num(t_env_list *env_list)
 {
 	int	num;
 

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 23:49:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:48:08 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value);
 void	ft_unset_env_list(t_env_list **env_list, char *key);
 
 // get
-void	ft_split_for_env(char const *s, char **key, char **value);
+int	ft_split_for_env(char const *s, char **key, char **value);
 
 // utility
 int		get_sec_arr_len(char **arr);
@@ -64,5 +64,6 @@ t_env_list	*free_a_node_of_env_list(t_env_list *env_list);
 
 // env_arr
 char		**get_env_arr(t_env_list *env_list);
+int			get_env_num(t_env_list *env_list);
 
 #endif
