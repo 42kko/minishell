@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:46:59 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/08 21:37:09 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,10 @@ char	**info_get_path(t_info *info)
 
 void	not_found(char *cmd)
 {
-	printf("command nt found: %s\n", cmd);
+	errno = 127;
+	ft_putstr_fd("command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd("\n", 2);
 }
 
 char	*write_path(char *cmd, t_token *tok)

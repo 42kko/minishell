@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 17:00:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 21:36:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,14 @@ void	set_signal(int num)
 
 void	err_msg(char *msg, t_token *tok, char *target) //open, close, pipe 에 사용댐
 {
+	ft_putstr_fd("minishell: ", 2);
 	if (target != 0)
 	{
 		ft_putstr_fd(target, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
 	}
-	ft_putstr_fd(msg, STDERR_FILENO);
-	ft_putstr_fd(": ", STDERR_FILENO);
 	ft_putstr_fd(strerror(errno), STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	if (errno == 24)
-		exit(1);
 }
 
 t_info	*new_info(t_info *info)
