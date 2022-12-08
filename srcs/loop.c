@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/07 23:23:37 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 17:48:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,7 @@ int	check_tree(t_token *token)
 void	check_cmd_num(t_token *token, int *cmd_num)
 {
 	if (token->type == TCMD)
-	{
-		printf("cmd = %s\n", token->line);
 		(*cmd_num)++;
-	}
 	if (token->left)
 		check_cmd_num(token->left, cmd_num);
 	if (token->right)
@@ -123,12 +120,8 @@ int	run(char *line, t_info *info)
 	check_cmd_num(token, &cmd_num);
 	if (errno == -1)
 		return (1);
-	printf("cmd num = %d\n", cmd_num);
 	if (cmd_num == 1 && identify_built_exec(token->right) == 1)
-	{
-		printf("123\n");
 		builtin_alone_exec(token);
-	}
 	else
 		run_shell(token);
 	return (0);
