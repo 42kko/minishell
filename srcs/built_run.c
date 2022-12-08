@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:14:43 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:12:40 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_bulitin(t_token *tok)
 	if (ft_strncmp(tok->cmd[0], "echo", 5) == 0)
 		ft_echo(tok->cmd);
 	else if (ft_strncmp(tok->cmd[0], "cd", 3) == 0)
-		ft_cd(tok->right);
+		ft_cd(tok);
 	else if (ft_strncmp(tok->cmd[0], "pwd", 4) == 0)
 		ft_pwd(tok->cmd);
 	else if (ft_strncmp(tok->cmd[0], "export", 7) == 0)

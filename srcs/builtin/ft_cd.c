@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:14:50 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:17:48 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	update_pwd(t_token *token)
 	free(prev_pwd);
 	free(cur_pwd);
 }
+
 void	ft_cd(t_token *token)
 {
 	char		*home_path;
@@ -40,20 +41,10 @@ void	ft_cd(t_token *token)
 		throw_error_message("cd", NULL, "HOME not set", 1);
 	else if (token->cmd[1]) // path 가 있을 때
 	{
-		printf("token->cmd[1] = %s\n", token->cmd[1]);
 		if (chdir(token->cmd[1]) == -1)
 			throw_error_message("cd", token->cmd[1], "No such file or directory", 1);
 		else
-		{
-			// char *s = calloc(4096, 1);
-			// char *tmp;
-			// printf("success!\n");
-			// tmp = getcwd(s, 4096);
-			// printf("current dir : %s\n", tmp);
-			// free(s); 
-			// 꼬님오면 같이 고쳐보기
 			errno = 0;
-		}
 	}
 	else // path가 home일 때
 	{

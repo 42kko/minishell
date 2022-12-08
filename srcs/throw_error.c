@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 17:08:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 17:15:26 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/08 18:18:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,6 @@ void	throw_error_message(char *cmd, char *err, char *message, int exit_errno)
 		ft_putstr_fd(": ", 2);
 	}
 	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
 	errno = exit_errno;
 }
