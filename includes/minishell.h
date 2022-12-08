@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:11:33 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,25 +29,32 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <string.h>
-# include "libft.h"
-# include "env.h"
 # include "parse.h"
+# include "env.h"
 # include "builtin.h"
-# include <sys/wait.h>
+# include "exec.h"
+# include "free.h"
+# include "libft.h"
+# include "err.h"
 
 # define SUCCESS	1
 # define FAIL		0
 
-extern int	g_errno;
+//initial
+void	initial(t_info *info, char **envp);
+void	set_signal(int num);
 
+//loop
+int		run(char *line, t_info *info);
 void	loop(t_info *info);
 
-// throw_error
-void	throw_error(t_error_type type);
-void	throw_error_message(char *cmd, char *err, char *message, int exit_errno);
-
-int		ft_bulitin(t_token *tok);
-void	built_exec(t_token *tok);
-void	builtin_alone_exec(t_token *tok);
+//test
+void	printf_line(t_token *lst);
+void	printf_type(t_oper_type s);
+void	func(char *s);
+void	show_list_type_data(t_token *lst);
+void	ft_tokeniter(t_token *lst);
+void	printf_key(t_keys *keys);
+void	printf_env(char **arr);
 
 #endif

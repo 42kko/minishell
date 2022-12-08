@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   err.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 23:33:26 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:54:27 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/08 23:17:36 by kko               #+#    #+#             */
+/*   Updated: 2022/12/09 02:32:11 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef ERR_H
+# define ERR_H
 
-void	ft_unset(t_token *token)
-{
-	char	*key;
-	char	*value;
+void	throw_error_syntax(t_error_type type, t_token *tok);
+void	err_msg(char *msg, t_token *tok, char *target);
+void	throw_error_message(char *cmd, char *err, \
+char *message, int exit_errno);
+void	throw_error(t_error_type type);
 
-	if (token->cmd[1])
-	{
-		ft_split_for_env(token->cmd[1], &key, &value);
-		ft_unset_env_list(&token->info->env_list, key);
-		errno = 0;
-	}
-	else
-	{
-		throw_error_message("unset", NULL, "not enough arguments", 1);
-		return ;
-	}
-}
+#endif

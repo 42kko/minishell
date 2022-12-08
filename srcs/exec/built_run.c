@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 18:12:40 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:43:22 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int	ft_bulitin(t_token *tok)
 	else if (ft_strncmp(tok->cmd[0], "env", 4) == 0)
 		ft_env(tok);
 	else if (ft_strncmp(tok->cmd[0], "exit", 5) == 0)
-		return (1);
-	else
-		return (0);
+		exit(0);
+	return (0);
 }
 
 void	built_exec(t_token *tok)
@@ -47,7 +46,6 @@ void	built_exec(t_token *tok)
 			io_ctl_cmd(tok->left);
 		if (tok->right->type == TNOCMD)
 			exit (0);
-		// execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 		ft_bulitin(tok->right);
 		exit(errno);
 	}
@@ -73,6 +71,5 @@ void	builtin_alone_exec(t_token *tok)
 		io_ctl_cmd(tok->left);
 	if (tok->right->type == TNOCMD)
 		return ;
-	// execve(tok->right->cmd[0], tok->right->cmd, get_env_arr(tok->info->env_list));
 	ft_bulitin(tok->right);
 }

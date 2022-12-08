@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   free.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 23:33:26 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:54:27 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/09 01:36:55 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/09 01:39:00 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef FREE_H
+# define FREE_H
 
-void	ft_unset(t_token *token)
-{
-	char	*key;
-	char	*value;
+//free
+void	free_cmd(char **cmd);
+int		free_lst(t_token *tok);
+void	free_tree(t_token *tok);
 
-	if (token->cmd[1])
-	{
-		ft_split_for_env(token->cmd[1], &key, &value);
-		ft_unset_env_list(&token->info->env_list, key);
-		errno = 0;
-	}
-	else
-	{
-		throw_error_message("unset", NULL, "not enough arguments", 1);
-		return ;
-	}
-}
+//utility
+void	free_sec_arr(char **arr);
+int		get_sec_arr_len(char **arr);
+
+#endif

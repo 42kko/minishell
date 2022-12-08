@@ -6,15 +6,12 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 19:35:50 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/03/29 18:58:25 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 01:39:23 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-
-# include<unistd.h>
-# include<stdlib.h>
 
 typedef struct s_list
 {

@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   utility.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 23:33:26 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:54:27 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/11/13 20:09:58 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/09 00:00:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_unset(t_token *token)
+void	free_sec_arr(char **arr)
 {
-	char	*key;
-	char	*value;
+	int	i;
 
-	if (token->cmd[1])
+	i = 0;
+	while (arr[i])
 	{
-		ft_split_for_env(token->cmd[1], &key, &value);
-		ft_unset_env_list(&token->info->env_list, key);
-		errno = 0;
+		free(arr[i]);
+		i++;
 	}
-	else
-	{
-		throw_error_message("unset", NULL, "not enough arguments", 1);
-		return ;
-	}
+	free(arr);
+}
+
+int	get_sec_arr_len(char **arr)
+{
+	int	length;
+
+	length = 0;
+	while (arr[length])
+		length++;
+	return (length);
 }

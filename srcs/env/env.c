@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:15:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 01:19:15 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_env(t_info *info, char **envp)
 	t_env_list	*tmp;
 
 	env_len = get_sec_arr_len(envp);
-	info->env_list = calloc(sizeof(t_env_list), 1);
+	info->env_list = ft_calloc(sizeof(t_env_list), 1);
 	if (!info->env_list)
 		return (throw_error(MALLOC_ERR));
 	tmp = info->env_list;
@@ -29,7 +29,7 @@ void	init_env(t_info *info, char **envp)
 	i = 1;
 	while (envp[i])
 	{
-		tmp->next = calloc(sizeof(t_env_list), 1);
+		tmp->next = ft_calloc(sizeof(t_env_list), 1);
 		if (!tmp->next)
 			return (throw_error(MALLOC_ERR));
 		tmp = tmp->next;
@@ -93,41 +93,11 @@ void	ft_putenv(t_env_list *env_list, char *key, char *value, int equal)
 		tmp_b = tmp_a;
 		tmp_a = tmp_a->next;
 	}
-	tmp_b->next = calloc(sizeof(t_env_list), 1);
+	tmp_b->next = ft_calloc(sizeof(t_env_list), 1);
 	if (!tmp_b->next)
 		throw_error(MALLOC_ERR);
 	tmp_b->next->key = ft_strdup(key);
 	tmp_b->next->value = ft_strdup(value);
 	tmp_b->next->next = NULL;
 	tmp_b->next->equal = equal;
-}
-
-void	ft_unset_env_list(t_env_list **env_list, char *key)
-{
-	t_env_list	*tmp_a;
-	t_env_list	*tmp_b;
-
-	tmp_a = *env_list;
-	tmp_b = tmp_a;
-	if (ft_strncmp(key, "~", 2) == 0)
-	{
-		printf("unset: `%s': not a valid identifier", ft_getenv(*env_list, key));
-		return ;
-	}
-	while (tmp_a)
-	{
-		if (!ft_strncmp(key, tmp_a->key, ft_strlen(key) + 1))
-		{
-			if (tmp_a == *env_list)
-			{
-				*env_list = tmp_a->next;
-				free_a_node_of_env_list(tmp_a);
-				return ;
-			}
-			tmp_b->next = free_a_node_of_env_list(tmp_a);
-			return ;
-		}
-		tmp_b = tmp_a;
-		tmp_a = tmp_a->next;
-	}
 }

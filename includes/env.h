@@ -6,27 +6,15 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:12:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:31 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 02:28:29 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ENV_H
 # define ENV_H
 
-#include "minishell.h"
-
 typedef enum e_error_type	t_error_type;
-typedef struct s_env_list	t_env_list;
-typedef struct s_info		t_info;
-
-struct s_info
-{
-	struct termios	*old_term;
-	t_env_list		*env_list;
-	char			**path;
-	int				exit_num;
-	int				stdio_backup[2];
-};
+typedef struct s_change_tmp	t_change_tmp;
 
 enum e_error_type
 {
@@ -40,32 +28,46 @@ enum e_error_type
 
 struct s_env_list
 {
-	char 		*key;
+	char		*key;
 	int			equal;
-	char 		*value;
+	char		*value;
 	t_env_list	*next;
 };
 
+struct s_change_tmp
+{
+	int		i;
+	int		k;
+	int		j;
+	int		ord;
+	int		ch_idx;
+};
+
+// check_env
+char		*change_key_to_value(char *cmd, t_keys *keys);
+void		free_keys(t_keys *keys);
+
+// env_arr
+int			get_env_num(t_env_list *env_list);
+char		**get_env_arr(t_env_list *env_list);
+char		**get_export_arr(t_env_list *env_list);
+
 // env
-char 	*ft_getenv(t_env_list *env_list, char *key);
-void	init_env(t_info *info, char **envp);
-void	print_envs(t_env_list *env_list);
-void	ft_putenv(t_env_list *env_list, char *key, char *value, int equal);
-void	ft_unset_env_list(t_env_list **env_list, char *key);
-
-// get
-int	ft_split_for_env(char const *s, char **key, char **value);
-
-// utility
-int		get_sec_arr_len(char **arr);
-void	free_sec_arr(char **arr);
+void		init_env(t_info *info, char **envp);
+char		*ft_getenv(t_env_list *env_list, char *key);
+void		print_envs(t_env_list *env_list);
+void		ft_putenv(t_env_list *env_list, char *key, char *value, int equal);
 
 // free
 t_env_list	*free_a_node_of_env_list(t_env_list *env_list);
 
-// env_arr
-char		**get_env_arr(t_env_list *env_list);
-char		**get_export_arr(t_env_list *env_list);
-int			get_env_num(t_env_list *env_list);
+//ft_split_for_env
+int			ft_split_for_env(char const *s, char **key, char **value);
+
+//ft_unset_env_list
+void		ft_unset_env_list(t_env_list **env_list, char *key);
+
+//ft_unset_env_list
+void		ft_unset_env_list(t_env_list **env_list, char *key);
 
 #endif

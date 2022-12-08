@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree.c                                             :+:      :+:    :+:   */
+/*   tree_ recursion.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/25 08:19:19 by kko               #+#    #+#             */
-/*   Updated: 2022/12/08 16:12:10 by kko              ###   ########.fr       */
+/*   Created: 2022/12/08 23:09:16 by kko               #+#    #+#             */
+/*   Updated: 2022/12/09 02:15:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*redir_null(t_info *info)
+static t_token	*redir_null(t_info *info)
 {
 	t_token	*tmp;
 
@@ -21,7 +21,7 @@ t_token	*redir_null(t_info *info)
 	return (tmp);
 }
 
-t_token	*cmd_tree(t_token *tok, int i)
+static t_token	*cmd_tree(t_token *tok, int i)
 {
 	t_token	*cmd;
 	t_token	*tmp;
@@ -49,7 +49,7 @@ t_token	*cmd_tree(t_token *tok, int i)
 	return (cmd);
 }
 
-t_token	*brach_tree(t_token *tok, int i)
+static t_token	*brach_tree(t_token *tok, int i)
 {
 	t_token	*cmd;
 	t_token	*tmp;
@@ -77,7 +77,7 @@ t_token	*brach_tree(t_token *tok, int i)
 	return (cmd);
 }
 
-t_token	*cmd_brach(t_token *tok)
+static t_token	*cmd_brach(t_token *tok)
 {
 	t_token	*tmp;
 
@@ -89,13 +89,6 @@ t_token	*cmd_brach(t_token *tok)
 	else if (tmp->type == TBRACH)
 		tmp = brach_tree(tok, 0);
 	return (tmp);
-}
-
-void	zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k)
-{
-	*i = 0;
-	*j = 0;
-	*k = 0;
 }
 
 t_token	*get_tree(t_token *token)
@@ -125,78 +118,4 @@ t_token	*get_tree(t_token *token)
 		tmp = tmp->prev;
 	}
 	return (token);
-}
-
-void	extra_work_tree(t_token *tok) //괄호처리 작업예정.
-{
-	t_token	*tmp;
-
-		return ;
-	if (tok == 0)
-	tmp = tok;
-	while (tmp)
-	{
-		if (tmp->type == TCMD)
-			cmd_tree(tok, 0);
-		tmp = tmp->next;
-	}
-	extra_work_tree(tok->left);
-	extra_work_tree(tok->right);
-}
-
-t_token	*next_token(t_token *token)
-{
-	if (token->next == 0)
-	{
-		throw_error_syntax(SYNTAX_ERR_TREE, token);
-		return (NULL);
-	}
-	token = token->next;
-	token->prev->next = 0;
-	token->prev = 0;
-	while (token->next)
-		token = token->next;
-	return (token);
-}
-
-t_token	*prev_token(t_token *token)
-{
-	if (token->prev == 0)
-	{
-		throw_error_syntax(SYNTAX_ERR_TREE, token);
-		return (NULL);
-	}
-	token = token->prev;
-	token->next->prev = 0;
-	token->next = 0;
-	return (token);
-}
-
-void	select_oper(t_token *tok, t_oper_type *oper1, \
-	t_oper_type *oper2, t_oper_type *oper3)
-{
-	t_token	*tmp;
-
-	tmp = tok;
-	while (tmp)
-	{
-		if (tmp->type == TDAND || tmp->type == TOR || tmp->type == TSEMI)
-		{
-			*oper1 = TDAND;
-			*oper2 = TOR;
-			*oper3 = TSEMI;
-			return ;
-		}
-		tmp = tmp->prev;
-	}
-	tmp = tok;
-	while (tmp)
-	{
-		if (tmp->type == TPIPE)
-		{
-			*oper1 = TPIPE;
-			return ;
-		}
-		tmp = tmp->prev;
-	}
 }

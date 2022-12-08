@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   open_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 23:14:05 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:29:14 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/08 23:55:31 by kko               #+#    #+#             */
+/*   Updated: 2022/12/08 23:56:08 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_pwd(char **cmd)
+char	*find_redir(char *s)
 {
-	char	*pwd;
-	char	*buf;
+	char	*tmp;
 
-	(void) cmd;
-	buf = ft_calloc(4096, 1);
-	if (!buf)
-		throw_error(MALLOC_ERR);
-	pwd = getcwd(buf, 4096);
-	printf("%s\n", pwd);
-	errno = 0;
-	free(buf);
+	tmp = s;
+	while (*tmp == ' ')
+		tmp++;
+	return (tmp);
+}
+
+void	close_util(int fd, t_token *tok)
+{
+	if (close(fd) < 0)
+		err_msg("close err", tok, 0);
 }

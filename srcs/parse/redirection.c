@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 18:24:27 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 02:30:44 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 static void	attach_redir_token(t_token **token, \
 t_token	**redir_token, char *file_name)
@@ -19,8 +19,8 @@ t_token	**redir_token, char *file_name)
 	t_token	*tmp;
 
 	tmp = *redir_token;
-	new = new_token((*token)->info); // 새로운 토큰 생성
-	new->line = ft_strdup(file_name); // <a
+	new = new_token((*token)->info);
+	new->line = ft_strdup(file_name);
 	check_type(&new);
 	if (!new->line)
 		throw_error(MALLOC_ERR);
@@ -45,13 +45,13 @@ static t_token	*pick_create_redir_tokens(t_token **token, char **cmd)
 	while (cmd[i])
 	{
 		if (ft_is_redir(cmd[i][0]) != NO_DIREC)
-			attach_redir_token(token, &redir_token, cmd[i]); // redir_token을 새로 만들어줘서 따로 정리 해준다.
+			attach_redir_token(token, &redir_token, cmd[i]);
 		i++;
 	}
 	return (redir_token);
 }
 
-static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
+static char	**pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 {
 	char	**new_cmd_arr;
 	int		i;
@@ -80,51 +80,6 @@ static char **pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 	return (new_cmd_arr);
 }
 
-static char	*update_token_line(t_token **token)
-{
-	int	i;
-	char *new_line;
-	char *tmp;
-
-	i = 1;
-	if (!(*token)->cmd)
-		return (NULL);
-	new_line = ft_strdup((*token)->cmd[0]);
-	if (!new_line)
-		return (NULL);
-	while ((*token)->cmd[i])
-	{
-		tmp = new_line;
-		new_line = ft_strjoin_space(new_line, (*token)->cmd[i]);
-		free(tmp);
-		i++;
-	}
-	return (new_line);
-}
-
-static void	sort_token_order(t_token **token, t_token **first, t_token *redir_token)
-{
-	t_token	*redir_last;
-	t_token	*tmp_prev_token;
-
-	tmp_prev_token = (*token)->prev;
-	if (tmp_prev_token && redir_token)
-	{
-		tmp_prev_token->next = redir_token;
-		redir_token->prev = tmp_prev_token;
-		redir_last = ft_tokenlast(redir_token);
-		(*token)->prev = redir_last;
-		redir_last->next = (*token);
-	}
-	else if (redir_token)
-	{
-		redir_last = ft_tokenlast(redir_token);
-		redir_last->next = (*token);
-		(*token)->prev = redir_last;
-		*first = redir_token;
-	}
-}
-
 static void	devide_redir_cmd(t_token **token, t_token **first)
 {
 	t_token	*tmp_token;
@@ -141,61 +96,6 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	(*token)->cmd = new_cmd_arr;
 	(*token)->line = update_token_line(token);
 	sort_token_order(token, first, redir_token);
-}
-
-int	redir_token(t_token *tok, char *tmp)
-{
-	t_token	*new;
-	int		i;
-
-	i = 0;
-	new = new_token(tok->info);
-	i = cnt_redir(tmp, &tok);
-	push_index(tmp + i, &i);
-	new->line = ft_substr(tmp, 0, i + 1);
-	if (tok->prev)
-	{
-		tok->prev->next = new;
-		new->prev = tok->prev;
-	}
-	tok->prev = new;
-	new->next = tok;
-	check_type(&new);
-	return (i);
-}
-
-void	create_redir_token(t_token *tok, char *tmp)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while(tmp[i])
-	{
-		j = 0;
-		if (tmp[i] == '<' || tmp[i] == '>')
-			j = redir_token(tok, tmp + i);
-		i += j;
-		i++;
-	}
-}
-
-void	get_redir_token(t_token *tok)
-{
-	char	*tmp;
-	char	*tmp1;
-	char	*tmp2;
-	int		i;
-
-	i = 0;
-	while (tok->line[i] != ')')
-		i++;
-	tmp = ft_substr(tok->line, i + 1, ft_strlen(tok->line + i));
-	tmp1 = tok->line;
-	tmp2 = ft_substr(tok->line + 1, 0, i - 1);
-	free(tmp1);
-	tok->line = tmp2;
-	create_redir_token(tok, tmp);
 }
 
 void	set_type_remove_operator(t_token **token, t_token **first)
