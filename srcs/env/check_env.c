@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:55:10 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 01:09:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:15:38 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*change_key_to_value(char *cmd, t_keys *keys)
 			str[tmp.i++] = cmd[tmp.k++];
 	}
 	str[tmp.i] = '\0';
+	free(idx);
 	free(cmd);
 	return (str);
 }

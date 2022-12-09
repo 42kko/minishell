@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 02:29:54 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:16:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	ft_child(t_token *tok, int i, t_pipe *pip)
 {
 	int	tmp;
 
+	tok->info->exit_num = 0;
 	set_signal(DFL);
 	errno = 0;
 	tmp = 0;
