@@ -6,11 +6,20 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 01:19:15 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:47:55 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static	set_env_wave(t_info *info)
+{
+	char		*home_path;
+
+	home_path = ft_getenv(info->env_list, "HOME");
+	ft_putenv(info->env_list, "~", home_path, 0);
+	free(home_path);
+}
 
 void	init_env(t_info *info, char **envp)
 {
@@ -37,7 +46,7 @@ void	init_env(t_info *info, char **envp)
 		tmp->next = NULL;
 		i++;
 	}
-	ft_putenv(info->env_list, "~", ft_getenv(info->env_list, "HOME"), 0);
+	set_env_wave(info);
 }
 
 char	*ft_getenv(t_env_list *env_list, char *key)
