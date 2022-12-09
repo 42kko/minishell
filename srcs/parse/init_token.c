@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:50 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 09:51:54 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,13 @@ t_token	*init_token(char *line, t_info *info)
 {
 	t_token	*token;
 	t_token	*temp;
+	char	*tmp;
 
 	token = 0;
+	tmp = line;
 	while (*line)
 		create_a_token(&token, &line, info);
+	free(tmp);
 	if (token->err_flag_syn == 1)
 		return (token);
 	temp = token;
