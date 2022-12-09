@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 20:47:54 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 02:30:07 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ static void	update_pwd(t_token *token)
 	ft_putenv(env_list, "OLDPWD", prev_pwd, 0);
 	free(tmp);
 	free(prev_pwd);
-	free(cur_pwd);
 }
 
 void	ft_cd(t_token *token)
@@ -60,5 +59,6 @@ void	ft_cd(t_token *token)
 			token->info->exit_num = 1;
 		}
 	}
+	update_pwd(token);
 	free(home_path);
 }

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:37:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 16:38:26 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 02:56:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	exec(t_token *tok)
 	pid = fork();
 	if (pid == 0)
 	{
+		tok->info->exit_num = 0;
 		set_signal(DFL);
 		errno = 0;
 		if (tok->left->type != NO_REDIR)

@@ -6,14 +6,14 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/10 00:23:26 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/10 03:50:18 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c initial.c loop.c test.c
 SRCS_BULT=  ft_cd.c ft_echo.c ft_env.c ft_export.c ft_pwd.c ft_unset.c
 SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c check_env.c ft_unset_env_list.c
-SRCS_ERR= err.c
+SRCS_ERR= err.c err_msg_syntax_int.c
 SRCS_EXE= built_run.c exec.c here_doc.c ioctl.c open_redir.c open_util.c \
 			path.c pipe_util.c run_pipe.c run.c
 SRCS_PAR= check_list.c check_list2.c check_subshell_redir.c check_wave.c \
@@ -36,7 +36,7 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_FREE},${SRCS_FREE:.c=.o}}
 CC		= cc
 # CFLAGS	= -Wall -Werror -Wextra -fsanitize=address
-CFLAGS	= -Wall -Werror -Wextra -g3
+CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft

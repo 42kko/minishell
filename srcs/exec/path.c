@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 19:00:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 02:47:17 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ static int	ft_access(const char *pathname, int mode)
 
 static void	not_found(char *cmd)
 {
-	errno = 127;
-	ft_putstr_fd("command not found: ", 2);
+	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd("command not found", 2);
 	ft_putstr_fd("\n", 2);
+	errno = 127;
 }
 
 static char	*write_path(char *cmd, t_token *tok)
@@ -91,7 +93,6 @@ static char	*write_path(char *cmd, t_token *tok)
 
 void	add_path(t_token *tok)
 {
-	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
+	if (identify_built_exec(tok) == 0 && (tok->type == TCMD || tok->type == TNOCMD))
 		tok->cmd[0] = write_path(tok->cmd[0], tok);
-	errno = 0; // 이게 맞나?
 }
