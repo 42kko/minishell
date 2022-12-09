@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:21:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:06 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 21:14:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,14 @@ char	**get_export_arr(t_env_list *env_list)
 		throw_error(MALLOC_ERR);
 	while (i < num && tmp)
 	{
-		env[i] = link_key_value(tmp->key, tmp->value, tmp->equal);
-		if (!env[i])
-			throw_error(MALLOC_ERR);
+		if (ft_strncmp(tmp->key, "~", 2) != 0)
+		{
+			env[i] = link_key_value(tmp->key, tmp->value, tmp->equal);
+			if (!env[i])
+				throw_error(MALLOC_ERR);
+			i++;
+		}
 		tmp = tmp->next;
-		i++;
 	}
 	env[i] = NULL;
 	return (env);

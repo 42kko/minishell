@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:44 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 22:38:49 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 	t_token	*redir_token;
 	char	**new_cmd_arr;
 	int		cmd_len;
+	char	*tmp;
 
 	redir_token = pick_create_redir_tokens(token, (*token)->cmd);
 	cmd_len = get_sec_arr_len((*token)->cmd) - token_list_len(redir_token);
@@ -94,7 +95,9 @@ static void	devide_redir_cmd(t_token **token, t_token **first)
 		(*token)->type = TNOCMD;
 	free_sec_arr((*token)->cmd);
 	(*token)->cmd = new_cmd_arr;
+	tmp = (*token)->line;
 	(*token)->line = update_token_line(token);
+	free(tmp);
 	sort_token_order(token, first, redir_token);
 }
 

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 20:48:57 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 22:22:23 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ int	ft_builitin(t_token *tok)
 	else if (ft_strncmp(tok->cmd[0], "env", 4) == 0)
 		ft_env(tok);
 	else if (ft_strncmp(tok->cmd[0], "exit", 5) == 0)
+	{
+		// free_env_list(tok->info->env_list);
+		// free_cmd(tok->info->path);
+		// free(tok->info);
 		exit(0);
+	}
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:14:49 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/09 21:03:43 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	leak(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	// atexit(leak);
+	atexit(leak);
 	t_info	*info;
 
 	info = new_info(info);
@@ -43,4 +43,5 @@ int	main(int ac, char **av, char **envp)
 	loop(info);
 	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 	return (0);
+
 }

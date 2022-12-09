@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 18:36:25 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 21:15:30 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	print_envs(t_env_list *env_list)
 {
 	while (env_list)
 	{
-		printf("%s=%s\n", env_list->key, env_list->value);
+		if (ft_strncmp(env_list->key, "~", 2) != 0)
+			printf("%s=%s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}
 }
