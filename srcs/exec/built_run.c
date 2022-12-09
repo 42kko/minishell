@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_run.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 22:22:23 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 00:45:38 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,5 @@ void	builtin_alone_exec(t_token *tok)
 	if (tok->right->type == TNOCMD)
 		return ;
 	ft_builitin(tok->right);
+	set_signal(BASH);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 17:12:16 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 00:52:34 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	run(char *line, t_info *info)
 void	eof_exit(char *line, t_info *info)
 {
 	printf("exit\n");
-	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
+	// tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 	exit(0);
 }
 
@@ -44,6 +44,8 @@ void	loop(t_info *info)
 
 	while (1)
 	{
+		dup2(info->stdio_backup[0], 0);
+		dup2(info->stdio_backup[1], 1);
 		line = readline("seekko> ");
 		if (line == NULL)
 			eof_exit(line, info);
