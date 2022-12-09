@@ -6,13 +6,13 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 16:47:55 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 18:36:25 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static	set_env_wave(t_info *info)
+static void	set_env_wave(t_info *info)
 {
 	char		*home_path;
 

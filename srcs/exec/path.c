@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 16:42:02 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 19:00:12 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**info_get_path(t_info *info)
 	tmp = info->env_list;
 	while (tmp)
 	{
-		if (tmp->key && ft_strncmp(tmp->key, "PATH", 5) == 0)
+		if (tmp->key && ft_strncmp(tmp->key, "PATH", 4) == 0)
 			break ;
 		tmp = tmp->next;
 	}

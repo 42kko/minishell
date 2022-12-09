@@ -36,6 +36,7 @@
     "__memory": "c",
     "optional": "c",
     "system_error": "c",
-    "vector": "c"
+    "vector": "c",
+    "builtin.h": "c"
   }
 }

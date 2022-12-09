@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:29:35 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:47:54 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,22 +38,27 @@ void	ft_cd(t_token *token)
 	env_list = token->info->env_list;
 	home_path = ft_getenv(env_list, "HOME");
 	if (ft_strncmp(home_path, "", 1) == 0)
+	{
 		throw_error_message("cd", NULL, "HOME not set", 1);
+		token->info->exit_num = 1;
+	}
 	else if (token->cmd[1])
 	{
 		if (chdir(token->cmd[1]) == -1)
+		{
 			throw_error_message("cd", token->cmd[1], \
 			"No such file or directory", 1);
-		else
-			errno = 0;
+			token->info->exit_num = 1;
+		}
 	}
 	else
 	{
 		if (chdir(home_path) == -1)
+		{
 			throw_error_message("cd", home_path, \
 			"No such file or directory", 1);
-		else
-			errno = 0;
+			token->info->exit_num = 1;
+		}
 	}
 	free(home_path);
 }

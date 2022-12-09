@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 00:53:55 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:42:47 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ static void	check_export_arg_right(t_token *token)
 	if (flag == FAIL)
 	{
 		errno = 1;
+		token->info->exit_num = 1;
 		return ;
 	}
 	else if (flag == SUCCESS)
 		ft_putenv(token->info->env_list, key, value, 1);
 	else if (flag == 2)
 		ft_putenv(token->info->env_list, key, value, 0);
-	errno = 0;
 }
 
 void	ft_export(t_token *token)
@@ -101,7 +101,6 @@ void	ft_export(t_token *token)
 		sort_env(env, get_env_num(env_list));
 		print_export(env);
 		free_sec_arr(env);
-		errno = 0;
 		return ;
 	}
 	if (token->cmd[1])

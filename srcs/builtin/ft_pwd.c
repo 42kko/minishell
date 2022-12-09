@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:14:05 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:29:14 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:46:34 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ void	ft_pwd(char **cmd)
 		throw_error(MALLOC_ERR);
 	pwd = getcwd(buf, 4096);
 	printf("%s\n", pwd);
-	errno = 0;
 	free(buf);
 }

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:17:36 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 01:36:41 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 20:49:13 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ typedef struct s_pipe
 }	t_pipe;
 
 //built_run
-int		ft_bulitin(t_token *tok);
-void	built_exec(t_token *tok);
+int		ft_builitin(t_token *tok);
 void	builtin_alone_exec(t_token *tok);
 
 //exec
