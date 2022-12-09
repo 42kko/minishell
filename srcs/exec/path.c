@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 02:29:49 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:42:02 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static char	*write_path(char *cmd, t_token *tok)
 		i++;
 	}
 	free(tmp1);
+	tok->info->exit_num = 127;
 	not_found(cmd);
 	return (cmd);
 }
@@ -92,5 +93,5 @@ void	add_path(t_token *tok)
 {
 	if (identify_built_exec(tok) == 0 && tok->type == TCMD)
 		tok->cmd[0] = write_path(tok->cmd[0], tok);
-	errno = 0;
+	errno = 0; // 이게 맞나?
 }

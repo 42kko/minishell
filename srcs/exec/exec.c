@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:37:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 01:24:58 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/09 16:38:26 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	exec(t_token *tok)
 		if (tok->right->type == TNOCMD)
 			exit (0);
 		add_path(tok->right);
+		if (tok->info->exit_num != 0)
+			exit(tok->info->exit_num);
 		execve(tok->right->cmd[0], tok->right->cmd, \
 		get_env_arr(tok->info->env_list));
 		exit(errno);
