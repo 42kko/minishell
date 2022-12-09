@@ -6,17 +6,17 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 21:03:43 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 00:36:45 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_info	*new_info(t_info *info)
+static t_info	*new_info()
 {
 	t_info	*new;
 
-	new = (t_info *)malloc(sizeof(info));
+	new = (t_info *)malloc(sizeof(t_info));
 	if (!new)
 		throw_error(MALLOC_ERR);
 	new->env_list = 0;
@@ -35,13 +35,12 @@ void	leak(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	atexit(leak);
+	// atexit(leak);
 	t_info	*info;
 
-	info = new_info(info);
+	info = new_info();
 	initial(info, envp);
 	loop(info);
 	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 	return (0);
-
 }
