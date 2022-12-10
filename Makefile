@@ -6,11 +6,11 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/10 14:10:26 by kko              ###   ########.fr        #
+#    Updated: 2022/12/10 14:12:32 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS    = main.c initial.c loop.c test.c
+SRCS    = main.c initial.c loop.c
 SRCS_BULT=  ft_cd.c ft_echo.c ft_env.c ft_export.c ft_pwd.c ft_unset.c
 SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c check_env.c ft_unset_env_list.c
 SRCS_ERR= err.c err_msg_syntax_int.c
@@ -35,7 +35,6 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}} ${addprefix ${SRC_ERR},${SRCS_ERR:.c=.o}} \
 			${addprefix ${SRC_FREE},${SRCS_FREE:.c=.o}}
 CC		= cc
-# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address -lreadline
 CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
@@ -44,9 +43,6 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o}
-#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/opt/homebrew/opt/readline/include
-#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/goinfre/seokchoi/.brew/opt/readline/include
 			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
 
 ${NAME}:	${OBJS}

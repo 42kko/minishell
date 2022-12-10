@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 13:19:43 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:12:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 {
 	t_info	*info;
 
-	// atexit(leak);
+	atexit(leak);
 	info = new_info();
 	initial(info, envp);
 	loop(info);
