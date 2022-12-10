@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 16:49:57 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 05:02:19 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,25 @@ static int	create_str_to_c(char const *s, char **arr, char c)
 	return (len + 1);
 }
 
+int	is_dont_be_key(char *key)
+{
+	int		i;
+	char	c;
+
+	i = 0;
+	if (ft_strlen(key) == 0)
+		return (FAIL);
+	while (key[i])
+	{
+		c = key[i];
+		if ((c < '0' || c > '9') && (c < 'a' || c > 'z') && \
+		(c < 'A' || c > 'Z') && c != '_')
+			return (FAIL);
+		i++;
+	}
+	return (SUCCESS);
+}
+
 int	ft_split_for_env(char const *s, char **key, char **value)
 {
 	int	i;
@@ -58,8 +77,6 @@ int	ft_split_for_env(char const *s, char **key, char **value)
 
 	i = 0;
 	equal_flag = 0;
-	if (s[0] == '=')
-		return (FAIL);
 	while (s[i])
 	{
 		if (s[i] == '=')
@@ -68,6 +85,8 @@ int	ft_split_for_env(char const *s, char **key, char **value)
 	}
 	s += create_str_to_c(s, key, '=');
 	create_str_to_c(s, value, 0);
+	if (is_dont_be_key(*key) == FAIL)
+		return (FAIL);
 	if (equal_flag == 1)
 		return (2);
 	else

@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 20:42:47 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 03:56:56 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,18 +73,24 @@ static void	check_export_arg_right(t_token *token)
 	char	*key;
 	char	*value;
 	int		flag;
+	int		i;
 
-	flag = ft_split_for_env(token->cmd[1], &key, &value);
-	if (flag == FAIL)
+	i = 1;
+	while (token->cmd[i])
 	{
-		errno = 1;
-		token->info->exit_num = 1;
-		return ;
+		flag = ft_split_for_env(token->cmd[i], &key, &value);
+		if (flag == FAIL)
+		{
+			token->info->exit_num = 1;
+			throw_error_message("export", token->cmd[i], \
+			"not a valid identifier", 1);
+		}
+		else if (flag == SUCCESS)
+			ft_putenv(token->info->env_list, key, value, 1);
+		else if (flag == 2)
+			ft_putenv(token->info->env_list, key, value, 0);
+		i++;
 	}
-	else if (flag == SUCCESS)
-		ft_putenv(token->info->env_list, key, value, 1);
-	else if (flag == 2)
-		ft_putenv(token->info->env_list, key, value, 0);
 }
 
 void	ft_export(t_token *token)
