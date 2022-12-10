@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 05:37:29 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 13:19:43 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static t_info	*new_info()
+static t_info	*new_info(void)
 {
 	t_info	*new;
 
@@ -35,9 +35,9 @@ void	leak(void)
 
 int	main(int ac, char **av, char **envp)
 {
-	// atexit(leak);
 	t_info	*info;
 
+	// atexit(leak);
 	info = new_info();
 	initial(info, envp);
 	loop(info);

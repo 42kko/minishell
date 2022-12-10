@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 06:46:46 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 13:16:19 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void	run_pipe(t_token *tok)
 		i++;
 	}
 	close_util(pip.p[((i - 2) * 2)], tok);
-	waitpid_stat(tok, i);	
+	waitpid_stat(tok, i);
 	free(pip.p);
 }

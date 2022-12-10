@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:40 by ko                #+#    #+#             */
-/*   Updated: 2022/12/10 09:47:31 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 13:15:36 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ DIR	*opendir_util(char *pwd, t_token *tok)
 {
 	DIR				*dir_ptr;
 
-	if ((dir_ptr = opendir(pwd)) == NULL)
+	dir_ptr = opendir(pwd);
+	if (dir_ptr == NULL)
 	{
 		free(pwd);
 		err_msg("opendir err", tok, "*");
@@ -66,7 +67,8 @@ int	cnt_pwd(t_info *info, t_token *tok, char **pwd)
 	dir_ptr = opendir_util(tmp, tok);
 	if (dir_ptr == 0)
 		return (-1);
-	while ((file = readdir(dir_ptr)) != NULL)
+	file = readdir(dir_ptr);
+	while (file != NULL)
 	{
 		if (file->d_name[0] != '.')
 			i++;

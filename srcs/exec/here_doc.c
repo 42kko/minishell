@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:56:41 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 06:35:57 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 13:16:52 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static void	writedoc(char *limiter, int *p, t_token *tok)
 			break ;
 		if (*line == '\0')
 			write(p[1], "\n", 1);
-		else if (*line != '\n' && ft_strncmp(line, limiter, ft_strlen(line)) == 0)
+		else if (*line != '\n' && \
+		ft_strncmp(line, limiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			line = NULL;

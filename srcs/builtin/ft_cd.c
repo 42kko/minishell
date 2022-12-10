@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 02:30:07 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 13:18:24 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,16 @@ static void	update_pwd(t_token *token)
 	ft_putenv(env_list, "OLDPWD", prev_pwd, 0);
 	free(tmp);
 	free(prev_pwd);
+}
+
+static void	if_cd_home(t_token *token, char *home_path)
+{
+	if (chdir(home_path) == -1)
+	{
+		throw_error_message("cd", home_path, \
+		"No such file or directory", 1);
+		token->info->exit_num = 1;
+	}
 }
 
 void	ft_cd(t_token *token)
@@ -51,14 +61,7 @@ void	ft_cd(t_token *token)
 		}
 	}
 	else
-	{
-		if (chdir(home_path) == -1)
-		{
-			throw_error_message("cd", home_path, \
-			"No such file or directory", 1);
-			token->info->exit_num = 1;
-		}
-	}
+		if_cd_home(token, home_path);
 	update_pwd(token);
 	free(home_path);
 }
