@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 20:55:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/10 21:58:47 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,11 @@ void	add_path(t_token *tok)
 {
 	if (identify_built_exec(tok) == 0 && \
 	(tok->type == TCMD || tok->type == TNOCMD))
+	{
 		tok->cmd[0] = write_path(tok->cmd[0], tok);
+		if (tok->info->exit_num == 0 && ft_access(tok->cmd[0], 1) == -1)
+			throw_error_message(tok->cmd[0], 0, "Permission denied", 0);
+	}
 	if (tok->info->exit_num != 0)
 	{
 		exit(127);
