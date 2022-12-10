@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 13:16:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 20:55:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,14 @@ static char	*write_path(char *cmd, t_token *tok)
 	char	*tmp;
 	char	*tmp1;
 
-	if (ft_access(cmd, 1) == 0 && ft_strchr(cmd, '/') != 0)
+	if (ft_access(cmd, 0) == 0 && ft_strchr(cmd, '/') != 0)
 		return (cmd);
 	i = 0;
 	tmp1 = ft_strjoin("/", cmd);
 	while (tok->info->path[i])
 	{
 		tmp = ft_strjoin(tok->info->path[i], tmp1);
-		if (ft_access(tmp, 1) == 0)
+		if (ft_access(tmp, 0) == 0)
 		{
 			free(cmd);
 			free(tmp1);
@@ -86,7 +86,7 @@ static char	*write_path(char *cmd, t_token *tok)
 		i++;
 	}
 	free(tmp1);
-	tok->info->exit_num = 127;
+	tok->info->exit_num = 1;
 	not_found(cmd);
 	return (cmd);
 }
@@ -97,5 +97,7 @@ void	add_path(t_token *tok)
 	(tok->type == TCMD || tok->type == TNOCMD))
 		tok->cmd[0] = write_path(tok->cmd[0], tok);
 	if (tok->info->exit_num != 0)
-		exit(tok->info->exit_num);
+	{
+		exit(127);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:23:25 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 01:59:09 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 21:31:21 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ void	free_tree(t_token *tok)
 	free_tree(tok->left);
 	free_tree(tok->right);
 	free_cmd(tok->cmd);
+	if (tok->type == TIN || tok->type == TADDOUT || \
+	tok->type == TDOC || tok->type == TOUT)
+	{
+		if (tok->fd_in != -1)
+			close_util(tok->fd_in, tok);
+		if (tok->fd_out != -1)
+			close_util(tok->fd_out, tok);
+	}
 	if (tok->line != NULL)
 	{
 		free(tok->line);

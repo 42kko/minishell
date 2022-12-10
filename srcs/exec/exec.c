@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:37:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 06:18:52 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 20:59:00 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	exec(t_token *tok)
 		add_path(tok->right);
 		execve(tok->right->cmd[0], tok->right->cmd, \
 		get_env_arr(tok->info->env_list));
-		exit(errno);
+		exit(126);
 	}
 	else if (pid > 0)
 		wait(&stat);

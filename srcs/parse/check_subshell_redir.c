@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_subshell_redir.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 01:43:47 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:56 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:46:14 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	create_redir_token(t_token *tok, char *tmp)
 		i += j;
 		i++;
 	}
+	free(tmp);
 }
 
 void	get_redir_token(t_token *tok)
