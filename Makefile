@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
+#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/10 13:28:56 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/10 14:10:26 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,15 +46,12 @@ all:		${NAME}
 .c.o:		${SRCS}
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o}
 #			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/opt/homebrew/opt/readline/include
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/goinfre/seokchoi/.brew/opt/readline/include
-#		${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
+#			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/goinfre/seokchoi/.brew/opt/readline/include
+			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft
-#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/opt/homebrew/opt/readline/lib -lreadline
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/goinfre/seokchoi/.brew/opt/readline/lib -lreadline
-#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -lreadline
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -L/Users/kko/.brew/opt/readline/lib -lreadline
 
 clean:
 			make clean -C ${LIBFT}/

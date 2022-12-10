@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:37 by ko                #+#    #+#             */
-/*   Updated: 2022/12/10 13:53:23 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:08:51 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	write_dir(struct dirent *file, DIR *dir_ptr, char ***src, int i)
 			src[0][i + j] = ft_strdup(file->d_name);
 			j++;
 		}
+		file = readdir(dir_ptr);
 	}
 	j--;
 	return (j);
@@ -65,7 +66,6 @@ static int	edit_wild(t_token *tok, int cnt, int *i)
 	char	**tmp;
 	char	*pwd;
 
-	printf("d\n");
 	tmp = tok->cmd;
 	cnt += cnt_cmd(tok->cmd);
 	cnt += cnt_pwd(tok->info, tok, &pwd);
@@ -79,7 +79,7 @@ static int	edit_wild(t_token *tok, int cnt, int *i)
 		return (-1);
 	}
 	tok->cmd = new;
-	*i += cnt - 2;
+	*i += cnt - 3;
 	free_cmd(tmp);
 	free(pwd);
 	return (0);

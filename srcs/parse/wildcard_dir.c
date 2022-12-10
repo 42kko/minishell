@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_dir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:40 by ko                #+#    #+#             */
-/*   Updated: 2022/12/10 13:15:36 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:08:28 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	cnt_pwd(t_info *info, t_token *tok, char **pwd)
 	{
 		if (file->d_name[0] != '.')
 			i++;
+		file = readdir(dir_ptr);
 	}
 	closedir(dir_ptr);
 	return (i);
