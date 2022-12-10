@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:56:41 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 13:16:52 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 21:25:00 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,9 @@ int	here_doc(char *limiter, t_token *tok)
 	if (WIFSIGNALED(stat))
 	{
 		close(p[0]);
-		tok->info->exit_num = 130;
 		tok->parent->err_flag_redir = -1;
+		tok->info->exit_num = 130;
+		return (-1);
 	}
 	return (p[0]);
 }

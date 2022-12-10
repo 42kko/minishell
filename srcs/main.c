@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 14:12:16 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/10 20:38:56 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,10 @@ static t_info	*new_info(void)
 	return (new);
 }
 
-void	leak(void)
-{
-	system("leaks minishell");
-}
-
 int	main(int ac, char **av, char **envp)
 {
 	t_info	*info;
 
-	atexit(leak);
 	info = new_info();
 	initial(info, envp);
 	loop(info);

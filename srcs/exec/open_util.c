@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_util.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:55:31 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 13:16:38 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 20:28:17 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	fork_util(t_token *tok)
 	pid_t	pid;
 
 	pid = fork();
+	tok->last_pid = pid;
 	if (pid < 0)
 		err_msg("frok err", tok, 0);
 	return (pid);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 06:36:10 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 19:57:41 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,11 @@ static void	start_open(t_token *tok)
 	t_token	*tmp;
 
 	tmp = tok;
-	errno = 0;
 	while (tmp)
 	{
-		if (tmp->type == TOUT || tmp->type == TADDOUT)
+		if (tok->parent->err_flag_redir == -1)
+			break ;
+		else if (tmp->type == TOUT || tmp->type == TADDOUT)
 		{
 			if (tok->fd_out != -1)
 				close_util(tok->fd_out, tok);
@@ -78,8 +79,6 @@ static void	start_open(t_token *tok)
 				close_util(tok->fd_in, tok);
 			open_in(tok, tmp);
 		}
-		else if (errno != 0)
-			break ;
 		tmp = tmp->next;
 	}
 }

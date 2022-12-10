@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 13:16:19 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 20:45:09 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	ft_child(t_token *tok, int i, t_pipe *pip)
 	if (tok->right->type == TNOCMD)
 		exit (0);
 	pipe_exec(tok);
-	exit(errno);
+	exit(126);
 }
 
 static void	ft_parent(int i, t_pipe *pip, t_token *tok)
@@ -69,15 +69,16 @@ static void	waitpid_stat(t_token *tok, int i)
 {
 	int	stat;
 
-	while (i > 0)
+	waitpid(tok->last_pid, &stat, 0);
+	while (i > 1)
 	{
-		waitpid(-1, &stat, 0);
+		waitpid(-1, 0, 0);
 		i--;
 	}
 	if (WIFEXITED(stat))
 		tok->info->exit_num = WEXITSTATUS(stat);
 	else if (WIFSIGNALED(stat))
-		tok->info->exit_num = WTERMSIG(stat);
+		tok->info->exit_num = WTERMSIG(stat) + 128;
 }
 
 void	run_pipe(t_token *tok)
