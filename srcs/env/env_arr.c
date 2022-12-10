@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 22:21:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 21:14:34 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 20:07:25 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	**get_env_arr(t_env_list *env_list)
 	i = 0;
 	tmp = env_list;
 	num = get_env_num(env_list);
-	env = calloc(sizeof(char *), (num + 1));
+	env = ft_calloc(sizeof(char *), (num + 1));
 	if (!env)
 		throw_error(MALLOC_ERR);
 	while (i < num && tmp)
