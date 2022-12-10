@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:17:36 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 20:49:13 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:05:57 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	open_redir(t_token *tok);
 //open_util
 char	*find_redir(char *s);
 void	close_util(int fd, t_token *tok);
+int		fork_util(t_token *tok);
 
 //path
 char	**info_get_path(t_info *info);

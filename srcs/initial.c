@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initial.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:20:15 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 02:31:52 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 09:51:01 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	initial(t_info *info, char **envp)
 	struct termios	term;
 
 	init_env(info, envp);
-	info->path = info_get_path(info);
 	set_signal(BASH);
 	tcgetattr(STDIN_FILENO, &term);
 	tcgetattr(STDIN_FILENO, info->old_term);

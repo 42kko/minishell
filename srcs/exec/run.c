@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:31:54 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 01:36:34 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:37:25 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,20 @@
 
 static void	run_exec(t_token *tok)
 {
+	if (tok->err_flag_redir == -1)
+	{
+		tok->info->exit_num = 1;
+		return ;
+	}
 	if (identify_built_exec(tok->right) == 1)
 	{
 		builtin_alone_exec(tok);
 	}
 	else if (identify_built_exec(tok->right) == 0)
 	{
-		if (tok->errn != -1)
-		{
-			set_signal(IGN);
-			exec(tok);
-			set_signal(BASH);
-		}
-		else
-			tok->info->exit_num = 1;
+		set_signal(IGN);
+		exec(tok);
+		set_signal(BASH);
 	}
 }
 
@@ -36,9 +36,9 @@ static void	run_subshell(t_token *tok)
 	pid_t	pid;
 	int		stat;
 
-	if (tok->errn == -1)
+	if (tok->err_flag_redir == -1)
 		return ;
-	pid = fork();
+	pid = fork_util(tok);
 	if (pid == 0)
 	{
 		set_signal(DFL);

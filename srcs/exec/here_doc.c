@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:56:41 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:09 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:35:57 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static void	writedoc(char *limiter, int *p, t_token *tok)
 		line = readline("> ");
 		if (line == NULL)
 			break ;
-		if (ft_strncmp(line, limiter, ft_strlen(line)) == 0)
+		if (*line == '\0')
+			write(p[1], "\n", 1);
+		else if (*line != '\n' && ft_strncmp(line, limiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			line = NULL;
@@ -46,18 +48,17 @@ int	here_doc(char *limiter, t_token *tok)
 
 	if (pipe(p) < 0)
 		err_msg("pipe err", tok, 0);
-	pid = fork();
-	if (pid == -1)
-		err_msg("fork err", tok, 0);
-	else if (pid == 0)
+	pid = fork_util(tok);
+	if (pid == 0)
 		writedoc(limiter, p, tok);
 	else if (pid > 0)
 		close_util(p[1], tok);
 	waitpid(-1, &stat, 0);
 	if (WIFSIGNALED(stat))
 	{
-		if (WTERMSIG(stat) == 2)
-			errno = -1;
+		close(p[0]);
+		tok->info->exit_num = 130;
+		tok->parent->err_flag_redir = -1;
 	}
 	return (p[0]);
 }

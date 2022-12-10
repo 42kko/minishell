@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:32:04 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 09:49:04 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ struct s_keys
 struct s_token
 {
 	int					err_flag_syn;
-	int					err_flag_notfound;
+	int					err_flag_redir;
 	int					token_type;
 	int					fd_out;
 	int					fd_in;
@@ -145,6 +145,7 @@ t_oper_type		first_check_operator(char c);
 //check_list2
 int				check_redir(char c);
 void			check_subshells(t_token **token, int i);
+void			error_hunter(t_token *tok);
 
 //check wave
 t_wave_type		check_is_wave(t_token **token, \
@@ -230,5 +231,14 @@ t_token			*next_token(t_token *token);
 t_token			*prev_token(t_token *token);
 void			select_oper(t_token *tok, t_oper_type *oper1, \
 t_oper_type *oper2, t_oper_type *oper3);
+
+//wildcard
+int				expansion_wild(t_token *tok);
+
+//wildcard_dir
+int				cnt_pwd(t_info *info, t_token *tok, char **pwd);
+int				cnt_cmd(char **cmd);
+int				check_wild(char *s);
+DIR				*opendir_util(char *pwd, t_token *tok);
 
 #endif

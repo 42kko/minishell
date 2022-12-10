@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 03:47:32 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 09:43:57 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int	run(char *line, t_info *info)
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token, info));
+	if (expansion_wild(token) < 0)
+		return (free_lst(token, info));
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (err_msg_syntax_int(info));
 	open_redir(token);
-	if (errno == -1)
-		return (1);
 	run_shell(token);
 	free_tree(token);
-	return (0);
+	return (info->exit_num);
 }
 
 void	eof_exit(char *line, t_info *info)
@@ -38,15 +38,26 @@ void	eof_exit(char *line, t_info *info)
 	exit(0);
 }
 
+void	loop_set(t_info *info)
+{
+	char	**tmp;
+
+	tmp = info->path;
+	dup2(info->stdio_backup[0], 0);
+	dup2(info->stdio_backup[1], 1);
+	info->path = info_get_path(info);
+	free_cmd(tmp);
+	errno = 0;
+}
+
 void	loop(t_info *info)
 {
 	char	*line;
 
 	while (1)
 	{
-		dup2(info->stdio_backup[0], 0);
-		dup2(info->stdio_backup[1], 1);
-		line = readline("minishell $ ");
+		loop_set(info);
+		line = readline("minishell$ ");
 		if (line == NULL)
 			eof_exit(line, info);
 		else if (line != NULL && *line != '\0')

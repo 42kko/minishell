@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:37:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 02:56:17 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:18:52 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	exec(t_token *tok)
 	pid_t	pid;
 	int		stat;
 
-	pid = fork();
+	pid = fork_util(tok);
 	if (pid == 0)
 	{
 		tok->info->exit_num = 0;
@@ -52,8 +52,6 @@ void	exec(t_token *tok)
 		if (tok->right->type == TNOCMD)
 			exit (0);
 		add_path(tok->right);
-		if (tok->info->exit_num != 0)
-			exit(tok->info->exit_num);
 		execve(tok->right->cmd[0], tok->right->cmd, \
 		get_env_arr(tok->info->env_list));
 		exit(errno);

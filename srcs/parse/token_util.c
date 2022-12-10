@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_util.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:46:42 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 00:39:59 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/10 05:51:49 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ t_token	*new_token(t_info *info)
 	new->info = info;
 	new->fd_in = -1;
 	new->fd_out = -1;
-	new->errn = 0;
+	new->err_flag_redir = 0;
 	new->err_flag_syn = 0;
-	new->err_flag_notfound = 0;
 	new->token_type = 0;
 	return (new);
 }

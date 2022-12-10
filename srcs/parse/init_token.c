@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 00:29:20 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 09:47:38 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_token	*init_token(char *line, t_info *info)
 	tmp = line;
 	while (*line)
 		create_a_token(&token, &line, info);
+	error_hunter(token);
 	free(tmp);
 	if (token->err_flag_syn == 1)
 		return (token);
@@ -103,8 +104,6 @@ t_token	*init_token(char *line, t_info *info)
 	while (temp)
 	{
 		set_type_remove_operator(&temp, &token);
-		if (ft_tokenstart(token)->err_flag_syn == 1)
-			return (token);
 		temp = temp->next;
 	}
 	check_redir_data(token);

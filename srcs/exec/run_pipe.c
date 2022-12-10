@@ -6,11 +6,27 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 01:17:08 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/10 06:46:46 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	pipe_exec(t_token *tok)
+{
+	if (identify_built_exec(tok->right) != 1)
+	{
+		add_path(tok->right);
+		execve(tok->right->cmd[0], tok->right->cmd, \
+		get_env_arr(tok->info->env_list));
+	}
+	else
+	{
+		ft_builitin(tok->right);
+		if (tok->info->exit_num != 0)
+			exit (tok->info->exit_num);
+	}
+}
 
 static void	ft_child(t_token *tok, int i, t_pipe *pip)
 {
@@ -27,17 +43,12 @@ static void	ft_child(t_token *tok, int i, t_pipe *pip)
 			tok = tok->right;
 		tmp++;
 	}
+	if (tok->err_flag_redir == -1)
+		exit (1);
 	io_ctl(pip, i, tok->left);
 	if (tok->right->type == TNOCMD)
 		exit (0);
-	if (identify_built_exec(tok->right) != 1)
-	{
-		add_path(tok->right);
-		execve(tok->right->cmd[0], tok->right->cmd, \
-		get_env_arr(tok->info->env_list));
-	}
-	else
-		ft_builitin(tok->right);
+	pipe_exec(tok);
 	exit(errno);
 }
 
@@ -83,7 +94,7 @@ void	run_pipe(t_token *tok)
 		err_msg("pipe_err", tok, 0);
 	while (i < pip.cnt + 1)
 	{
-		pid = fork();
+		pid = fork_util(tok);
 		if (pid == 0)
 			ft_child(tok, i, &pip);
 		else if (pid > 0)

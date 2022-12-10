@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:04 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:36:10 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static void	open_out(t_token *tok, t_token *tmp)
 		{
 			err_msg("open err", tok, find_redir(tmp->line + 1));
 			tok->fd_out = -1;
+			tok->parent->err_flag_redir = -1;
 		}
 	}
 	else if (tmp->type == TADDOUT)
@@ -32,6 +33,7 @@ static void	open_out(t_token *tok, t_token *tmp)
 		{
 			err_msg("open err", tok, find_redir(tmp->line + 2));
 			tok->fd_out = -1;
+			tok->parent->err_flag_redir = -1;
 		}
 	}
 }
@@ -45,7 +47,7 @@ static void	open_in(t_token *tok, t_token *tmp)
 		{
 			err_msg("open err", tok, find_redir(tmp->line + 1));
 			tok->fd_in = -1;
-			tok->parent->errn = 1;
+			tok->parent->err_flag_redir = -1;
 		}
 	}
 	else if (tmp->type == TDOC)
@@ -90,9 +92,5 @@ void	open_redir(t_token *tok)
 	open_redir(tok->right);
 	if (tok->type == TOUT || tok->type == TADDOUT || \
 	tok->type == TIN || tok->type == TDOC)
-	{
 		start_open(tok);
-		if (errno != 0)
-			tok->parent->errn = -1;
-	}
 }

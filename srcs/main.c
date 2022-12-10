@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 00:36:45 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 05:37:29 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ int	main(int ac, char **av, char **envp)
 	info = new_info();
 	initial(info, envp);
 	loop(info);
-	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 02:47:17 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 06:17:06 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,6 @@ void	add_path(t_token *tok)
 {
 	if (identify_built_exec(tok) == 0 && (tok->type == TCMD || tok->type == TNOCMD))
 		tok->cmd[0] = write_path(tok->cmd[0], tok);
+	if (tok->info->exit_num != 0)
+		exit(tok->info->exit_num);
 }
