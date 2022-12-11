@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 16:52:46 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:21:02 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	main(int ac, char **av, char **envp)
 {
 	t_info	*info;
 
+	(void)ac;
+	(void)av;
 	info = new_info();
 	initial(info, envp);
 	loop(info);

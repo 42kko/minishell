@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:40 by ko                #+#    #+#             */
-/*   Updated: 2022/12/10 14:08:28 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:26:33 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	cnt_cmd(char **cmd)
 	return (i);
 }
 
-int	cnt_pwd(t_info *info, t_token *tok, char **pwd)
+int	cnt_pwd(t_token *tok, char **pwd)
 {
 	struct dirent	*file;
 	DIR				*dir_ptr;

@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 20:59:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 14:43:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:24:43 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ static char	**pick_create_only_cmd_arr(char **arr, int only_cmd_len)
 
 static void	devide_redir_cmd(t_token **token, t_token **first)
 {
-	t_token	*tmp_token;
 	t_token	*redir_token;
 	char	**new_cmd_arr;
 	int		cmd_len;

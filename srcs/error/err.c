@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   err.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:18:35 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 01:22:12 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:29:14 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	err_msg(char *msg, t_token *tok, char *target)
 {
+	(void)msg;
+	(void)tok;
 	ft_putstr_fd("minishell: ", 2);
 	if (target != 0)
 	{

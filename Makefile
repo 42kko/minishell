@@ -6,7 +6,7 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/11 16:53:37 by kko              ###   ########.fr        #
+#    Updated: 2022/12/11 21:20:33 by kko              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
+			${CC} $(CFLAGS) -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 

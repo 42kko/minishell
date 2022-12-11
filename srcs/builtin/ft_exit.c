@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 14:20:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 16:22:09 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:27:40 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@ static int	can_be_exit_num(char *num)
 		i++;
 	}
 	return (flag);
-}
-
-static int	cmd_arr_len(char **cmd)
-{
-	int	len;
-
-	len = 0;
-	while (cmd[len])
-		len++;
-	return (len);
 }
 
 void	ft_exit(t_token *tok, char **cmd)

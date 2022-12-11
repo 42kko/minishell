@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 17:56:53 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:23:03 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ static void	check_env_record(t_token **token, \
 t_keys **keys, int i, t_parse_tmp *tmp)
 {
 	t_keys	*keys_last;
-	int		key_len;
 
 	if (*keys == NULL)
 	{

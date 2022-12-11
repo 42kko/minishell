@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 20:37:32 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:30:09 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,5 @@ void	set_signal(int num);
 //loop
 int		run(char *line, t_info *info);
 void	loop(t_info *info);
-
-//test
-void	printf_line(t_token *lst);
-void	printf_type(t_oper_type s);
-void	func(char *s);
-void	show_list_type_data(t_token *lst);
-void	ft_tokeniter(t_token *lst);
-void	printf_key(t_keys *keys);
-void	printf_env(char **arr);
 
 #endif

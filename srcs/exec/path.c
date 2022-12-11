@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/11 20:05:05 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:39:37 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,6 @@ char	**info_get_path(t_info *info)
 	char		**ret;
 	t_env_list	*tmp;
 
-	// if (info->path)
-	// {
-	// 	free(info->path);
-	// 	info->path = NULL;
-	// }
 	tmp = info->env_list;
 	while (tmp)
 	{

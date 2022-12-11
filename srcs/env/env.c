@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 16:53:13 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 21:15:30 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:33:01 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	init_env(t_info *info, char **envp)
 {
 	int			i;
 	int			env_len;
-	char		**splited_env_arr;
 	t_env_list	*tmp;
 
 	env_len = get_sec_arr_len(envp);
@@ -77,7 +76,7 @@ void	print_envs(t_env_list *env_list)
 {
 	while (env_list)
 	{
-		if (ft_strncmp(env_list->key, "~", 2) != 0)
+		if (ft_strncmp(env_list->key, "~", 2) != 0 && env_list->equal == 0)
 			printf("%s=%s\n", env_list->key, env_list->value);
 		env_list = env_list->next;
 	}

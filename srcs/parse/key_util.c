@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_util.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 01:50:30 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:30:38 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:24:01 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_keycpy(char *dst, char *src, int dstsize)
 {
-	size_t	len;
-	size_t	i;
+	int	len;
+	int	i;
 
 	i = 0;
 	len = ft_strlen(src);

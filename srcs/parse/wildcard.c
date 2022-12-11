@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:37 by ko                #+#    #+#             */
-/*   Updated: 2022/12/11 16:49:01 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:39:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ static int	write_wild(char ***dst, char ***src, t_token *tok, char *pwd)
 	int				j;
 	int				flag;
 
-	i = 0;
-	j = 0;
-	flag = 0;
+	zero_parameter1(&i, &j, &flag);
+	file = 0;
 	dir_ptr = opendir_util(pwd, tok);
 	if (dir_ptr == 0)
 		return (-1);
@@ -82,7 +81,7 @@ static int	edit_wild(t_token *tok, int cnt, int *i)
 
 	tmp = tok->cmd;
 	cnt += cnt_cmd(tok->cmd);
-	cnt += cnt_pwd(tok->info, tok, &pwd);
+	cnt += cnt_pwd(tok, &pwd);
 	new = (char **)malloc(sizeof(char *) * (cnt + 1));
 	if (!new)
 		throw_error(MALLOC_ERR);
@@ -114,7 +113,6 @@ int	expansion_wild(t_token *tok)
 				{
 					if (edit_wild(tok, 0, &i) < 0)
 						return (-1);
-					printf("ls:%s\n", tok->cmd[i]);
 				}
 				i++;
 			}

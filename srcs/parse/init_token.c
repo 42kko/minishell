@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:39:32 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 14:46:24 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:23:20 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ t_brachek_type type, t_token *tok)
 
 static int	start_is_seperator(char *line, t_token *tok)
 {
-	t_brachek_type	type;
-
 	if (*line == '|' || *line == '&')
 	{
 		if (*(line + 1) != 0 && (*(line + 1) == '&' || *(line + 1) == '|'))

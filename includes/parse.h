@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 21:25:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 20:34:26 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:38:58 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -227,6 +227,7 @@ void			viewtree2(t_token *tok);
 int				check_tree(t_token *token);
 
 //tree_util
+void			zero_parameter1(int *i, int *j, int *k);
 void			zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k);
 t_token			*next_token(t_token *token);
 t_token			*prev_token(t_token *token);
@@ -237,7 +238,7 @@ t_oper_type *oper2, t_oper_type *oper3);
 int				expansion_wild(t_token *tok);
 
 //wildcard_dir
-int				cnt_pwd(t_info *info, t_token *tok, char **pwd);
+int				cnt_pwd(t_token *tok, char **pwd);
 int				cnt_cmd(char **cmd);
 int				check_wild(char *s);
 DIR				*opendir_util(char *pwd, t_token *tok);

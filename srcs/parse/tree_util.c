@@ -6,13 +6,20 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:12:24 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 00:42:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 21:38:18 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 void	zero_parameter(t_oper_type *i, t_oper_type *j, t_oper_type *k)
+{
+	*i = 0;
+	*j = 0;
+	*k = 0;
+}
+
+void	zero_parameter1(int *i, int *j, int *k)
 {
 	*i = 0;
 	*j = 0;

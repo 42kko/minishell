@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 13:51:42 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:21:57 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	run(char *line, t_info *info)
 {
 	t_token	*token;
-	char	*err_cmd;
 
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
@@ -31,7 +30,7 @@ int	run(char *line, t_info *info)
 	return (info->exit_num);
 }
 
-void	eof_exit(char *line, t_info *info)
+void	eof_exit(t_info *info)
 {
 	printf("exit\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
@@ -59,7 +58,7 @@ void	loop(t_info *info)
 		loop_set(info);
 		line = readline("minishell$ ");
 		if (line == NULL)
-			eof_exit(line, info);
+			eof_exit(info);
 		else if (line != NULL && *line != '\0')
 		{
 			add_history(line);

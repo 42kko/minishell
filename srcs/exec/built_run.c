@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_run.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 15:53:55 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 21:28:24 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ int	ft_builitin(t_token *tok)
 
 void	builtin_alone_exec(t_token *tok)
 {
-	pid_t	pid;
-	int		stat;
-
 	set_signal(DFL);
 	tok->info->exit_num = 0;
 	if (tok->left->type != NO_REDIR)
