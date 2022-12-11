@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:37 by ko                #+#    #+#             */
-/*   Updated: 2022/12/10 14:08:51 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 16:49:01 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ static int	write_wild(char ***dst, char ***src, t_token *tok, char *pwd)
 	return (0);
 }
 
+static int	what_wild(char **new)
+{
+	int	i;
+
+	i = 0;
+	while (new[i])
+	{
+		if (check_wild(new[i]) == 1)
+			break ;
+		i++;
+	}
+	return (i - 1);
+}
+
 static int	edit_wild(t_token *tok, int cnt, int *i)
 {
 	char	**new;
@@ -79,7 +93,7 @@ static int	edit_wild(t_token *tok, int cnt, int *i)
 		return (-1);
 	}
 	tok->cmd = new;
-	*i += cnt - 3;
+	*i = what_wild(new);
 	free_cmd(tmp);
 	free(pwd);
 	return (0);
@@ -100,6 +114,7 @@ int	expansion_wild(t_token *tok)
 				{
 					if (edit_wild(tok, 0, &i) < 0)
 						return (-1);
+					printf("ls:%s\n", tok->cmd[i]);
 				}
 				i++;
 			}
