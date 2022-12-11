@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_comma_check_env.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 20:41:12 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 02:38:26 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 17:56:53 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,9 @@ t_keys **keys, int i, t_parse_tmp *tmp)
 	}
 	else
 	{
-		keys_last = ft_keyslast(*keys)->next;
-		keys_last = ft_calloc(sizeof(t_keys), 1);
+		keys_last = ft_keyslast(*keys);
+		keys_last->next = ft_calloc(sizeof(t_keys), 1);
+		keys_last = keys_last->next;
 	}
 	if (!keys_last)
 		throw_error(MALLOC_ERR);

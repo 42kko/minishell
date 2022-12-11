@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 16:55:10 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/09 16:15:38 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 18:30:20 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*change_key_to_value(char *cmd, t_keys *keys)
 	init_value(&tmp, keys, &idx);
 	while (cmd[tmp.k])
 	{
-		if (cmd[tmp.k] == '$' && keys && tmp.k == idx[tmp.ord] + tmp.ch_idx)
+		if (cmd[tmp.k] == '$' && keys && tmp.i == idx[tmp.ord] + tmp.ch_idx)
 		{
 			tmp.j = 0;
 			while (keys->value[tmp.j])
@@ -66,6 +66,7 @@ char	*change_key_to_value(char *cmd, t_keys *keys)
 			tmp.k += keys->key_len;
 			tmp.ch_idx += keys->value_len - keys->key_len;
 			keys = keys->next;
+			tmp.ord = tmp.ord + 1;
 		}
 		else
 			str[tmp.i++] = cmd[tmp.k++];
