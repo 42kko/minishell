@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 17:05:24 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 20:14:35 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_split_for_env(char const *s, char **key, char **value)
 	if (is_dont_be_key(*key) == FAIL)
 		return (FAIL);
 	if (equal_flag == 1)
-		return (2);
-	else
 		return (SUCCESS);
+	else
+		return (2);
 }

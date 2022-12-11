@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 16:56:59 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 20:15:10 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static void	check_export_arg_right(t_token *token)
 			"not a valid identifier", 1);
 		}
 		else if (flag == SUCCESS)
-			ft_putenv(token->info->env_list, key, value, 1);
-		else if (flag == 2)
 			ft_putenv(token->info->env_list, key, value, 0);
+		else if (flag == 2)
+			ft_putenv(token->info->env_list, key, value, 1);
 		free(key);
 		free(value);
 		i++;
