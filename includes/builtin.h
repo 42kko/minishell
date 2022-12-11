@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 20:49:37 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/07 23:50:01 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 15:54:31 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,6 @@ void	ft_pwd(char **cmd);
 void	ft_unset(t_token *token);
 void	ft_export(t_token *token);
 void	ft_env(t_token *token);
+void	ft_exit(t_token *tok, char **cmd);
 
 #endif

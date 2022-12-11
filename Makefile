@@ -6,13 +6,13 @@
 #    By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/11 04:40:45 by seokchoi         ###   ########.fr        #
+#    Updated: 2022/12/11 15:54:14 by seokchoi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRCS    = main.c initial.c loop.c
 SRCS_BULT=  ft_cd.c ft_echo.c ft_env.c ft_export.c ft_pwd.c ft_unset.c \
-			export_util.c
+			export_util.c ft_exit.c
 SRCS_ENV= ft_split_for_env.c env.c free.c env_arr.c check_env.c ft_unset_env_list.c
 SRCS_ERR= err.c err_msg_syntax_int.c
 SRCS_EXE= built_run.c exec.c here_doc.c ioctl.c open_redir.c open_util.c \
