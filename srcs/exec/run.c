@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:31:54 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 06:37:25 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/11 20:03:37 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	run_exec(t_token *tok)
 	}
 	else if (identify_built_exec(tok->right) == 0)
 	{
-		set_signal(IGN);
+		set_signal(FORK);
 		exec(tok);
 		set_signal(BASH);
 	}

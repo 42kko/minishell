@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:37:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 20:59:00 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 20:07:17 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,5 @@ void	exec(t_token *tok)
 	if (WIFEXITED(stat))
 		tok->info->exit_num = WEXITSTATUS(stat);
 	else if (WIFSIGNALED(stat))
-		tok->info->exit_num = WTERMSIG(stat);
+		tok->info->exit_num = WTERMSIG(stat) + 128;
 }
