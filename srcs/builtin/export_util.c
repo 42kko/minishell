@@ -1,31 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_arr.c                                          :+:      :+:    :+:   */
+/*   export_util.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 22:21:03 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 04:38:39 by seokchoi         ###   ########.fr       */
+/*   Created: 2022/12/11 04:35:37 by seokchoi          #+#    #+#             */
+/*   Updated: 2022/12/11 04:45:29 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_env_num(t_env_list *env_list)
+static char	*set_str(char *key, char *value, size_t *key_len, size_t *val_len)
 {
-	int	num;
+	char	*str;
 
-	num = 0;
-	while (env_list)
+	*key_len = ft_strlen(key);
+	if (value)
 	{
-		num++;
-		env_list = env_list->next;
+		*val_len = ft_strlen(value);
+		str = (char *)malloc(sizeof(char) * (*key_len + *val_len + 4));
 	}
-	return (num);
+	else
+	{
+		*val_len = 0;
+		str = (char *)malloc(sizeof(char) * (*key_len + 4));
+	}
+	if (!str)
+		throw_error(MALLOC_ERR);
+	return (str);
 }
 
-static char	*link_key_value(char *key, char *value, int equal)
+static char	*link_key_value_export(char *key, char *value, int equal)
 {
 	size_t	key_len;
 	size_t	val_len;
@@ -33,27 +40,28 @@ static char	*link_key_value(char *key, char *value, int equal)
 	size_t	j;
 	char	*str;
 
-	if (!key || !value)
+	if (!key)
 		return (0);
-	key_len = ft_strlen(key);
-	val_len = ft_strlen(value);
-	str = (char *)malloc(sizeof(char) * (key_len + val_len + 2));
-	if (!str)
-		return (0);
+	str = set_str(key, value, &key_len, &val_len);
 	i = 0;
 	j = 0;
 	while (j < key_len)
 		str[i++] = key[j++];
 	if (equal == 0)
+	{
 		str[i++] = '=';
+		str[i++] = '\"';
+	}
 	j = 0;
 	while (j < val_len)
 		str[i++] = value[j++];
+	if (equal == 0)
+		str[i++] = '\"';
 	str[i] = '\0';
 	return (str);
 }
 
-char	**get_env_arr(t_env_list *env_list)
+char	**get_export_arr(t_env_list *env_list)
 {
 	int			num;
 	char		**env;
@@ -63,14 +71,14 @@ char	**get_env_arr(t_env_list *env_list)
 	i = 0;
 	tmp = env_list;
 	num = get_env_num(env_list);
-	env = ft_calloc(sizeof(char *), (num + 1));
+	env = malloc(sizeof(char *) * (num + 1));
 	if (!env)
 		throw_error(MALLOC_ERR);
 	while (i < num && tmp)
 	{
-		if (tmp->equal == 0 && ft_strncmp(tmp->key, "~", 2) != 0)
+		if (ft_strncmp(tmp->key, "~", 2) != 0)
 		{
-			env[i] = link_key_value(tmp->key, tmp->value, tmp->equal);
+			env[i] = link_key_value_export(tmp->key, tmp->value, tmp->equal);
 			if (!env[i])
 				throw_error(MALLOC_ERR);
 			i++;

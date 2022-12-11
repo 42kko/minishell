@@ -6,7 +6,7 @@
 /*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/08 02:58:56 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/10 21:55:01 by seokchoi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_echo(char **cmd)
 
 	n_flag = 1;
 	i = 1;
-	if (ft_strncmp(cmd[1], "-n", 3) == 0)
+	if (cmd[1] && ft_strncmp(cmd[1], "-n", 3) == 0)
 	{
 		n_flag = 0;
 		i = 2;
