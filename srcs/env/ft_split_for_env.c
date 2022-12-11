@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_for_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 05:02:19 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 17:05:24 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	is_dont_be_key(char *key)
 
 	i = 0;
 	if (ft_strlen(key) == 0)
+		return (FAIL);
+	if (key[0] >= '0' && key[0] <= '9')
 		return (FAIL);
 	while (key[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 03:56:56 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/11 16:56:59 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ static void	check_export_arg_right(t_token *token)
 			ft_putenv(token->info->env_list, key, value, 1);
 		else if (flag == 2)
 			ft_putenv(token->info->env_list, key, value, 0);
+		free(key);
+		free(value);
 		i++;
 	}
 }

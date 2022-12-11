@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/28 15:58:51 by kko               #+#    #+#             */
-/*   Updated: 2022/12/10 20:45:09 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/11 17:14:13 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ static void	pipe_exec(t_token *tok)
 	else
 	{
 		ft_builitin(tok->right);
-		if (tok->info->exit_num != 0)
-			exit (tok->info->exit_num);
+		exit (tok->info->exit_num);
 	}
 }
 
