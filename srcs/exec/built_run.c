@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/12 20:02:38 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:27:39 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ int	ft_builitin(t_token *tok)
 	if (tok->type != TCMD)
 		return (-1);
 	if (ft_strncmp(tok->cmd[0], "echo", 5) == 0)
-		ft_echo(tok->cmd);
+		ft_echo(tok->cmd, tok);
 	else if (ft_strncmp(tok->cmd[0], "cd", 3) == 0)
 		ft_cd(tok);
 	else if (ft_strncmp(tok->cmd[0], "pwd", 4) == 0)
+	{
 		ft_pwd(tok->cmd);
+		tok->info->exit_num = 0;
+	}
 	else if (ft_strncmp(tok->cmd[0], "export", 7) == 0)
 		ft_export(tok);
 	else if (ft_strncmp(tok->cmd[0], "unset", 5) == 0)

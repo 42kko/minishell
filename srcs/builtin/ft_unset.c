@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:26 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 17:10:43 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:30:29 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	ft_unset(t_token *token)
 	i = 1;
 	key = NULL;
 	value = NULL;
+	token->info->exit_num = 0;
 	while (token->cmd[i])
 	{	
 		ft_split_for_env(token->cmd[i], &key, &value);
@@ -41,7 +42,9 @@ void	ft_unset(t_token *token)
 			"not a valid identifier", 1);
 		}
 		else
+		{
 			ft_unset_env_list(&token->info->env_list, key);
+		}
 		key_value_free(&key, &value);
 		i++;
 	}

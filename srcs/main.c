@@ -6,11 +6,13 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:22:19 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 21:21:02 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:07:31 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	g_errno;
 
 static t_info	*new_info(void)
 {
@@ -34,6 +36,7 @@ int	main(int ac, char **av, char **envp)
 
 	(void)ac;
 	(void)av;
+	g_errno = 0;
 	info = new_info();
 	initial(info, envp);
 	loop(info);

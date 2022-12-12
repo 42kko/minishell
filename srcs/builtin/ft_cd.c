@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 15:07:18 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/10 13:18:24 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:20:15 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ static void	if_cd_home(t_token *token, char *home_path)
 		"No such file or directory", 1);
 		token->info->exit_num = 1;
 	}
+	else
+		token->info->exit_num = 0;
 }
 
 void	ft_cd(t_token *token)
@@ -59,6 +61,8 @@ void	ft_cd(t_token *token)
 			"No such file or directory", 1);
 			token->info->exit_num = 1;
 		}
+		else
+			token->info->exit_num = 0;
 	}
 	else
 		if_cd_home(token, home_path);

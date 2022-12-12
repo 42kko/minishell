@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/11 21:21:57 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:10:26 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	run(char *line, t_info *info)
 {
 	t_token	*token;
 
+	if (g_errno == 1)
+	{
+		info->exit_num = 1;
+		g_errno = 0;
+	}
 	token = init_token(line, info);
 	if (token->err_flag_syn == 1)
 		return (free_lst(token, info));
@@ -34,7 +39,7 @@ void	eof_exit(t_info *info)
 {
 	printf("exit\n");
 	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
-	exit(0);
+	exit(info->exit_num);
 }
 
 void	loop_set(t_info *info)

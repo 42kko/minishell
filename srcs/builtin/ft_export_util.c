@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_export_util.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/02 20:42:08 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/12 20:13:13 by kko              ###   ########.fr       */
+/*   Created: 2022/12/12 20:31:59 by kko               #+#    #+#             */
+/*   Updated: 2022/12/12 20:32:26 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(char **cmd, t_token *token)
+void	check_export_util(t_token *token, int *flag, char **key, char **value)
 {
-	int	i;
-	int	n_flag;
-
-	n_flag = 1;
-	i = 1;
-	if (cmd[1] && ft_strncmp(cmd[1], "-n", 3) == 0)
-	{
-		n_flag = 0;
-		i = 2;
-	}
-	while (cmd[i])
-	{
-		printf("%s", cmd[i]);
-		i++;
-		if (cmd[i])
-			printf(" ");
-	}
-	if (n_flag)
-		printf("\n");
+	if (*flag == SUCCESS)
+		ft_putenv(token->info->env_list, *key, *value, 0);
+	else if (*flag == 2)
+		ft_putenv(token->info->env_list, *key, *value, 1);
 	token->info->exit_num = 0;
 }

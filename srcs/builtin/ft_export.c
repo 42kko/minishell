@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:15 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 20:15:10 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:33:06 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,8 @@ static void	check_export_arg_right(t_token *token)
 			throw_error_message("export", token->cmd[i], \
 			"not a valid identifier", 1);
 		}
-		else if (flag == SUCCESS)
-			ft_putenv(token->info->env_list, key, value, 0);
-		else if (flag == 2)
-			ft_putenv(token->info->env_list, key, value, 1);
+		else
+			check_export_util(token, &flag, &key, &value);
 		free(key);
 		free(value);
 		i++;
@@ -109,6 +107,7 @@ void	ft_export(t_token *token)
 		sort_env(env, get_env_num(env_list));
 		print_export(env);
 		free_sec_arr(env);
+		token->info->exit_num = 0;
 		return ;
 	}
 	if (token->cmd[1])

@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 21:30:09 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:34:30 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@
 
 # define SUCCESS	1
 # define FAIL		0
+
+extern int	g_errno;
 
 //initial
 void	initial(t_info *info, char **envp);

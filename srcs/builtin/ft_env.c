@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 23:33:43 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 16:20:41 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/12 20:22:16 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ void	ft_env(t_token *token)
 		throw_error_message("exit", NULL, "too many arguments", 1);
 		return ;
 	}
+	token->info->exit_num = 0;
 	print_envs(token->info->env_list);
 }
