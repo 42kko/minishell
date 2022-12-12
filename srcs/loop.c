@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/12 20:10:26 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 21:44:15 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,12 @@ int	run(char *line, t_info *info)
 	if (check_tree(token) == 1)
 		return (err_msg_syntax_int(info));
 	open_redir(token);
+	if (g_errno == -2)
+	{
+		g_errno = 0;
+		info->exit_num = 1;
+		return (info->exit_num);
+	}
 	run_shell(token);
 	free_tree(token);
 	return (info->exit_num);

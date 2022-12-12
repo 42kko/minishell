@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 20:30:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 20:14:35 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 21:01:58 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	ft_split_for_env(char const *s, char **key, char **value)
 		i++;
 	}
 	s += create_str_to_c(s, key, '=');
+	if (equal_flag == 0)
+		s--;
 	create_str_to_c(s, value, 0);
 	if (is_dont_be_key(*key) == FAIL)
 		return (FAIL);
