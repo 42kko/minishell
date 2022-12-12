@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 20:22:40 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 21:28:24 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 20:02:38 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_builitin(t_token *tok)
 void	builtin_alone_exec(t_token *tok)
 {
 	set_signal(DFL);
-	tok->info->exit_num = 0;
 	if (tok->left->type != NO_REDIR)
 		io_ctl_cmd(tok->left);
 	if (tok->right->type == TNOCMD)

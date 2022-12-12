@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/11 14:20:58 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/11 21:27:40 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 19:49:08 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ static int	can_be_exit_num(char *num)
 void	ft_exit(t_token *tok, char **cmd)
 {
 	if (cmd[1] == NULL)
-		exit(0);
+	{
+		printf("exit\n");
+		exit(tok->info->exit_num);
+	}
 	else if (can_be_exit_num(cmd[1]) == 1)
 	{
 		if (cmd[2] != 0)
@@ -42,10 +45,14 @@ void	ft_exit(t_token *tok, char **cmd)
 			throw_error_message("exit", NULL, "too many arguments", 1);
 		}
 		else
+		{
+			printf("exit\n");
 			exit(ft_atoi(cmd[1]));
+		}
 	}
 	else
 	{
+		printf("exit\n");
 		throw_error_message("exit", cmd[1], "numeric argument required", 255);
 		exit(255);
 	}
