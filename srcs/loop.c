@@ -6,11 +6,32 @@
 /*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/30 00:27:41 by ko               ###   ########.fr       */
+/*   Updated: 2022/12/30 06:18:55 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_tok(t_token *tok)
+{
+	int i;
+
+	while (tok)
+	{
+		i = 0;
+		printf("line:%s\n", tok->line);
+		if (tok->cmd != NULL)
+		{
+			while (tok->cmd[i])
+			{
+				printf("cmd:%s\n", tok->cmd[i]);
+				i++;
+			}
+		}
+		tok = tok->next;
+	}
+}
+
 
 int	run(char *line, t_info *info)
 {
@@ -26,6 +47,7 @@ int	run(char *line, t_info *info)
 		return (free_lst(token, info));
 	if (expansion_wild(token) < 0)
 		return (free_lst(token, info));
+	print_tok(token);
 	token = get_tree(ft_tokenlast(token));
 	if (check_tree(token) == 1)
 		return (err_msg_syntax_int(info));

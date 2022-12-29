@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-/*   Updated: 2022/12/12 21:41:56 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/30 06:18:39 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ void	open_redir(t_token *tok)
 	open_redir(tok->right);
 	if ((tok->type == TOUT || tok->type == TADDOUT || \
 	tok->type == TIN || tok->type == TDOC) && g_errno != -2)
+	{
 		start_open(tok);
+	}
 }
