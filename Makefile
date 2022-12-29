@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
+#    By: ko <ko@student.42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
-#    Updated: 2022/12/12 21:45:51 by kko              ###   ########.fr        #
+#    Updated: 2022/12/29 23:33:04 by ko               ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,9 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_PAR},${SRCS_PAR:.c=.o}} ${addprefix ${SRC_BULT},${SRCS_BULT:.c=.o}} \
 			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}} ${addprefix ${SRC_ERR},${SRCS_ERR:.c=.o}} \
 			${addprefix ${SRC_FREE},${SRCS_FREE:.c=.o}}
-CC		= cc
-CFLAGS	= -Wall -Werror -Wextra
+# CC		= cc
+CC		= clang-12
+# CFLAGS	= -Wall -Werror -Wextra
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft
@@ -44,11 +45,13 @@ LIBFT	= libft
 all:		${NAME}
 
 .c.o:		${SRCS}
-			${CC} $(CFLAGS) -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
+			${CC} $(CFLAGS) -I ${HEAD} -c $^ -o ${^:.c=.o}
+#			${CC} $(CFLAGS) -I ${HEAD} -c $^ -o ${^:.c=.o} -I/Users/kko/.brew/opt/readline/include
 
 ${NAME}:	${OBJS}
 			make -C ${LIBFT}/ 
-			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L/Users/kko/.brew/opt/readline/lib -lreadline  -L ./libft -lft
+			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L ./libft -lft -lreadline
+#			$(CC) $(CFLAGS) -I $(HEAD) -o $(NAME) ${OBJS} -L/Users/kko/.brew/opt/readline/lib -lreadline  -L ./libft -lft
 
 clean:
 			make clean -C ${LIBFT}/

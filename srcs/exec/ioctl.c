@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ioctl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokchoi <seokchoi@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:38:32 by kko               #+#    #+#             */
-/*   Updated: 2022/12/09 01:28:14 by seokchoi         ###   ########.fr       */
+/*   Updated: 2022/12/30 00:26:19 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,9 @@
 void	io_ctl_cmd(t_token *tok)
 {
 	if (tok->fd_in != -1)
-	{
 		dup2(tok->fd_in, 0);
-		close_util(tok->fd_in, tok);
-	}
 	if (tok->fd_out != -1)
-	{
 		dup2(tok->fd_out, 1);
-		close_util(tok->fd_out, tok);
-	}
 }
 
 static void	stdin_ctl(t_pipe *pip, int i, t_token *tok)

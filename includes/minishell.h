@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/09 15:24:01 by seokchoi          #+#    #+#             */
-/*   Updated: 2022/12/12 20:34:30 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/29 23:28:17 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,9 @@
 # include "free.h"
 # include "libft.h"
 # include "err.h"
+
+# include <sys/wait.h>
+
 
 # define SUCCESS	1
 # define FAIL		0

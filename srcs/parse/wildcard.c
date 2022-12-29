@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/10 09:45:37 by ko                #+#    #+#             */
-/*   Updated: 2022/12/11 21:39:16 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/30 02:41:44 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,31 @@ static int	edit_wild(t_token *tok, int cnt, int *i)
 	return (0);
 }
 
+void	print_tok(t_token *tok)
+{
+	int i;
+
+	while (tok)
+	{
+		i = 0;
+		printf("line:%s\n", tok->line);
+		if (tok->cmd != NULL)
+		{
+			while (tok->cmd[i])
+			{
+				printf("cmd:%s\n", tok->cmd[i]);
+				i++;
+			}
+		}
+		tok = tok->next;
+	}
+}
+
 int	expansion_wild(t_token *tok)
 {
 	int	i;
 
+	print_tok(tok);
 	while (tok)
 	{
 		i = 0;
@@ -109,7 +130,7 @@ int	expansion_wild(t_token *tok)
 		{
 			while (tok->cmd[i])
 			{
-				if (check_wild(tok->cmd[i]) == 1)
+				if (check_wild(tok->cmd[i], tok->line) == 1)
 				{
 					if (edit_wild(tok, 0, &i) < 0)
 						return (-1);

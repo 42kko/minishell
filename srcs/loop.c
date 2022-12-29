@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
-/*   Updated: 2022/12/12 21:44:15 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/30 00:27:41 by ko               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	run(char *line, t_info *info)
 void	eof_exit(t_info *info)
 {
 	printf("exit\n");
-	tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
+	// tcsetattr(STDIN_FILENO, TCSANOW, info->old_term);
 	exit(info->exit_num);
 }
 
