@@ -6,7 +6,7 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 23:40:34 by kko               #+#    #+#             */
-/*   Updated: 2022/12/11 21:39:37 by kko              ###   ########.fr       */
+/*   Updated: 2022/12/12 21:14:40 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**info_get_path(t_info *info)
 	tmp = info->env_list;
 	while (tmp)
 	{
-		if (tmp->key && ft_strncmp(tmp->key, "PATH", 4) == 0)
+		if (tmp->key && ft_strncmp(tmp->key, "PATH", 5) == 0)
 		{
 			ret = ft_split(tmp->value, ':');
 			return (ret);

@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   open_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ko <ko@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:20:38 by kko               #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/12/30 06:18:39 by ko               ###   ########.fr       */
-=======
-/*   Updated: 2022/12/10 19:57:41 by kko              ###   ########.fr       */
->>>>>>> parent of 6b4336f... 찐막 아니면 죽음
+/*   Updated: 2022/12/12 21:41:56 by kko              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +89,7 @@ void	open_redir(t_token *tok)
 		return ;
 	open_redir(tok->left);
 	open_redir(tok->right);
-<<<<<<< HEAD
 	if ((tok->type == TOUT || tok->type == TADDOUT || \
 	tok->type == TIN || tok->type == TDOC) && g_errno != -2)
-	{
-=======
-	if (tok->type == TOUT || tok->type == TADDOUT || \
-	tok->type == TIN || tok->type == TDOC)
->>>>>>> parent of 6b4336f... 찐막 아니면 죽음
 		start_open(tok);
-	}
 }
