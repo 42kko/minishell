@@ -6,7 +6,11 @@
 #    By: kko <kko@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/09 15:22:25 by seokchoi          #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/12/30 10:37:03 by kko              ###   ########.fr        #
+=======
+#    Updated: 2022/12/12 20:33:24 by kko              ###   ########.fr        #
+>>>>>>> parent of 6b4336f... 찐막 아니면 죽음
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,9 +40,14 @@ OBJS	= ${addprefix ${SOURCE},${SRCS:.c=.o}} ${addprefix ${SRC_ENV},${SRCS_ENV:.c
 			${addprefix ${SRC_EXE},${SRCS_EXE:.c=.o}} ${addprefix ${SRC_ERR},${SRCS_ERR:.c=.o}} \
 			${addprefix ${SRC_FREE},${SRCS_FREE:.c=.o}}
 CC		= cc
+<<<<<<< HEAD
 # CC		= clang-12
 # CFLAGS	= -Wall -Werror -Wextra
 # CFLAGS	= -fsanitize=address
+=======
+# CFLAGS	= -Wall -Werror -Wextra -fsanitize=address -g3
+CFLAGS	= -Wall -Werror -Wextra
+>>>>>>> parent of 6b4336f... 찐막 아니면 죽음
 NAME    = minishell
 HEAD	= includes
 LIBFT	= libft

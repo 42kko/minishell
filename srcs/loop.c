@@ -6,7 +6,11 @@
 /*   By: kko <kko@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 20:51:52 by kko               #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/12/30 10:49:59 by kko              ###   ########.fr       */
+=======
+/*   Updated: 2022/12/12 20:10:26 by kko              ###   ########.fr       */
+>>>>>>> parent of 6b4336f... 찐막 아니면 죽음
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +56,6 @@ int	run(char *line, t_info *info)
 	if (check_tree(token) == 1)
 		return (err_msg_syntax_int(info));
 	open_redir(token);
-	if (g_errno == -2)
-	{
-		g_errno = 0;
-		info->exit_num = 1;
-		return (info->exit_num);
-	}
 	run_shell(token);
 	free_tree(token);
 	return (info->exit_num);
